@@ -1,0 +1,9 @@
+node_modules
+
+apps/api/dist
+apps/api/.turbo
+
+apps/client/dist
+apps/client/.turbo
+apps/client/node_modules
+apps/client/.gitignore

@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "turbo dev",
     "build": "turbo build",
-    "start": "node apps/api/dist/main.js"
+    "start": "node apps/api/dist/main.js",
+    "init": "nodemon apps/api/dist/main.js"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +16,12 @@
   "workspaces": [
     "apps/*"
   ],
-  "dependencies":{
+  "dependencies": {
     "@nestjs/config": "^2.3.1",
     "joi": "^17.9.2"
   },
   "devDependencies": {
-    "turbo": "^1.10.1"
+    "turbo": "^1.10.1",
+    "nodemon": "^2.0.22"
   }
 }

@@ -1,6 +1,3 @@
-/**
- * Importaciones externas
- */
 import { MongooseModule } from '@nestjs/mongoose';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { LoggerModule } from 'nestjs-pino';
@@ -9,9 +6,6 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-/**
- * Importaciones internas
- */
 import { PropiedadModule } from './propiedad/propiedad.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -22,7 +16,6 @@ import { AuthModule } from './auth/auth.module';
 import config from './config';
 
 
-console.log('URI MONGO:' + process.env.DB_URI);
 @Module({
   imports: [
     //Modulos propios.
@@ -37,6 +30,8 @@ console.log('URI MONGO:' + process.env.DB_URI);
       validationSchema: Joi.object({
         NODE_ENV: Joi.string(),
         DB_URI: Joi.string(),
+        SECRET: Joi.string(),
+        IS_PUBLIC_KEY: Joi.bool(),
       })
     }),
     ServeStaticModule.forRoot({

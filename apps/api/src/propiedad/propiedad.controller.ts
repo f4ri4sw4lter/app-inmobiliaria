@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Res, HttpStatus, Body, Param, NotFoundException, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Res, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards } from '@nestjs/common';
 import { CreatePropiedadDTO } from './dto/propiedad.dto';
 import { PropiedadService } from './propiedad.service';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('propiedad')
 export class PropiedadController {
 

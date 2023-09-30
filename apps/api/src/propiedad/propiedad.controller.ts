@@ -3,7 +3,7 @@ import { CreatePropiedadDTO } from './dto/propiedad.dto';
 import { PropiedadService } from './propiedad.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @Controller('propiedad')
 export class PropiedadController {
 

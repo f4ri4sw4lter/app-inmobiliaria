@@ -1,0 +1,14 @@
+src
+|->modulo
+	|->hooks
+	|->components: Componentes de React
+	|->helpers: Funciones logicas
+	|->routes: Enrutadores
+	|->pages: Vistas
+	|->data: Archivos con info
+	|->index.js: Archivo barril.
+
+index.js:
+{
+	export * from 'archivo.jsx';
+}

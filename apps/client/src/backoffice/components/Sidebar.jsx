@@ -1,5 +1,6 @@
 import { TurnedInNot, InboxOutlined, MailLockOutlined } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 export const Sidebar = ({ drawerWidth }) => {
     return (
@@ -20,14 +21,14 @@ export const Sidebar = ({ drawerWidth }) => {
             >
 
                 <Toolbar>
-                    <Typography variant='h6' noWrap component='div'>Walter Farias</Typography>
+                    <Typography variant='h6' noWrap component='div'>usuario</Typography>
                 </Toolbar>
                 <Divider />
 
                 <List>
                     {['Inicio', 'Inmuebles', 'Metricas'].map((text, index) => (
                         <ListItem key={text} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={() => {return (<Navigate to='/inicio' />)}}>
                                 <ListItemText primary={text} />
                             </ListItemButton>
                         </ListItem>

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom"
 import { AuthRoutes } from "../auth/routes/AuthRoutes"
-import { BackofficePage } from "../backoffice/pages/BackofficePage"
+import { ListaInmueblesPage } from "../backoffice/pages/ListaInmueblesPage"
 import { BackofficeRoutes } from "../backoffice/routes/BackofficeRoutes"
 
 export const AppRouter = () => {

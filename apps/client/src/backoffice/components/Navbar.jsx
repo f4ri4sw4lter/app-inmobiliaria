@@ -27,7 +27,7 @@ export const Navbar = ({ drawerWidth }) => {
                     direction='row'
                     justifyContent='space-between'
                 >
-                    <Typography variant='h6' noWrap component='div' alignItems='center'> JournalApp </Typography>
+                    <Typography variant='h6' noWrap component='div' alignItems='center'> FerreyraApp </Typography>
 
                     <IconButton color='error'>
                         <LogoutOutlined />

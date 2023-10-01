@@ -1,5 +1,5 @@
-import { StarOutline } from "@mui/icons-material"
-import { Box, Grid, Typography } from "@mui/material"
+import { StarOutline, AddOutlined } from "@mui/icons-material"
+import { Box, Grid, Typography, IconButton } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid';
 import { getListaInmuebles } from '../helpers/'
 import { useEffect, useState } from "react";
@@ -58,6 +58,19 @@ export const ListaInmueblesView = () => {
                 </Box>
             </Grid>
 
+            <IconButton
+                size='large'
+                sx={{
+                    color: 'white',
+                    backgroundColor: 'error.main',
+                    ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
+                    position: 'fixed',
+                    right: 50,
+                    bottom: 50
+                }}
+            >
+                <AddOutlined sx={{ fontSize: 30 }} />
+            </IconButton>
         </Grid>
     )
 }

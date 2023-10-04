@@ -3,7 +3,7 @@ import { Navbar, Sidebar } from "../components";
 
 export const BackofficeLayout = ({ children }) => {
 
-    const drawerWidth = 280;
+    const drawerWidth = 240;
 
     return (
         <Box sx={{ display:'flex' }}>

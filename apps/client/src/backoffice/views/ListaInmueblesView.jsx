@@ -11,19 +11,29 @@ export const ListaInmueblesView = () => {
 
     const columns = [
         {
+            field: 'tipo',
+            headerName: 'Tipo de contrato',
+            width: 150
+        },
+        {
             field: 'titulo',
-            headerName: 'Titulo',
+            headerName: 'Titulo del inmueble',
             width: 150
         },
         {
             field: 'descripcion',
             headerName: 'Descripcion',
-            width: 500
+            width: 340
         },
         {
             field: 'estado',
             headerName: 'Estado',
             width: 110
+        },
+        {
+            field: 'propietario',
+            headerName: 'DNI del propietario',
+            width: 150
         }
     ];
 
@@ -34,11 +44,11 @@ export const ListaInmueblesView = () => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            sx={{ minHeight: 'calc(100vh - 110px)', backgroundColor: 'primary.main', borderRadius: 3 }}
+            sx={{ minHeight: 'calc(100vh - 110px)', backgroundColor: '', borderRadius: 3 }}
         >
 
             <Grid item xs={12} >
-                <Box sx={{ height: 400, width: '100%' }}>
+                <Box sx={{ height: 400, width: '100%', borderColor: 'white', color: 'white' }}>
                     <DataGrid
                         rows={listaInmuebles}
                         columns={columns}
@@ -49,28 +59,29 @@ export const ListaInmueblesView = () => {
                                 },
                             },
                         }}
-                        pageSizeOptions={[5]}
+                        pageSizeOptions={[3]}
                         checkboxSelection
                         disableRowSelectionOnClick
                         getRowId={(row) => row._id}
-                        sx={{ color: 'white' }}
+                        sx={{ color: '' }}
                     />
                 </Box>
+                <IconButton
+                    size='large'
+                    sx={{
+                        color: 'white',
+                        backgroundColor: 'error.main',
+                        ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
+                        position: 'fixed',
+                        right: 50,
+                        bottom: 50
+                    }}
+                    onClick=''
+                >
+                    <AddOutlined sx={{ fontSize: 30 }} />
+                </IconButton>
             </Grid>
 
-            <IconButton
-                size='large'
-                sx={{
-                    color: 'white',
-                    backgroundColor: 'error.main',
-                    ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
-                    position: 'fixed',
-                    right: 50,
-                    bottom: 50
-                }}
-            >
-                <AddOutlined sx={{ fontSize: 30 }} />
-            </IconButton>
         </Grid>
     )
 }

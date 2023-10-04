@@ -8,10 +8,10 @@ export const useFetchListaInmuebles = () => {
 
     useEffect(() => {
         getListaInmuebles()
-            .then(({ propiedades }) => {
-                setListaInmuebles(propiedades)
+            .then(( reponse ) => {
+                setListaInmuebles(reponse)
             })
-
+        console.log(reponse)
     }, []);
     
     return {

@@ -1,2 +1,3 @@
-export * from './InicioView'
-export * from './ListaInmueblesView'
+export * from './InicioView';
+export * from './InmuebleView';
+export * from './ListaInmueblesView';

@@ -1,11 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import { ListaInmueblesPage } from "../pages/ListaInmueblesPage"
+import { InicioPage, InmueblePage, ListaInmueblesPage } from "../pages"
 
 export const BackofficeRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={ <ListaInmueblesPage /> } />
-            <Route path="/*" element={ <Navigate to="/" /> } />
+            <Route path="/" element={ <InicioPage /> } />
+            <Route path="/inmueble/:id" element={ <InmueblePage /> } />
+            <Route path="/inmuebles" element={ <ListaInmueblesPage /> } />
         </Routes>
     )
 }

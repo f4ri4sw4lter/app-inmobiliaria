@@ -1,8 +1,26 @@
 import { TurnedInNot, InboxOutlined, MailLockOutlined } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 export const Sidebar = ({ drawerWidth }) => {
+
+    //onClick={() => {return (<Navigate to='/asd' />)}}
+
+    const opcionesMenu = [
+        {
+            name:'Inicio',
+            url: '/'
+        },
+        {
+            name:'Inmuebles',
+            url: '/inmuebles'
+        },
+        {
+            name:'Metricas',
+            url: '/metricas'
+        }
+    ];
+
     return (
         <Box
             component='nav'
@@ -26,11 +44,14 @@ export const Sidebar = ({ drawerWidth }) => {
                 <Divider />
 
                 <List>
-                    {['Inicio', 'Inmuebles', 'Metricas'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton onClick={() => {return (<Navigate to='/inicio' />)}}>
+                    {opcionesMenu.map((opcion) => (
+                        <ListItem key={opcion.name} disablePadding>
+                            {/*<ListItemButton >
                                 <ListItemText primary={text} />
-                            </ListItemButton>
+                    </ListItemButton>*/}
+                            <NavLink to={opcion.url} className='nav-item nav-link'>
+                                {opcion.name}
+                            </NavLink>
                         </ListItem>
                     ))}
                 </List>

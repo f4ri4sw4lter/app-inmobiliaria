@@ -4,8 +4,6 @@ import { NavLink, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 export const Sidebar = ({ drawerWidth }) => {
 
-    //onClick={() => {return (<Navigate to='/asd' />)}}
-
     const opcionesMenu = [
         {
             name:'Inicio',
@@ -46,9 +44,6 @@ export const Sidebar = ({ drawerWidth }) => {
                 <List>
                     {opcionesMenu.map((opcion) => (
                         <ListItem key={opcion.name} disablePadding>
-                            {/*<ListItemButton >
-                                <ListItemText primary={text} />
-                    </ListItemButton>*/}
                             <NavLink to={opcion.url} className='nav-item nav-link'>
                                 {opcion.name}
                             </NavLink>

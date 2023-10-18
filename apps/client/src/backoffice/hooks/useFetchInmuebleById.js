@@ -9,7 +9,7 @@ export const useFetchInmuebleById = ( id ) => {
     useEffect(() => {
         getInmuebleById(id)
             .then(({ propiedad }) => {
-                setInmueble(propiedad)
+                setInmueble(propiedad);
             })
     }, []);
 

@@ -1,15 +1,25 @@
-import { StarOutline, AddOutlined } from "@mui/icons-material"
-import { Box, Grid, Typography, IconButton } from "@mui/material"
-import { DataGrid } from '@mui/x-data-grid';
-import { getListaInmuebles } from '../helpers/'
-import { useEffect, useState } from "react";
 import { useFetchListaInmuebles } from "../hooks/useFetchListaInmuebles";
+import { Box, Grid, Typography, IconButton, Button } from "@mui/material"
+import { StarOutline, AddOutlined } from "@mui/icons-material"
+import { DataGrid } from '@mui/x-data-grid';
+import { Link, Navigate } from "react-router-dom";
+import { BotoneraDataGrid } from "../components";
 
 export const ListaInmueblesView = () => {
 
     const { listaInmuebles, isLoading } = useFetchListaInmuebles();
 
     const columns = [
+        {
+            field: 'acciones',
+            headerName: 'Acciones',
+            width: 150,
+            renderCell: ( params ) => {
+                return(
+                    <BotoneraDataGrid value={ params.row }/>
+                )
+            },
+        },
         {
             field: 'tipo',
             headerName: 'Tipo de contrato',
@@ -52,18 +62,9 @@ export const ListaInmueblesView = () => {
                     <DataGrid
                         rows={listaInmuebles}
                         columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: {
-                                    pageSize: 5,
-                                },
-                            },
-                        }}
-                        pageSizeOptions={[3]}
-                        checkboxSelection
                         disableRowSelectionOnClick
                         getRowId={(row) => row._id}
-                        sx={{ color: '' }}
+
                     />
                 </Box>
                 <IconButton
@@ -76,7 +77,7 @@ export const ListaInmueblesView = () => {
                         right: 50,
                         bottom: 50
                     }}
-                    onClick=''
+
                 >
                     <AddOutlined sx={{ fontSize: 30 }} />
                 </IconButton>

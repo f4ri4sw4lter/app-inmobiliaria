@@ -4,6 +4,7 @@ import { StarOutline, AddOutlined } from "@mui/icons-material"
 import { DataGrid } from '@mui/x-data-grid';
 import { Link, Navigate } from "react-router-dom";
 import { BotoneraDataGrid } from "../components";
+import { useTable } from 'react-table';
 
 export const ListaInmueblesView = () => {
 
@@ -13,10 +14,10 @@ export const ListaInmueblesView = () => {
         {
             field: 'acciones',
             headerName: 'Acciones',
-            width: 150,
-            renderCell: ( params ) => {
-                return(
-                    <BotoneraDataGrid value={ params.row }/>
+            width: 250,
+            renderCell: (params) => {
+                return (
+                    <BotoneraDataGrid inmueble={params.row} />
                 )
             },
         },
@@ -63,6 +64,8 @@ export const ListaInmueblesView = () => {
                         rows={listaInmuebles}
                         columns={columns}
                         disableRowSelectionOnClick
+                        disableVirtualization
+                        editMode='row'
                         getRowId={(row) => row._id}
 
                     />
@@ -85,4 +88,5 @@ export const ListaInmueblesView = () => {
 
         </Grid>
     )
+    
 }

@@ -1,30 +1,38 @@
-import { Navigate } from "react-router-dom";
+import { Link } from "@mui/material";
+import Button from '@mui/material/Button';
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 
-export const BotoneraDataGrid = ({ id }) => {
+export const BotoneraDataGrid = ({ inmueble }) => {
 
-    console.log(id)
-
-    const handleButtonClick = (id, accion) => {
-        console.log(id);
-        return (
-
-            <Navigate to={`/$accion/$id`} />
-        )
-    }
-
-    const acciones = ['editar', 'borrar'];
+    const acciones = ['ver', 'editar', 'borrar'];
 
     return (
         <>
-        {
-        acciones.map(( accion ) => (
-            <button
-                className="btn"
-                onClick={() => handleButtonClick(id, accion)}>
-                { accion }
-            </button>
-        ))
-        }
+            {
+                acciones.map((accion) => (
+                    <NavLink to={`/inmueble/${accion}/${inmueble._id}`} className='nav-item nav-link' key={accion}>
+                        <Button
+                            className="btn"
+                            variant="contained"
+                            size="small"
+                            sx={{ ml: -3 }}
+                        >
+                            {accion}
+                        </Button>
+                    </NavLink>
+                ))
+            }
         </>
     );
 }
+
+/*<Button
+                className="btn"
+                variant="contained"
+                size="small"
+                sx={{mr:1}}
+                key={accion}
+                onClick={() => handleButtonClick(inmueble.id, accion)}
+                >
+                    { accion }
+                </Button> */

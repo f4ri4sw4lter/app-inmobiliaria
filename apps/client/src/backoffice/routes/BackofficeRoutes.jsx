@@ -5,7 +5,7 @@ export const BackofficeRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={ <InicioPage /> } />
-            <Route path="/inmueble/:id" element={ <InmueblePage /> } />
+            <Route path="/inmueble/ver/:id" element={ <InmueblePage /> } />
             <Route path="/inmuebles" element={ <ListaInmueblesPage /> } />
         </Routes>
     )

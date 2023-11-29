@@ -9,7 +9,7 @@ import { useTable } from 'react-table';
 export const ListaInmueblesView = () => {
 
     const { listaInmuebles, isLoading } = useFetchListaInmuebles();
-
+    console.log(listaInmuebles);
     const columns = [
         {
             field: 'acciones',

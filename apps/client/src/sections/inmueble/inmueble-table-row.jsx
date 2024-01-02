@@ -16,14 +16,13 @@ import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function UserTableRow({
+export default function InmuebleTableRow({
+  titulo,
+  descripcion,
+  contrato,
   selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
-  status,
+  estado,
+  ambientes,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -45,22 +44,33 @@ export default function UserTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
             <Typography variant="subtitle2" noWrap>
-              {name}
+              {titulo}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell  sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '700px'
+        }}>{descripcion}</TableCell>
 
-        <TableCell>{role}</TableCell>
+        <TableCell sx={{
+            minWidth: '90px',
+            textAlign: 'center'
+        }}>{contrato}</TableCell>
 
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell sx={{
+            minWidth: '90px',
+            textAlign: 'center'
+        }}>{estado}</TableCell>
 
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
-        </TableCell>
+        <TableCell sx={{
+            minWidth: '100px',
+            textAlign: 'center'
+        }}>{ambientes}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -93,13 +103,12 @@ export default function UserTableRow({
   );
 }
 
-UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+InmuebleTableRow.propTypes = {
+  titulo: PropTypes.string,
+  descripcion: PropTypes.string,
+  contrato: PropTypes.string,
+  estado: PropTypes.string,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
-  role: PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
+  ambientes: PropTypes.number
 };

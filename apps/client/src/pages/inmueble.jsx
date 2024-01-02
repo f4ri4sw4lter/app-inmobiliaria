@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from '../sections/user/view';
+import { InmuebleView } from '../sections/inmueble/view';
 
 // ----------------------------------------------------------------------
 
@@ -8,10 +8,10 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> Usuarios </title>
+        <title> Inmuebles </title>
       </Helmet>
 
-      <UserView />
+      <InmuebleView />
     </>
   );
 }

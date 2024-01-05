@@ -1,13 +1,18 @@
-import { AppRouter } from "./router/AppRouter";
-import { AppTheme } from "./theme";
+import './global.css';
 
-export const App = () => {
+import { useScrollToTop } from './hooks/use-scroll-to-top';
 
-    return (
-        <>
-            <AppTheme>
-                <AppRouter />
-            </AppTheme>
-        </>
-    )
+import Router from './routes/sections';
+import ThemeProvider from './theme';
+
+// ----------------------------------------------------------------------
+
+export default function App() {
+  useScrollToTop();
+
+  return (
+    <ThemeProvider>
+      <Router />
+    </ThemeProvider>
+  );
 }

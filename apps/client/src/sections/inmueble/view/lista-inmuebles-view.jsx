@@ -10,22 +10,20 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { users } from '../../../_mock/user';
-
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
 import TableNoData from '../table-no-data';
-import UserTableRow from '../user-table-row';
-import UserTableHead from '../user-table-head';
+import InmuebleTableRow from '../inmueble-table-row';
+import InmuebleTableHead from '../inmueble-table-head';
 import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
+import InmuebleTableToolbar from '../inmueble-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchListaInmuebles } from "../../../hooks/useFetchListaInmuebles";
 
 // ----------------------------------------------------------------------
 
-export default function UserView() {
+export default function ListaInmuebleView() {
   const { listaInmuebles, isLoading } = useFetchListaInmuebles();
 
   const [page, setPage] = useState(0);
@@ -50,7 +48,7 @@ export default function UserView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.titulo);
+      const newSelecteds = listaInmuebles.map((n) => n.titulo);
       setSelected(newSelecteds);
       return;
     }
@@ -90,7 +88,7 @@ export default function UserView() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: listaInmuebles,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -100,15 +98,15 @@ export default function UserView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Lista de Usuarios</Typography>
+        <Typography variant="h4">Lista Inmuebles</Typography>
 
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Agregar Usuario
+          Agregar Inmueble
         </Button>
       </Stack>
 
       <Card>
-        <UserTableToolbar
+        <InmuebleTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
@@ -117,7 +115,7 @@ export default function UserView() {
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <UserTableHead
+              <InmuebleTableHead
                 order={order}
                 orderBy={orderBy}
                 rowCount={listaInmuebles.length}
@@ -127,25 +125,24 @@ export default function UserView() {
                 headLabel={[
                   { id: 'titulo', label: 'Titulo' },
                   { id: 'description', label: 'Descripcion' },
-                  { id: 'tipo', label: 'Tipo' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: '' },
+                  { id: 'contrato', label: 'Tipo de contrato'},
+                  { id: 'estado', label: 'Estado' },
+                  //{ id: 'isVerified', label: 'Verified', align: 'center' },
+                  { id: 'ambientes', label: 'Cant. ambientes', align: 'center' }
                 ]}
               />
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <UserTableRow
-                      key={row.id}
+                    <InmuebleTableRow
+                      key={row._id}
                       titulo={row.titulo}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
+                      descripcion={row.descripcion}
+                      contrato={row.contrato}
+                      estado={row.estado}
+                      ambientes={row.cant_amb}
+                      selected={selected.indexOf(row.titulo) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
                   ))}

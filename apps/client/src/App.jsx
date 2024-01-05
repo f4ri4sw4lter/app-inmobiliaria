@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-imports */
 import './global.css';
 
 import { useScrollToTop } from './hooks/use-scroll-to-top';

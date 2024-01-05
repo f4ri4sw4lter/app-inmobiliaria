@@ -1,42 +1,29 @@
 import { useState } from 'react';
+import { useParams } from "react-router-dom";
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
-import TableNoData from '../table-no-data';
-import InmuebleTableRow from '../inmueble-table-row';
-import InmuebleTableHead from '../inmueble-table-head';
-import TableEmptyRows from '../table-empty-rows';
-import InmuebleTableToolbar from '../inmueble-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import { useFetchListaInmuebles } from "../../../hooks/useFetchListaInmuebles";
+import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
-  const { listaInmuebles, isLoading } = useFetchListaInmuebles();
+export default function InmuebleView() {
+  const { accion, id } = useParams();
 
-  const [page, setPage] = useState(0);
+  const { inmueble, isLoading } = useFetchInmuebleById({ id });
 
-  const [order, setOrder] = useState('asc');
+  console.log(inmueble);
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('id');
-
-  const [filterName, setFilterName] = useState('titulo');
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -44,15 +31,6 @@ export default function UserPage() {
       setOrder(isAsc ? 'desc' : 'asc');
       setOrderBy(id);
     }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = listaInmuebles.map((n) => n.titulo);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event, name) => {
@@ -87,87 +65,18 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const dataFiltered = applyFilter({
-    inputData: listaInmuebles,
-    comparator: getComparator(order, orderBy),
-    filterName,
-  });
-
-  const notFound = !dataFiltered.length && !!filterName;
-
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Lista Inmuebles</Typography>
+        <Typography variant="h4">{inmueble.titulo}</Typography>
 
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Agregar Inmueble
+          Editar Inmueble
         </Button>
       </Stack>
 
       <Card>
-        <InmuebleTableToolbar
-          numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
-        />
-
-        <Scrollbar>
-          <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
-              {console.log(listaInmuebles)}
-              <InmuebleTableHead
-                order={order}
-                orderBy={orderBy}
-                rowCount={listaInmuebles.length}
-                numSelected={selected.length}
-                onRequestSort={handleSort}
-                onSelectAllClick={handleSelectAllClick}
-                headLabel={[
-                  { id: 'titulo', label: 'Titulo' },
-                  { id: 'description', label: 'Descripcion' },
-                  { id: 'contrato', label: 'Tipo de contrato'},
-                  { id: 'estado', label: 'Estado' },
-                  //{ id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'ambientes', label: 'Cant. ambientes', align: 'center' }
-                ]}
-              />
-              <TableBody>
-                {dataFiltered
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <InmuebleTableRow
-                      key={row._id}
-                      titulo={row.titulo}
-                      descripcion={row.descripcion}
-                      contrato={row.contrato}
-                      estado={row.estado}
-                      ambientes={row.cant_amb}
-                      selected={selected.indexOf(row.titulo) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
-                    />
-                  ))}
-
-                <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, listaInmuebles.length)}
-                />
-
-                {notFound && <TableNoData query={filterName} />}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Scrollbar>
-
-        <TablePagination
-          page={page}
-          component="div"
-          count={listaInmuebles.length}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        
       </Card>
     </Container>
   );

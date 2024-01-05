@@ -1,17 +1,29 @@
 import { Helmet } from 'react-helmet-async';
+import { useParams } from "react-router-dom";
 
-import { InmuebleView } from '../sections/inmueble/view';
+import NotFoundPage from '../pages/page-not-found';
+import { ListaInmuebleView, InmuebleView } from '../sections/inmueble/view';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function InmueblePage() {
+
+  const { accion, id } = useParams();
   return (
     <>
       <Helmet>
         <title> Inmuebles </title>
       </Helmet>
 
-      <InmuebleView />
+      { 
+        (typeof accion == 'undefined')
+          ? <ListaInmuebleView />
+          : (accion=='ver' || accion=='editar' || accion=='borrar')
+            ? (typeof id == 'undefined')
+              ? <NotFoundPage />
+              : <InmuebleView />
+            : <NotFoundPage />
+      }
     </>
   );
 }

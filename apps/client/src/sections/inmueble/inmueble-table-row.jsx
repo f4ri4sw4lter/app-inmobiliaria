@@ -13,10 +13,12 @@ import IconButton from '@mui/material/IconButton';
 
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
+import { NavLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
 export default function InmuebleTableRow({
+  id,
   titulo,
   descripcion,
   contrato,
@@ -89,9 +91,18 @@ export default function InmuebleTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Editar
+        <MenuItem>
+          <NavLink to={`/inmuebles/editar/${id}`} className='nav-item nav-link' key="ver">
+            <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+            Ver
+          </NavLink>
+        </MenuItem>
+
+        <MenuItem>
+          <NavLink to={`/inmuebles/editar/${id}`} className='nav-item nav-link' key="editar">
+            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+            Editar
+          </NavLink>
         </MenuItem>
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>

@@ -136,14 +136,15 @@ export default function ListaInmuebleView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <InmuebleTableRow
-                      key={row._id}
-                      titulo={row.titulo}
-                      descripcion={row.descripcion}
-                      contrato={row.contrato}
-                      estado={row.estado}
-                      ambientes={row.cant_amb}
-                      selected={selected.indexOf(row.titulo) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      key = {row._id}
+                      id = {row._id}
+                      titulo = {row.titulo}
+                      descripcion = {row.descripcion}
+                      contrato = {row.contrato}
+                      estado = {row.estado}
+                      ambientes = {row.cant_amb}
+                      selected = {selected.indexOf(row.titulo) !== -1}
+                      handleClick = {(event) => handleClick(event, row.name)}
                     />
                   ))}
 

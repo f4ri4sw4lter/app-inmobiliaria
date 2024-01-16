@@ -18,7 +18,7 @@ export default function InmueblePage() {
       { 
         (typeof accion == 'undefined')
           ? <ListaInmuebleView />
-          : (accion=='ver' || accion=='editar' || accion=='borrar')
+          : (accion=='ver' || accion=='editar')
             ? (typeof id == 'undefined')
               ? <NotFoundPage />
               : <InmuebleView />

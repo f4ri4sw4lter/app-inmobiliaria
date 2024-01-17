@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import { Stack, Button, Container, Typography, Grid, Box, Paper, Divider } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
+import { HorizontalImageList } from '../img-lista';
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
@@ -70,14 +67,80 @@ export default function InmuebleView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">{inmueble.titulo}</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Editar Inmueble
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:edit-fill" />} href={`/inmuebles/editar/${id}`}>
+          Editar
         </Button>
       </Stack>
-
-      <Card>
+      <Grid container spacing={2}>
         
-      </Card>
+        <Grid item xs={12}>
+          <HorizontalImageList />
+        </Grid>
+
+        <Grid item xs={12}>
+            {inmueble.cant_amb &&
+            <Typography variant="caption"> {inmueble.cant_amb} ambientes |
+            </Typography>
+            }
+            {inmueble.cant_hab &&
+            <Typography variant="caption"> {inmueble.cant_hab} habitaciones |
+            </Typography>
+            }
+            {inmueble.cant_ba &&
+            <Typography variant="caption"> {inmueble.cant_ba} baños
+            </Typography>
+            }
+        </Grid>
+
+        <Grid item xs={2}>
+          <Typography variant="h5">{inmueble.contrato}</Typography>
+        </Grid>
+        <Grid item xs={10}>
+          {inmueble.estado == 'Alquilado' || inmueble.estado == 'Vendido'
+          ?( 
+            <Typography variant="h5" sx={{ color:'red' }}>{inmueble.estado}</Typography>
+          ):(
+            <Typography variant="h5" sx={{ color:'green' }}>{inmueble.estado}</Typography>
+          )}
+          
+        </Grid>
+        
+
+        {inmueble.precio &&
+        <Grid item xs={2}>
+          <Typography variant="h4" sx={{}}>Precio</Typography>
+          <Typography variant="h5">${inmueble.precio}ARS
+          </Typography>
+        </Grid>
+        }
+        {inmueble.precio_usd &&
+        <Grid item xs={10}>
+          <Typography variant="h5">${inmueble.precio}USD
+          </Typography>
+        </Grid>
+        }
+        
+        <Divider orientation="horizontal" sx={{ backgroundColor: 'black', height: '3px', color:'black' }}/>
+
+        {inmueble.ubicacion &&
+        <Grid item xs={12}>
+            <Typography variant="h4" sx={{}}>Ubicacion</Typography>
+            <Typography variant="h5">{inmueble.ubicacion['calle']} {inmueble.ubicacion['altura']}, {inmueble.ubicacion['ciudad']}, {inmueble.ubicacion['provincia']}
+            </Typography>
+        </Grid>
+        }
+
+        <Divider variant="middle" orientation="horizontal" flexItem style={{ backgroundColor: 'black', height: '3px', color:'black' }}/>
+
+        {inmueble.descripcion &&
+        <Grid item xs={12}>
+            <Typography variant="h4" sx={{}}>Descripcion</Typography>
+            <Typography variant="h6">{inmueble.descripcion}
+            </Typography>
+        </Grid>
+        }
+
+      </Grid>
     </Container>
   );
 }

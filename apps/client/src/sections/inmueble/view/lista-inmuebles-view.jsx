@@ -124,11 +124,12 @@ export default function ListaInmuebleView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'titulo', label: 'Titulo' },
-                  { id: 'description', label: 'Descripcion' },
                   { id: 'contrato', label: 'Tipo de contrato'},
                   { id: 'estado', label: 'Estado' },
                   //{ id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'ambientes', label: 'Cant. ambientes', align: 'center' }
+                  { id: 'ambientes', label: 'Cant. ambientes', align: 'center' },
+                  { id: 'habitaciones', label: 'Cant. habitaciones', align: 'center' },
+                  { id: 'banios', label: 'Cant. baños', align: 'center' }
                 ]}
               />
               <TableBody>
@@ -136,14 +137,17 @@ export default function ListaInmuebleView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <InmuebleTableRow
-                      key={row._id}
-                      titulo={row.titulo}
-                      descripcion={row.descripcion}
-                      contrato={row.contrato}
-                      estado={row.estado}
-                      ambientes={row.cant_amb}
-                      selected={selected.indexOf(row.titulo) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      key         ={row._id}
+                      id          ={row._id}
+                      titulo      ={row.titulo}
+                      descripcion ={row.descripcion}
+                      contrato    ={row.contrato}
+                      estado      ={row.estado}
+                      ambientes   ={row.cant_amb}
+                      selected    ={selected.indexOf(row.titulo) !== -1}
+                      banios      ={row.cant_ba}
+                      habitaciones={row.cant_hab}
+                      handleClick ={(event) => handleClick(event, row.name)}
                     />
                   ))}
 

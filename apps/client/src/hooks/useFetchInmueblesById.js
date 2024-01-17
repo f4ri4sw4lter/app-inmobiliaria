@@ -10,6 +10,7 @@ export const useFetchInmuebleById = ( id ) => {
         getInmuebleById(id)
             .then(({ propiedad }) => {
                 setInmueble(propiedad);
+                setIsLoading( false );
             })
     }, []);
 

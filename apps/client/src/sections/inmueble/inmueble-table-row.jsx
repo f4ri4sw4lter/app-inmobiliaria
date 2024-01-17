@@ -20,11 +20,12 @@ import { NavLink } from 'react-router-dom';
 export default function InmuebleTableRow({
   id,
   titulo,
-  descripcion,
   contrato,
   selected,
   estado,
   ambientes,
+  habitaciones,
+  banios,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -52,27 +53,40 @@ export default function InmuebleTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell  sx={{
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            maxWidth: '700px'
-        }}>{descripcion}</TableCell>
-
         <TableCell sx={{
             minWidth: '90px',
-            textAlign: 'center'
+            textAlign: 'left'
         }}>{contrato}</TableCell>
 
-        <TableCell sx={{
-            minWidth: '90px',
-            textAlign: 'center'
-        }}>{estado}</TableCell>
+        {estado == 'Alquilado' || estado == 'Vendido'
+          ?( 
+            <TableCell sx={{
+              minWidth: '90px',
+              textAlign: 'left',
+              color: 'red'
+            }}>{estado}</TableCell>
+          ):(
+            <TableCell sx={{
+              minWidth: '90px',
+              textAlign: 'left',
+              color: 'green'
+            }}>{estado}</TableCell>
+        )}
 
         <TableCell sx={{
             minWidth: '100px',
             textAlign: 'center'
         }}>{ambientes}</TableCell>
+
+        <TableCell sx={{
+            minWidth: '100px',
+            textAlign: 'center'
+        }}>{habitaciones}</TableCell>
+
+        <TableCell sx={{
+            minWidth: '100px',
+            textAlign: 'center'
+        }}>{banios}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -92,7 +106,7 @@ export default function InmuebleTableRow({
         }}
       >
         <MenuItem>
-          <NavLink to={`/inmuebles/editar/${id}`} className='nav-item nav-link' key="ver">
+          <NavLink to={`/inmuebles/ver/${id}`} className='nav-item nav-link' key="ver">
             <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
             Ver
           </NavLink>

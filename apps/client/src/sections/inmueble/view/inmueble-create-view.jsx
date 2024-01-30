@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem} from '@mui/material'
@@ -8,18 +7,13 @@ import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 import { HorizontalImageList } from '../img-lista';
 
-import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
-import { updateInmueble } from '../../../helpers/updateInmueble';
+import { createInmueble } from '../../../helpers/createInmueble';
 
 // ----------------------------------------------------------------------
 
-export default function InmuebleEditView() {
+export default function InmuebleCreateView() {
 
   const navigate = useNavigate();
-
-  const { accion, id } = useParams();
-
-  const { inmueble, isLoading } = useFetchInmuebleById({ id });
 
   const [titulo, setTitulo] = useState('');
 
@@ -102,24 +96,6 @@ export default function InmuebleEditView() {
     });
     navigate('/inmuebles');
   }
-
-  useEffect(() => {
-    if(isLoading == false){
-      setTitulo(inmueble.titulo);
-      setContrato(inmueble.contrato);
-      setEstado(inmueble.estado);
-      setPrecio(inmueble.precio);
-      setPrecioUSD(inmueble.precioUSD);
-  
-      if(typeof inmueble.ubicacion != 'undefined' ){
-        setCalle(inmueble.ubicacion['calle']);
-        setAltura(parseInt(inmueble.ubicacion['altura'], 10));
-        setCiudad(inmueble.ubicacion['ciudad']);
-        setProvincia(inmueble.ubicacion['provincia']);
-        setDescripcion(inmueble.descripcion);
-      }
-    }
-  },[isLoading])
   
   useEffect(() => {
     if(contrato=='Alquiler'){
@@ -141,18 +117,16 @@ export default function InmuebleEditView() {
     <Container>
       <form onSubmit={handleSubmit}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Editar inmueble</Typography>
+        <Typography variant="h4">Crear inmueble</Typography>
         <Button type="submit" variant="contained" color="inherit" startIcon={<Iconify icon="eva:save-fill" />}>
           Guardar
         </Button>
       </Stack>
-
-      {isLoading == false &&
       
       <Grid container>
         <Grid item xs={12}>
         <FormControl>
-            <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo}/>
+            <Input id="titulo" aria-describedby="titulo-helper" onChange={handleChangeTitulo}/>
             <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>
         </FormControl>
         </Grid>
@@ -162,7 +136,6 @@ export default function InmuebleEditView() {
           <NativeSelect
             id="contrato" 
             aria-describedby="titulo-helper"
-            defaultValue={contrato}
             onChange={handleChangeSelect}
           >
             <option value="Alquiler">Alquiler</option>
@@ -176,7 +149,6 @@ export default function InmuebleEditView() {
           <NativeSelect
             id="estado" 
             aria-describedby="titulo-helper"
-            defaultValue={estado}
           >
             {estados}
           </NativeSelect>
@@ -188,14 +160,14 @@ export default function InmuebleEditView() {
         <Grid item xs={3} style={{ marginTop:20 }}>
         $
         <FormControl>
-          <Input id="precio" aria-describedby="precio-helper" value={precio} onChange={handleChangePrecio}/>
+          <Input id="precio" aria-describedby="precio-helper" onChange={handleChangePrecio}/>
           <FormHelperText id="precio-helper"> Ingrese el precio en ARS</FormHelperText>
         </FormControl>
         </Grid>
         <Grid item xs={9} style={{ marginTop:20 }}>
         $
         <FormControl>
-          <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" value={precioUSD}  onChange={handleChangePrecioUSD}/>
+          <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" onChange={handleChangePrecioUSD}/>
           <FormHelperText id="precioUSD-helper"> Ingrese el precio en USD </FormHelperText>
         </FormControl>
         </Grid>
@@ -203,39 +175,38 @@ export default function InmuebleEditView() {
         {/* Ubicacion */}
         <Grid item xs={3} style={{ marginTop:30 }}>
         <FormControl>
-          <Input id="calle" aria-describedby="calle-helper" multiline value={calle} onChange={handleChangeCalle}/>
+          <Input id="calle" aria-describedby="calle-helper" multiline onChange={handleChangeCalle}/>
           <FormHelperText id="calle-helper"> Calle </FormHelperText>
         </FormControl>
         </Grid>
         <Grid item xs={3} style={{ marginTop:30 }}>
         <FormControl>
-          <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura}/>
+          <Input type="number" id="altura" aria-describedby="altura-helper" onChange={handleChangeAltura}/>
           <FormHelperText id="altura-helper"> Altura </FormHelperText>
         </FormControl>
         </Grid>
         <Grid item xs={3} style={{ marginTop:30 }}>
         <FormControl>
-          <Input id="ciudad" aria-describedby="ciudad-helper" multiline value={ciudad} onChange={handleChangeCiudad}/>
+          <Input id="ciudad" aria-describedby="ciudad-helper" multiline onChange={handleChangeCiudad}/>
           <FormHelperText id="ciudad-helper"> Ciudad </FormHelperText>
         </FormControl>
         </Grid>
         <Grid item xs={3} style={{ marginTop:30 }}>
         <FormControl>
-          <Input id="provincia" aria-describedby="provincia-helper" multiline value={provincia} onChange={handleChangeProvincia}/>
+          <Input id="provincia" aria-describedby="provincia-helper" multiline onChange={handleChangeProvincia}/>
           <FormHelperText id="provincia-helper"> Provincia </FormHelperText>
         </FormControl>
         </Grid>
 
         <Grid item xs={12} style={{ marginTop:20 }}>
         <FormControl>
-          <Input type="number" id="descripcion" aria-describedby="descripcion-helper" multiline value={descripcion} fullWidth={true} onChange={handleChangeDescripcion}/>
+          <Input type="number" id="descripcion" aria-describedby="descripcion-helper" multiline fullWidth={true} onChange={handleChangeDescripcion}/>
           <FormHelperText id="descripcion-helper"> Ingrese la descripcion </FormHelperText>
         </FormControl>
         </Grid>
 
         
       </Grid>
-      }
       </form>
     </Container>
   );

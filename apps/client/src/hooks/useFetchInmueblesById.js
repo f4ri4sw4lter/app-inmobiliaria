@@ -8,7 +8,7 @@ export const useFetchInmuebleById = ( id ) => {
 
     useEffect(() => {
         getInmuebleById(id)
-            .then(({ propiedad }) => {
+            .then(( {propiedad} ) => {
                 setInmueble(propiedad);
                 setIsLoading( false );
             })

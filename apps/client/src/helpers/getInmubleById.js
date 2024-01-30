@@ -1,22 +1,20 @@
+import axios from 'axios';
+
 export const getInmuebleById = async({id}) => {
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk2MTE2NGU1ZDk5OTZhMzJlN2ExODMiLCJpYXQiOjE2OTAyNDUyMzQsImV4cCI6MTY5MTEwOTIzNH0.4KM3p9k-lE5GW5ZpPXaoLpTwFliuqfb7W5yXkymTtHM'
-        },
-    };
 
-    try {
-        const response = await fetch(`/api/propiedad/${id}`, options);
-
-        if (response.ok) {
-            const data = await response.json();
-            return data; // Muestra los datos por consola
-        } else {
-            console.error('Error al obtener los datos de la API');
+    try{
+        const response = await axios.get(`/api/propiedad/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk2MTE2NGU1ZDk5OTZhMzJlN2ExODMiLCJpYXQiOjE2OTAyNDUyMzQsImV4cCI6MTY5MTEwOTIzNH0.4KM3p9k-lE5GW5ZpPXaoLpTwFliuqfb7W5yXkymTtHM'
+            }
+        })
+        if (response.status === 200 || response.status === 201) {
+            const data = response.data;
+            return data;
         }
-    } catch (error) {
-        console.error('Error en la solicitud:', error);
     }
+    catch(e){
+        console.error(e)
+    };
 }

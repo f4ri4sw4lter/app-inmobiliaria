@@ -33,6 +33,12 @@ export default function InmuebleEditView() {
 
   const [precioUSD, setPrecioUSD] = useState('');
 
+  const [ambientes, setAmbientes] = useState('');
+
+  const [habitaciones, setHabitaciones] = useState('');
+
+  const [banios, setBanios] = useState('');
+
   const [calle, setCalle] = useState('');
 
   const [altura, setAltura] = useState('');
@@ -47,18 +53,15 @@ export default function InmuebleEditView() {
   const handleChangeTitulo = (event) => {
     setTitulo(event.target.value);
   };
-  
   const handleChangeSelect = (event) => {
     setContrato(event.target.value);
   };
-
   const handleChangePrecio = (event) => {
     setPrecio(event.target.value);
   };
   const handleChangePrecioUSD = (event) => {
     setPrecioUSD(event.target.value);
   };
-
   const handleChangeCalle = (event) => {
     setCalle(event.target.value);
   };
@@ -75,9 +78,17 @@ export default function InmuebleEditView() {
   const handleChangeProvincia = (event) => {
     setProvincia(event.target.value);
   };
-  
   const handleChangeDescripcion = (event) => {
     setDescripcion(event.target.value);
+  };
+  const handleChangeAmbientes = (event) => {
+    setAmbientes(event.target.value);
+  };
+  const handleChangeHabitaciones = (event) => {
+    setHabitaciones(event.target.value);
+  };
+  const handleChangeBanios = (event) => {
+    setBanios(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -93,9 +104,9 @@ export default function InmuebleEditView() {
       ciudad: ciudad,
       provincia: provincia,
       descripcion: descripcion,
-      cant_amb: 3,
-      cant_ba: 2,
-      cant_hab: 3,
+      cant_amb: ambientes,
+      cant_ba: banios,
+      cant_hab: habitaciones,
       equipamiento: '',
       imagenes: '',
       cliente: 0
@@ -110,6 +121,9 @@ export default function InmuebleEditView() {
       setEstado(inmueble.estado);
       setPrecio(inmueble.precio);
       setPrecioUSD(inmueble.precioUSD);
+      setAmbientes(inmueble.cant_amb);
+      setBanios(inmueble.cant_ba);
+      setHabitaciones(inmueble.cant_hab);
   
       if(typeof inmueble.ubicacion != 'undefined' ){
         setCalle(inmueble.ubicacion['calle']);
@@ -197,6 +211,26 @@ export default function InmuebleEditView() {
         <FormControl>
           <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" value={precioUSD}  onChange={handleChangePrecioUSD}/>
           <FormHelperText id="precioUSD-helper"> Ingrese el precio en USD </FormHelperText>
+        </FormControl>
+        </Grid>
+
+        {/* Ambientes */}
+        <Grid item xs={4} style={{ marginTop:30 }}>
+        <FormControl>
+          <Input value={ambientes} type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes}/>
+          <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
+        </FormControl>
+        </Grid>
+        <Grid item xs={4} style={{ marginTop:30 }}>
+        <FormControl>
+          <Input value={habitaciones} type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones}/>
+          <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
+        </FormControl>
+        </Grid>
+        <Grid item xs={4} style={{ marginTop:30 }}>
+        <FormControl>
+          <Input value={banios} type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios}/>
+          <FormHelperText id="banios-helper"> Baños </FormHelperText>
         </FormControl>
         </Grid>
 

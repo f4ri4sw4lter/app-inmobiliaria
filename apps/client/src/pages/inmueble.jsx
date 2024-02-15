@@ -12,29 +12,37 @@ export default function InmueblePage() {
 
   const { accion, id } = useParams();
 
-  const { inmueble, isLoading } = useFetchInmuebleById({ id });
+  if(typeof id !== 'undefined'){
+    
+  }
 
   const [view, setView] = useState();
 
-  useEffect(() => {
+  function SeleccionarVista (){
     if(typeof accion == 'undefined'){
-      setView(<ListaInmuebleView />)
+      return(<ListaInmuebleView />)
     }else{
-      if(accion == 'ver' || accion == 'editar' || accion == 'crear'){
-        if(typeof inmueble !== 'undefined'){
-            if (accion == 'ver') setView(<InmuebleView />)
-            
-            if (accion == 'editar') setView(<InmuebleEditView />)
-            
-            if (accion == 'crear') setView(<InmuebleCreateView />)
-        }else{
-          setView(<NotFoundPage />)
-        }
-      }else{
-        setView(<NotFoundPage />)
+      if(accion == 'crear'){
+        return(<InmuebleCreateView />)
+      }
+      const { inmueble, isLoading } = useFetchInmuebleById({ id });
+      if (accion == 'ver'){
+        return(
+          isLoading == false &&
+          <InmuebleView />
+        )
+      }
+      else if (accion == 'editar'){
+        return(
+          isLoading == false &&
+          <InmuebleEditView />
+        )
+      }
+      else{
+        return(<NotFoundPage />)
       }
     }
-  },[])
+  }
 
   return (
     <>
@@ -42,7 +50,7 @@ export default function InmueblePage() {
         <title> Inmuebles </title>
       </Helmet>
 
-      { view }
+      <SeleccionarVista/>
     </>
   );
 }

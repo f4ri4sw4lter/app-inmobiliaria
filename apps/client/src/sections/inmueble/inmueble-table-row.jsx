@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,10 +9,16 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { NavLink } from 'react-router-dom';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
-import { NavLink } from 'react-router-dom';
+
+import { deleteInmuebleById } from '../../helpers/deleteInmuebleById';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +34,25 @@ export default function InmuebleTableRow({
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
+
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    handleCloseMenu();
+  };
+
+  const handleConfirmDialog = () => {
+    deleteInmuebleById(id);
+    setOpenDialog(false);
+    setOpen(null);
+    window.location.reload();
+  };
+
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -54,38 +78,38 @@ export default function InmuebleTableRow({
         </TableCell>
 
         <TableCell sx={{
-            minWidth: '90px',
-            textAlign: 'left'
+          minWidth: '90px',
+          textAlign: 'left'
         }}>{contrato}</TableCell>
 
         {estado == 'Alquilado' || estado == 'Vendido'
-          ?( 
+          ? (
             <TableCell sx={{
               minWidth: '90px',
               textAlign: 'left',
               color: 'red'
             }}>{estado}</TableCell>
-          ):(
+          ) : (
             <TableCell sx={{
               minWidth: '90px',
               textAlign: 'left',
               color: 'green'
             }}>{estado}</TableCell>
-        )}
+          )}
 
         <TableCell sx={{
-            minWidth: '100px',
-            textAlign: 'center'
+          minWidth: '100px',
+          textAlign: 'center'
         }}>{ambientes}</TableCell>
 
         <TableCell sx={{
-            minWidth: '100px',
-            textAlign: 'center'
+          minWidth: '100px',
+          textAlign: 'center'
         }}>{habitaciones}</TableCell>
 
         <TableCell sx={{
-            minWidth: '100px',
-            textAlign: 'center'
+          minWidth: '100px',
+          textAlign: 'center'
         }}>{banios}</TableCell>
 
         <TableCell align="right">
@@ -119,10 +143,28 @@ export default function InmuebleTableRow({
           </NavLink>
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Borrar
+          <Button onClick={handleClickOpenDialog}>
+            Borrar
+          </Button>
         </MenuItem>
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Confirmación</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Estás seguro de que deseas borrar este inmueble?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmDialog} color="primary">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Popover>
     </>
   );

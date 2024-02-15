@@ -16,15 +16,15 @@ import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
 import TableNoData from '../table-no-data';
-import UserTableRow from '../user-table-row';
-import UserTableHead from '../user-table-head';
+import ClienteTableRow from '../cliente-table-row';
+import ClienteTableHead from '../cliente-table-head';
 import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
+import ClienteTableToolbar from '../cliente-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 
-export default function UserView() {
+export default function ClienteView() {
 
   const [page, setPage] = useState(0);
 
@@ -106,7 +106,7 @@ export default function UserView() {
       </Stack>
 
       <Card>
-        <UserTableToolbar
+        <ClienteTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
@@ -115,7 +115,7 @@ export default function UserView() {
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <UserTableHead
+              <ClienteTableHead
                 order={order}
                 orderBy={orderBy}
                 rowCount={3}
@@ -135,7 +135,7 @@ export default function UserView() {
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <UserTableRow
+                    <ClienteTableRow
                       key={row.id}
                       titulo={row.titulo}
                       role={row.role}

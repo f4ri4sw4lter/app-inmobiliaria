@@ -79,13 +79,13 @@ export class AuthController {
             const newUsuario = await this.authService.createUsuario(createUsuarioDTO);
 
             //Generamos token para el nuevo usuario.
-            const jwt = require('jsonwebtoken');
+            //const jwt = require('jsonwebtoken');
             
-            const token = jwt.sign({id: newUsuario._id}, process.env.SECRET, {
-                expiresIn: 86400 //24hs
-            })
+            //const token = jwt.sign({id: newUsuario._id}, process.env.SECRET, {
+            //    expiresIn: 86400 //24hs
+            //})
 
-            return res.status(HttpStatus.OK).json({token});
+            return res.status(HttpStatus.OK);
         }
     }
 

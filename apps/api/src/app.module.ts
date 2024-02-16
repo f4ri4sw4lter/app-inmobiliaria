@@ -13,6 +13,7 @@ import { CORRELATION_ID_HEADER, CorrelationIdMiddleware } from './correlation-id
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { ClienteModule } from './cliente/cliente.module';
 import config from './config';
 
 
@@ -20,7 +21,9 @@ import config from './config';
   imports: [
     //Modulos propios.
     PropiedadModule,
+    ClienteModule,
     AuthModule,
+
     //Modulo de configuracion del proyecto.
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -37,8 +40,10 @@ import config from './config';
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../', 'client/dist'),
     }),
+
     //Conexion a MongoDB.
     MongooseModule.forRoot(process.env.DB_URI),
+
     //personalizacion de los logs
     LoggerModule.forRoot({
       pinoHttp:{

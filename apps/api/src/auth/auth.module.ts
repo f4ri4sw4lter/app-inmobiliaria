@@ -22,18 +22,12 @@ import { LocalStrategy } from './strategies/local.strategy';
             }
         }),
         PassportModule,
-        /*PassportModule.register({ defaultStrategy: 'jwt' }),
-        JwtModule.register({
-            global: true,
-            secret: jwtConstants.secret,
-            signOptions: { expiresIn: '60s' },
-        }),*/
         MongooseModule.forFeature([
             {name: 'Usuario', schema: UsuarioSchema}
         ])
     ],
     controllers: [AuthController],
-    providers: [AuthService, JwtStrategy, LocalStrategy],
+    providers: [AuthService],
     exports: [PassportModule, AuthService],
 })
 export class AuthModule {}

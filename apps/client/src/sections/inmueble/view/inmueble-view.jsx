@@ -135,8 +135,8 @@ export default function InmuebleView() {
         {inmueble.descripcion &&
         <Grid item xs={12}>
             <Typography variant="h4" sx={{}}>Descripcion</Typography>
-            <Typography variant="h6">{inmueble.descripcion}
-            </Typography>
+            <h5>{inmueble.descripcion}
+            </h5>
         </Grid>
         }
 

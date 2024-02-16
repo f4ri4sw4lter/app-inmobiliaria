@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-export const getListaInmuebles = async () => {
+export const deleteInmuebleById = async( id ) => {
 
     try{
-        const response = await axios.get('/api/propiedad/', {
+        const response = await axios.delete(`/api/propiedad/delete/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk2MTE2NGU1ZDk5OTZhMzJlN2ExODMiLCJpYXQiOjE2OTAyNDUyMzQsImV4cCI6MTY5MTEwOTIzNH0.4KM3p9k-lE5GW5ZpPXaoLpTwFliuqfb7W5yXkymTtHM'
             }
         })
         if (response.status === 200 || response.status === 201) {
@@ -17,5 +16,4 @@ export const getListaInmuebles = async () => {
     catch(e){
         console.error(e)
     };
-
 }

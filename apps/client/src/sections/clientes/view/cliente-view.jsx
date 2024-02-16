@@ -10,21 +10,21 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
+import { users } from '../../../_mock/user';
+
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
 import TableNoData from '../table-no-data';
-import InmuebleTableRow from '../inmueble-table-row';
-import InmuebleTableHead from '../inmueble-table-head';
+import ClienteTableRow from '../cliente-table-row';
+import ClienteTableHead from '../cliente-table-head';
 import TableEmptyRows from '../table-empty-rows';
-import InmuebleTableToolbar from '../inmueble-table-toolbar';
+import ClienteTableToolbar from '../cliente-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import { useFetchListaInmuebles } from "../../../hooks/useFetchListaInmuebles";
 
 // ----------------------------------------------------------------------
 
-export default function ListaInmuebleView() {
-  const { listaInmuebles, isLoading } = useFetchListaInmuebles();
+export default function ClienteView() {
 
   const [page, setPage] = useState(0);
 
@@ -48,7 +48,7 @@ export default function ListaInmuebleView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = listaInmuebles.map((n) => n.titulo);
+      const newSelecteds = users.map((n) => n.titulo);
       setSelected(newSelecteds);
       return;
     }
@@ -88,7 +88,7 @@ export default function ListaInmuebleView() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: listaInmuebles,
+    inputData: users,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -98,15 +98,15 @@ export default function ListaInmuebleView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Lista Inmuebles</Typography>
+        <Typography variant="h4">Lista de Usuarios</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/inmuebles/crear">
-          Agregar Inmueble
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+          Agregar Usuario
         </Button>
       </Stack>
 
       <Card>
-        <InmuebleTableToolbar
+        <ClienteTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
@@ -115,45 +115,42 @@ export default function ListaInmuebleView() {
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
-              <InmuebleTableHead
+              <ClienteTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={listaInmuebles.length}
+                rowCount={3}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'titulo', label: 'Titulo' },
-                  { id: 'contrato', label: 'Tipo de contrato'},
-                  { id: 'estado', label: 'Estado' },
-                  //{ id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'ambientes', label: 'Cant. ambientes', align: 'center' },
-                  { id: 'habitaciones', label: 'Cant. habitaciones', align: 'center' },
-                  { id: 'banios', label: 'Cant. baños', align: 'center' }
+                  { id: 'description', label: 'Descripcion' },
+                  { id: 'tipo', label: 'Tipo' },
+                  { id: 'isVerified', label: 'Verified', align: 'center' },
+                  { id: 'status', label: 'Status' },
+                  { id: '' },
                 ]}
               />
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
-                    <InmuebleTableRow
-                      key         ={row._id}
-                      id          ={row._id}
-                      titulo      ={row.titulo}
-                      descripcion ={row.descripcion}
-                      contrato    ={row.contrato}
-                      estado      ={row.estado}
-                      ambientes   ={row.cant_amb}
-                      selected    ={selected.indexOf(row.titulo) !== -1}
-                      banios      ={row.cant_ba}
-                      habitaciones={row.cant_hab}
-                      handleClick ={(event) => handleClick(event, row.name)}
+                    <ClienteTableRow
+                      key={row.id}
+                      titulo={row.titulo}
+                      role={row.role}
+                      status={row.status}
+                      company={row.company}
+                      avatarUrl={row.avatarUrl}
+                      isVerified={row.isVerified}
+                      selected={selected.indexOf(row.name) !== -1}
+                      handleClick={(event) => handleClick(event, row.name)}
                     />
                   ))}
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, listaInmuebles.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, 3)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -165,7 +162,7 @@ export default function ListaInmuebleView() {
         <TablePagination
           page={page}
           component="div"
-          count={listaInmuebles.length}
+          count={3}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

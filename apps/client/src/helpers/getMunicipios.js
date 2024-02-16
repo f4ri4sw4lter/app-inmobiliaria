@@ -1,21 +1,21 @@
+
 import axios from 'axios';
 
-export const getListaInmuebles = async () => {
+export const getMunicipios = async(id) => {
 
     try{
-        const response = await axios.get('/api/propiedad/', {
+        const response = await axios.get(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${id}&campos=nombre`, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk2MTE2NGU1ZDk5OTZhMzJlN2ExODMiLCJpYXQiOjE2OTAyNDUyMzQsImV4cCI6MTY5MTEwOTIzNH0.4KM3p9k-lE5GW5ZpPXaoLpTwFliuqfb7W5yXkymTtHM'
             }
         })
         if (response.status === 200 || response.status === 201) {
             const data = response.data;
+            console.log(data);
             return data;
         }
     }
     catch(e){
         console.error(e)
     };
-
 }

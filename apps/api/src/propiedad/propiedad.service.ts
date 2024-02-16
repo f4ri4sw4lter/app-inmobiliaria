@@ -34,9 +34,9 @@ export class PropiedadService{
         return newPropiedad;
     }
 
-    async updatePropiedad(productId: string, createPropiedadDTO: CreatePropiedadDTO): Promise<Propiedad>{
+    async updatePropiedad(propiedadId: string, createPropiedadDTO: CreatePropiedadDTO): Promise<Propiedad>{
         const updatedPropiedad = await this.propiedadModel.findByIdAndUpdate(
-            productId, 
+            propiedadId, 
             createPropiedadDTO,
             { new: true });
         return updatedPropiedad;

@@ -21,12 +21,10 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import { useFetchListaInmuebles } from "../../../hooks/useFetchListaInmuebles";
 
 // ----------------------------------------------------------------------
 
 export default function UserView() {
-  const { listaInmuebles, isLoading } = useFetchListaInmuebles();
 
   const [page, setPage] = useState(0);
 
@@ -120,7 +118,7 @@ export default function UserView() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={listaInmuebles.length}
+                rowCount={3}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -152,7 +150,7 @@ export default function UserView() {
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, listaInmuebles.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, 3)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -164,7 +162,7 @@ export default function UserView() {
         <TablePagination
           page={page}
           component="div"
-          count={listaInmuebles.length}
+          count={3}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

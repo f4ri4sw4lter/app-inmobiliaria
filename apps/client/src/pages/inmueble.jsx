@@ -1,8 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 import NotFoundPage from '../pages/page-not-found';
-import { ListaInmuebleView, InmuebleView, InmuebleEditView } from '../sections/inmueble/view';
+import { ListaInmuebleView, InmuebleView, InmuebleEditView, InmuebleCreateView } from '../sections/inmueble/view';
 import { useFetchInmuebleById } from '../hooks/useFetchInmueblesById';
 
 // ----------------------------------------------------------------------
@@ -11,7 +12,37 @@ export default function InmueblePage() {
 
   const { accion, id } = useParams();
 
-  const { inmueble, isLoading } = useFetchInmuebleById({ id });
+  if(typeof id !== 'undefined'){
+    
+  }
+
+  const [view, setView] = useState();
+
+  function SeleccionarVista (){
+    if(typeof accion == 'undefined'){
+      return(<ListaInmuebleView />)
+    }else{
+      if(accion == 'crear'){
+        return(<InmuebleCreateView />)
+      }
+      const { inmueble, isLoading } = useFetchInmuebleById({ id });
+      if (accion == 'ver'){
+        return(
+          isLoading == false &&
+          <InmuebleView />
+        )
+      }
+      else if (accion == 'editar'){
+        return(
+          isLoading == false &&
+          <InmuebleEditView />
+        )
+      }
+      else{
+        return(<NotFoundPage />)
+      }
+    }
+  }
 
   return (
     <>
@@ -19,16 +50,7 @@ export default function InmueblePage() {
         <title> Inmuebles </title>
       </Helmet>
 
-      { (typeof accion == 'undefined')
-        ? <ListaInmuebleView />
-        : (accion == 'ver' || accion == 'editar')
-          ? (typeof inmueble !== 'undefined') 
-            ? (accion == 'ver')
-              ? <InmuebleView />
-              : <InmuebleEditView />
-            :<NotFoundPage />
-          : <NotFoundPage />
-      }
+      <SeleccionarVista/>
     </>
   );
 }

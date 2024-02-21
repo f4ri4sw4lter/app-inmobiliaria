@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Res, Req, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { Request } from 'express';
-import { CreateUsuarioDTO } from './dto/usuario.dto';
+import { LoginUsuarioDTO } from './dto/usuario.dto';
 import { AuthService } from './auth.service';
 import { UsuarioSchema } from './schemas/usuario.schema';
 import { create } from 'domain';
@@ -46,8 +46,8 @@ export class AuthController {
      * @param password 
      * @param receivedPassword 
      */
-    async alreadyExistUsuario(createUsuarioDTO: CreateUsuarioDTO): Promise<boolean>{
-        const { email, password } = createUsuarioDTO;
+    async alreadyExistUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<boolean>{
+        const { email, password } = LoginUsuarioDTO;
         const usuario = await this.authService.findUsuario(email, password);
         if(usuario == null){
             return false;
@@ -57,13 +57,12 @@ export class AuthController {
     }
 
     /*ENDPOINTS*/
-    @UseGuards(AuthGuard('local'))
     @Post('/signup')
-    async signUp(@Res() res, @Body() createUsuarioDTO: CreateUsuarioDTO) {
+    async signUp(@Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
         this.logger.log('POST - Creando usuario.');
 
         //Compruebo si el usuario ya existe.
-        const already_exist = await this.alreadyExistUsuario(createUsuarioDTO);
+        const already_exist = await this.alreadyExistUsuario(LoginUsuarioDTO);
         if(already_exist){
             this.logger.log('ERR: Usuario ya existente');
             return res.status(HttpStatus.CONFLICT).json({
@@ -73,34 +72,32 @@ export class AuthController {
 
         else{
             //Reemplazamos la password por la encriptacion.
-            createUsuarioDTO.password = await this.encryptPassword(createUsuarioDTO.password);
-
+            //LoginUsuarioDTO.password = await this.encryptPassword(LoginUsuarioDTO.password);
             //Guardamos el nuevo usuario
-            const newUsuario = await this.authService.createUsuario(createUsuarioDTO);
-
             //Generamos token para el nuevo usuario.
             //const jwt = require('jsonwebtoken');
-            
             //const token = jwt.sign({id: newUsuario._id}, process.env.SECRET, {
             //    expiresIn: 86400 //24hs
             //})
-
-            return res.status(HttpStatus.OK);
+            const newUsuario = await this.authService.createUsuario(LoginUsuarioDTO);
+            return res.status(HttpStatus.OK).json({
+                message: 'Usuario creado.'
+            });
         }
     }
 
-    @UseGuards(AuthGuard('local'))
-    @Post('/signin')
-    //signIn(@Req() req, @Res() res, @Body() createUsuarioDTO: CreateUsuarioDTO) {
-    signIn(@Req() req){
+    @Get('/signin')
+    async ignIn(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
+    //signIn(@Req() req){
         this.logger.log('GET - Logeando usuario.');
-        const user = req.user as Usuario;
-
-        return this.authService.generateJWT(user);
-
-        //createUsuarioDTO.password = await this.encryptPassword(createUsuarioDTO.password);
-
-        //const newUsuario = await this.authService.signUp(createUsuarioDTO);
+        //const user = req.email as Usuario;
+        //return this.authService.generateJWT(user);
+        //LoginUsuarioDTO.password = await this.encryptPassword(LoginUsuarioDTO.password);
+        //const newUsuario = await this.authService.signUp(LoginUsuarioDTO);
+        const newUsuario = await this.authService.findUsuario(LoginUsuarioDTO.email, LoginUsuarioDTO.password);
+        return res.status(HttpStatus.OK).json({
+            newUsuario
+        });
     }
 
 

@@ -3,10 +3,19 @@
  */
 
 import { Schema } from "mongoose";
-import { RolSchema } from "./rol.schema";
+//import { RolSchema } from "./rol.schema";
+
+export type role = {
+	name: string;
+	level: string;
+}
 
 export const UsuarioSchema = new Schema({
-    username:{
+    name:{
+        type: String,
+        required: true
+    },
+    lastname:{
         type: String,
         required: true
     },
@@ -18,12 +27,14 @@ export const UsuarioSchema = new Schema({
         type: String,
         required: true
     },
-    roles:[{
-        ref: RolSchema,
-        Type: Schema.Types.ObjectId
-    }]},
-    {
-        timestamps: true,
-        versionKey:false
+    role:{
+        name:{
+            type: String,
+            required: true
+        },
+        level:{
+            type: Number,
+            required: true
+        }
     }
-);
+});

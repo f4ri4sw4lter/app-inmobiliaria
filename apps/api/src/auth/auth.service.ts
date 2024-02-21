@@ -1,7 +1,7 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario } from './interfaces/usuario.interface';
-import { CreateUsuarioDTO } from './dto/usuario.dto';
+import { LoginUsuarioDTO } from './dto/usuario.dto';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
@@ -20,11 +20,11 @@ export class AuthService {
     /**
      * Crea el usuario en la bdd.
      * 
-     * @param createUsuarioDTO
+     * @param LoginUsuarioDTO
      * @returns Usuario
      */
-    async createUsuario(createUsuarioDTO: CreateUsuarioDTO): Promise<Usuario>{
-        const newUsuario = new this.usuarioModel(createUsuarioDTO);
+    async createUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<Usuario>{
+        const newUsuario = new this.usuarioModel(LoginUsuarioDTO);
         return await newUsuario.save();;
     }
 
@@ -34,8 +34,9 @@ export class AuthService {
      * @param email
      * @returns usuario
      */
-    async findUsuario(username: string, password: string): Promise<Usuario>{
-        const usuario = await this.usuarioModel.findOne({username});
+    async findUsuario(email: string, password: string): Promise<Usuario>{
+        const usuario = await this.usuarioModel.findOne({email, password});
+        
         /*if(usuario?.password !== password){
             throw new UnauthorizedException();
         }

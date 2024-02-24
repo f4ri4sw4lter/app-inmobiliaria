@@ -8,9 +8,9 @@ export type role = {
 	level: string;
 }
 export interface Usuario extends Document {
-    username: string;
+    name: string;
     lastname: string;
+    email: string;
     password: string;
     role: role;
-    id: number;
 }

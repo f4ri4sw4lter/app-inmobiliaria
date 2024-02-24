@@ -2,7 +2,7 @@ export type role = {
 	name: string;
 	level: string;
 }
-export class ResgiterUserDTO{
+export class RegisterUsuarioDTO{
     name: string;
     lastname: string;
     email: string;

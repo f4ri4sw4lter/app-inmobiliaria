@@ -1,20 +1,19 @@
 import { Controller, Get, Post, Put, Delete, Res, Req, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards, UnauthorizedException } from '@nestjs/common';
-import { Request } from 'express';
-import { LoginUsuarioDTO } from './dto/usuario.dto';
+import { LoginUsuarioDTO } from './dto/login-usuario.dto';
 import { AuthService } from './auth.service';
-import { UsuarioSchema } from './schemas/usuario.schema';
-import { create } from 'domain';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { Usuario } from './interfaces/usuario.interface';
-import { AuthGuard } from '@nestjs/passport';
+import { RegisterUsuarioDTO } from './dto/register-usuario.dto';
+import { JwtService } from '@nestjs/jwt';
+import { PayloadToken } from './interfaces/token.interface';
+import { AuthGuard } from './guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
 
+    private bcrypt = require('bcrypt');
+
     private readonly logger = new Logger(AuthController.name);
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private jwt: JwtService) { }
 
     /**
      * Retorna la contraseña cifrada
@@ -22,23 +21,9 @@ export class AuthController {
      * @param password
      * @returns String
      */
-    async encryptPassword (password: string) {
-        const bcrypt = require('bcrypt');
-        //Aplicamos un algoritmo recursivo.
-        const salt = await bcrypt.genSalt(10);
+    async encryptPassword(password: string) {
         //Retornamos la contraseña hasheada.
-        return await bcrypt.hash(password, salt);
-    }
-
-    /**
-     * Compara la constraseña
-     * 
-     * @param password 
-     * @param receivedPassword 
-     */
-    async comparePassword (password: string, receivedPassword: string) {
-        const bcrypt = require('bcrypt');
-        return await bcrypt.compare(password, receivedPassword);
+        return await this.bcrypt.hash(password, 10);
     }
 
     /**
@@ -46,61 +31,73 @@ export class AuthController {
      * @param password 
      * @param receivedPassword 
      */
-    async alreadyExistUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<boolean>{
-        const { email, password } = LoginUsuarioDTO;
-        const usuario = await this.authService.findUsuario(email, password);
-        if(usuario == null){
-            return false;
-        }else{
-            return true;
+    async alreadyExistUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<boolean> {
+        const usuario = await this.authService.findUsuario(LoginUsuarioDTO.email);
+        if(usuario){
+            const isValidPass = this.bcrypt.compare(LoginUsuarioDTO.password, usuario.password);
+            if(isValidPass){
+                return true;
+            }
         }
+        return false;
     }
 
     /*ENDPOINTS*/
-    @Post('/signup')
-    async signUp(@Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
+    @Post('/register')
+    async register(@Res() res, @Body() RegisterUsuarioDTO: RegisterUsuarioDTO) {
         this.logger.log('POST - Creando usuario.');
 
-        //Compruebo si el usuario ya existe.
-        const already_exist = await this.alreadyExistUsuario(LoginUsuarioDTO);
-        if(already_exist){
-            this.logger.log('ERR: Usuario ya existente');
-            return res.status(HttpStatus.CONFLICT).json({
+        const { email, password } = RegisterUsuarioDTO
+
+        RegisterUsuarioDTO.password = await this.encryptPassword(RegisterUsuarioDTO.password);
+
+        const already_exist = await this.alreadyExistUsuario({email, password});
+
+        if (already_exist) {
+            this.logger.log('ERROR: Usuario ya existente');
+            return res.status(HttpStatus.BAD_REQUEST).json({
                 message: 'Usuario ya existente.'
             });
         }
-
-        else{
-            //Reemplazamos la password por la encriptacion.
-            //LoginUsuarioDTO.password = await this.encryptPassword(LoginUsuarioDTO.password);
-            //Guardamos el nuevo usuario
-            //Generamos token para el nuevo usuario.
-            //const jwt = require('jsonwebtoken');
-            //const token = jwt.sign({id: newUsuario._id}, process.env.SECRET, {
-            //    expiresIn: 86400 //24hs
-            //})
-            const newUsuario = await this.authService.createUsuario(LoginUsuarioDTO);
+        
+        //Guardamos el nuevo usuario
+        else {
+            await this.authService.createUsuario(RegisterUsuarioDTO);
             return res.status(HttpStatus.OK).json({
                 message: 'Usuario creado.'
             });
         }
     }
 
-    @Get('/signin')
-    async ignIn(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
-    //signIn(@Req() req){
+    @Get('/login')
+    async login(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
         this.logger.log('GET - Logeando usuario.');
-        //const user = req.email as Usuario;
-        //return this.authService.generateJWT(user);
-        //LoginUsuarioDTO.password = await this.encryptPassword(LoginUsuarioDTO.password);
-        //const newUsuario = await this.authService.signUp(LoginUsuarioDTO);
-        const newUsuario = await this.authService.findUsuario(LoginUsuarioDTO.email, LoginUsuarioDTO.password);
-        return res.status(HttpStatus.OK).json({
-            newUsuario
-        });
+
+        const user = await this.authService.findUsuario(LoginUsuarioDTO.email);
+
+        if(user){
+            const isValidPass = await this.bcrypt.compare(LoginUsuarioDTO.password, user.password);
+            if(isValidPass){
+
+                const payload: PayloadToken = { email: user.email };
+
+                const token = await this.jwt.signAsync(payload)
+
+                return res.status(HttpStatus.OK).json({
+                    token,
+                    user
+                });
+            }
+        }
+
+        throw new UnauthorizedException('Credenciales incorrectas');    
     }
 
-
+    @Get('/profile')
+    @UseGuards(AuthGuard)
+    profile() {
+        return 'OK'
+    }
 
 
 }

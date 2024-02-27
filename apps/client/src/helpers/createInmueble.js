@@ -34,8 +34,6 @@ export const createInmueble = async( data ) => {
         body: JSON.stringify(newInmueble)
     };
 
-    console.log(requestConfig);
-
     fetch(apiUrl, requestConfig)
     .then(response => {
         console.log(response)

@@ -69,7 +69,7 @@ export class AuthController {
         }
     }
 
-    @Get('/login')
+    @Post('/login')
     async login(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
         this.logger.log('GET - Logeando usuario.');
 
@@ -84,20 +84,16 @@ export class AuthController {
                 const token = await this.jwt.signAsync(payload)
 
                 return res.status(HttpStatus.OK).json({
-                    token,
-                    user
+                    message: 'Login exitoso',
+                    token: token,
+                    email: user.email,
+                    name: user.name,
+                    lastname: user.lastname
                 });
             }
         }
 
         throw new UnauthorizedException('Credenciales incorrectas');    
     }
-
-    @Get('/profile')
-    @UseGuards(AuthGuard)
-    profile() {
-        return 'OK'
-    }
-
 
 }

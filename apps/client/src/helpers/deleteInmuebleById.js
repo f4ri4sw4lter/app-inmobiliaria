@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const deleteInmuebleById = async( id ) => {
-
     try{
         const response = await axios.delete(`/api/propiedad/delete/${id}`, {
             headers: {

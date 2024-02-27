@@ -8,19 +8,11 @@ export const updateInmueble = async( data ) => {
         titulo: data.titulo
     };
 
-    const requestConfig = {
-        method: 'PUT',
+    const response = await axios.put(baseUrl,body,{
         headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)
-    };
-
-    fetch(apiUrl, requestConfig)
-    .then(response => {
-        console.log(response)
+            'Content-Type': 'application/json'
+        }
     })
-    .catch(error => {
-        console.error('Error al realizar la solicitud:', error);
-    });
+
+    return response.data
 }

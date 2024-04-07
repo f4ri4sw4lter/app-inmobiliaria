@@ -1,1 +1,1 @@
-export { default as ClienteView } from './cliente-view';
+export { default as ListaClientesView } from './lista-clientes-view';

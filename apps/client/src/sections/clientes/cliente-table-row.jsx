@@ -18,12 +18,10 @@ import Iconify from '../../components/iconify';
 
 export default function ClienteTableRow({
   selected,
-  name,
-  avatarUrl,
-  company,
-  role,
-  isVerified,
-  status,
+  apellido,
+  nombre,
+  correo,
+  telefono,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -43,24 +41,22 @@ export default function ClienteTableRow({
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
+        {/*<TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
             <Avatar alt={name} src={avatarUrl} />
             <Typography variant="subtitle2" noWrap>
               {name}
             </Typography>
           </Stack>
-        </TableCell>
+        </TableCell>*/}
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{apellido}</TableCell>
 
-        <TableCell>{role}</TableCell>
+        <TableCell>{nombre}</TableCell>
 
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell>{correo}</TableCell>
 
-        <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
-        </TableCell>
+        <TableCell>{telefono}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

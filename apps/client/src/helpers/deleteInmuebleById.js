@@ -1,10 +1,12 @@
 import axios from 'axios';
+const User = JSON.parse(localStorage.getItem('User'));
 
 export const deleteInmuebleById = async( id ) => {
     try{
         const response = await axios.delete(`/api/propiedad/delete/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + User.token
             }
         })
         if (response.status === 200 || response.status === 201) {

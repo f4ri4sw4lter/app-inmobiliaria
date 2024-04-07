@@ -1,4 +1,5 @@
 import axios from 'axios';
+const User = JSON.parse(localStorage.getItem('User'));
 
 export const updateInmueble = async( data ) => {
 
@@ -10,7 +11,8 @@ export const updateInmueble = async( data ) => {
 
     const response = await axios.put(baseUrl,body,{
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + User.token
         }
     })
 

@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+const User = JSON.parse(localStorage.getItem('User'));
 
 export const getMunicipios = async(id) => {
 
@@ -7,6 +8,7 @@ export const getMunicipios = async(id) => {
         const response = await axios.get(`https://apis.datos.gob.ar/georef/api/municipios?provincia=${id}&campos=nombre`, {
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + User.token
             }
         })
         if (response.status === 200 || response.status === 201) {

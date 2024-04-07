@@ -21,10 +21,15 @@ import ClienteTableHead from '../cliente-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import ClienteTableToolbar from '../cliente-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { useFetchListaClientes } from "../../../hooks/useFetchListaClientes";
 
 // ----------------------------------------------------------------------
 
-export default function ClienteView() {
+export default function ListaClientesView() {
+
+  const { listaClientes, isLoading } = useFetchListaClientes();
+
+  console.log(listaClientes)
 
   const [page, setPage] = useState(0);
 
@@ -88,7 +93,7 @@ export default function ClienteView() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: listaClientes,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -123,12 +128,10 @@ export default function ClienteView() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'titulo', label: 'Titulo' },
-                  { id: 'description', label: 'Descripcion' },
-                  { id: 'tipo', label: 'Tipo' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: '' },
+                  { id: 'apellido', label: 'Apellido' },
+                  { id: 'nombre', label: 'Nombre' },
+                  { id: 'correo', label: 'Correo' },
+                  { id: 'telefono', label: 'Telefono' },
                 ]}
               />
               <TableBody>
@@ -137,12 +140,10 @@ export default function ClienteView() {
                   .map((row) => (
                     <ClienteTableRow
                       key={row.id}
-                      titulo={row.titulo}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
+                      apellido={row.apellido}
+                      nombre={row.nombre}
+                      correo={row.correo}
+                      telefono={row.telefono}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

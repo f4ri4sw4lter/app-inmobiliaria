@@ -1,4 +1,5 @@
 import axios from 'axios';
+const User = JSON.parse(localStorage.getItem('User'));
 
 export const createInmueble = async( data ) => {
 
@@ -30,6 +31,7 @@ export const createInmueble = async( data ) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + User.token
         },
         body: JSON.stringify(newInmueble)
     };

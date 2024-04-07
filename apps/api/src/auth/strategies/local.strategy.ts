@@ -22,9 +22,9 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local'){
         });
     }
 
-    async validate(username: string, password: string){
+    async validate(email: string, password: string){
         this.logger.log('validate - Logeando usuario.');
-        const user: Usuario = await this.authService.findUsuario(username, password);
+        const user: Usuario = await this.authService.findUsuario(email);
         if(!user){
             throw new UnauthorizedException('No Autorizado');
         }

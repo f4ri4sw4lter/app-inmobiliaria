@@ -1,20 +1,19 @@
 import { Controller, Get, Post, Put, Delete, Res, Req, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards, UnauthorizedException } from '@nestjs/common';
-import { Request } from 'express';
-import { CreateUsuarioDTO } from './dto/usuario.dto';
+import { LoginUsuarioDTO } from './dto/login-usuario.dto';
 import { AuthService } from './auth.service';
-import { UsuarioSchema } from './schemas/usuario.schema';
-import { create } from 'domain';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { Usuario } from './interfaces/usuario.interface';
-import { AuthGuard } from '@nestjs/passport';
+import { RegisterUsuarioDTO } from './dto/register-usuario.dto';
+import { JwtService } from '@nestjs/jwt';
+import { PayloadToken } from './interfaces/token.interface';
+import { AuthGuard } from './guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
 
+    private bcrypt = require('bcrypt');
+
     private readonly logger = new Logger(AuthController.name);
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private jwt: JwtService) { }
 
     /**
      * Retorna la contraseña cifrada
@@ -22,23 +21,9 @@ export class AuthController {
      * @param password
      * @returns String
      */
-    async encryptPassword (password: string) {
-        const bcrypt = require('bcrypt');
-        //Aplicamos un algoritmo recursivo.
-        const salt = await bcrypt.genSalt(10);
+    async encryptPassword(password: string) {
         //Retornamos la contraseña hasheada.
-        return await bcrypt.hash(password, salt);
-    }
-
-    /**
-     * Compara la constraseña
-     * 
-     * @param password 
-     * @param receivedPassword 
-     */
-    async comparePassword (password: string, receivedPassword: string) {
-        const bcrypt = require('bcrypt');
-        return await bcrypt.compare(password, receivedPassword);
+        return await this.bcrypt.hash(password, 10);
     }
 
     /**
@@ -46,64 +31,69 @@ export class AuthController {
      * @param password 
      * @param receivedPassword 
      */
-    async alreadyExistUsuario(createUsuarioDTO: CreateUsuarioDTO): Promise<boolean>{
-        const { email, password } = createUsuarioDTO;
-        const usuario = await this.authService.findUsuario(email, password);
-        if(usuario == null){
-            return false;
-        }else{
-            return true;
+    async alreadyExistUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<boolean> {
+        const usuario = await this.authService.findUsuario(LoginUsuarioDTO.email);
+        if(usuario){
+            const isValidPass = this.bcrypt.compare(LoginUsuarioDTO.password, usuario.password);
+            if(isValidPass){
+                return true;
+            }
         }
+        return false;
     }
 
     /*ENDPOINTS*/
-    @UseGuards(AuthGuard('local'))
-    @Post('/signup')
-    async signUp(@Res() res, @Body() createUsuarioDTO: CreateUsuarioDTO) {
+    @Post('/register')
+    async register(@Res() res, @Body() RegisterUsuarioDTO: RegisterUsuarioDTO) {
         this.logger.log('POST - Creando usuario.');
 
-        //Compruebo si el usuario ya existe.
-        const already_exist = await this.alreadyExistUsuario(createUsuarioDTO);
-        if(already_exist){
-            this.logger.log('ERR: Usuario ya existente');
-            return res.status(HttpStatus.CONFLICT).json({
+        const { email, password } = RegisterUsuarioDTO
+
+        RegisterUsuarioDTO.password = await this.encryptPassword(RegisterUsuarioDTO.password);
+
+        const already_exist = await this.alreadyExistUsuario({email, password});
+
+        if (already_exist) {
+            this.logger.log('ERROR: Usuario ya existente');
+            return res.status(HttpStatus.BAD_REQUEST).json({
                 message: 'Usuario ya existente.'
             });
         }
-
-        else{
-            //Reemplazamos la password por la encriptacion.
-            createUsuarioDTO.password = await this.encryptPassword(createUsuarioDTO.password);
-
-            //Guardamos el nuevo usuario
-            const newUsuario = await this.authService.createUsuario(createUsuarioDTO);
-
-            //Generamos token para el nuevo usuario.
-            //const jwt = require('jsonwebtoken');
-            
-            //const token = jwt.sign({id: newUsuario._id}, process.env.SECRET, {
-            //    expiresIn: 86400 //24hs
-            //})
-
-            return res.status(HttpStatus.OK);
+        
+        //Guardamos el nuevo usuario
+        else {
+            await this.authService.createUsuario(RegisterUsuarioDTO);
+            return res.status(HttpStatus.OK).json({
+                message: 'Usuario creado.'
+            });
         }
     }
 
-    @UseGuards(AuthGuard('local'))
-    @Post('/signin')
-    //signIn(@Req() req, @Res() res, @Body() createUsuarioDTO: CreateUsuarioDTO) {
-    signIn(@Req() req){
+    @Post('/login')
+    async login(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
         this.logger.log('GET - Logeando usuario.');
-        const user = req.user as Usuario;
 
-        return this.authService.generateJWT(user);
+        const user = await this.authService.findUsuario(LoginUsuarioDTO.email);
 
-        //createUsuarioDTO.password = await this.encryptPassword(createUsuarioDTO.password);
+        if(user){
+            const isValidPass = await this.bcrypt.compare(LoginUsuarioDTO.password, user.password);
+            if(isValidPass){
 
-        //const newUsuario = await this.authService.signUp(createUsuarioDTO);
+                const payload: PayloadToken = { email: user.email };
+
+                const token = await this.jwt.signAsync(payload)
+
+                return res.status(HttpStatus.OK).json({
+                    message: 'Login exitoso',
+                    token: token,
+                    email: user.email,
+                    name: user.name,
+                    lastname: user.lastname
+                });
+            }
+        }
+
+        throw new UnauthorizedException('Credenciales incorrectas');    
     }
-
-
-
 
 }

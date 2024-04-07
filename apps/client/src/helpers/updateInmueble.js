@@ -1,4 +1,5 @@
 import axios from 'axios';
+const User = JSON.parse(localStorage.getItem('User'));
 
 export const updateInmueble = async( data ) => {
 
@@ -8,19 +9,12 @@ export const updateInmueble = async( data ) => {
         titulo: data.titulo
     };
 
-    const requestConfig = {
-        method: 'PUT',
+    const response = await axios.put(baseUrl,body,{
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)
-    };
-
-    fetch(apiUrl, requestConfig)
-    .then(response => {
-        console.log(response)
+            Authorization: 'Bearer ' + User.token
+        }
     })
-    .catch(error => {
-        console.error('Error al realizar la solicitud:', error);
-    });
+
+    return response.data
 }

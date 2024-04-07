@@ -4,11 +4,13 @@
 
 import { Schema } from "mongoose";
 
-export const RolSchema = new Schema(
-    {
-        name: String,
+export const RolSchema = new Schema({
+    name:{
+        type: String,
+        required: true
     },
-    {
-        versionKey: false
-    }
-);
+    level:{
+        type: Number,
+        required: true
+    },
+});

@@ -1,11 +1,10 @@
-
 import axios from 'axios';
 const User = JSON.parse(localStorage.getItem('User'));
 
-export const getProvincias = async() => {
+export const getClienteById = async({ id }) => {
 
     try{
-        const response = await axios.get('https://apis.datos.gob.ar/georef/api/provincias', {
+        const response = await axios.get(`/api/cliente/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

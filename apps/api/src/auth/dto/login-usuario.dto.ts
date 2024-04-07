@@ -3,8 +3,7 @@
  * que se envian entre el servidor y el cliente.
  */
 
-export interface CreateUsuarioDTO {
-	username: string;
+export interface LoginUsuarioDTO {
     email: string;
     password: string;
 }

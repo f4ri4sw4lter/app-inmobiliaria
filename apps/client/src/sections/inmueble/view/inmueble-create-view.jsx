@@ -16,6 +16,7 @@ import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
 export default function InmuebleCreateView() {
 
   const { provincias, provinciasIsLoading } = useFetchProvincias();
+
   let { municipios, municipiosIsLoading } = useFetchMunicipios(2);
 
   const navigate = useNavigate();
@@ -76,8 +77,9 @@ export default function InmuebleCreateView() {
       setAltura(new_value);
     }
   };
+
   useEffect(() => {
-    useFetchMunicipios(provincia);
+    //useFetchMunicipios(provincia);
   }, [provincia]);
 
   const handleChangeProvincia = (event) => {

@@ -8,6 +8,6 @@ async function bootstrap() {
   app.use(cors());
   app.setGlobalPrefix('/api');
   app.useLogger(app.get(Logger))
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

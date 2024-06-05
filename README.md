@@ -20,4 +20,4 @@ npm run build
 ```
 npm run start
 ```
-4.En el navegador dirigirse a la direccion ```http://localhost:3000/```
+4.En el navegador dirigirse a la direccion ```http://localhost:3007/```

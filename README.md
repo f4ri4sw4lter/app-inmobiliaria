@@ -12,4 +12,4 @@ Aplicacion web para Inmobiliaria Ferreyra
   ```
 3.En el navegador dirigirse a la direccion:
 
->http://localhost:3000/
+>http://localhost:3007/

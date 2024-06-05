@@ -17,8 +17,6 @@ export default function InmuebleView() {
 
   const { inmueble, isLoading } = useFetchInmuebleById({ id });
 
-  console.log(inmueble);
-
   const [selected, setSelected] = useState([]);
 
 
@@ -74,7 +72,7 @@ export default function InmuebleView() {
       <Grid container spacing={2}>
         
         <Grid item xs={12}>
-          <HorizontalImageList />
+          <HorizontalImageList id={id} />
         </Grid>
 
         <Grid item xs={12}>

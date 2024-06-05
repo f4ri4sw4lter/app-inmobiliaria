@@ -6,26 +6,29 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import { useFetchListaImages } from '../../hooks/useFetchListaImages';
 
-export const HorizontalImageList = () => {
+export const HorizontalImageList = ({id}) => {
 
-
+    const { listaImages, isLoading } = useFetchListaImages( id );
 
     return (
-        <>
+            <>
             <Stack>
                 <Card>
-                    <CardMedia component="img" height="340" width="100%" image='https://images.unsplash.com/photo-1551963831-b3b1ca40c98e'  />
+                    <CardMedia component="img" height="340" width="100%" image={`/public/assets/propiedades/${listaImages[0].filename}`}/>
                     <CardContent>
                     </CardContent>
                 </Card>
             </Stack>
+            
             <Stack direction="row" spacing={2}>
-                {itemData.map((item, index) => (
+                {listaImages
+                    .map((img, index) => (
                     <Card key={index}>
-                        <CardMedia component="img" height="140" width="400" image={item.img} alt={item.title} />
+                        <CardMedia component="img" height="140" width="400" image={`/public/assets/propiedades/${img.filename}`} alt="foto de la propiedad" />
                     </Card>
-                ))}
+                    ))}
             </Stack>
         </>
     );

@@ -7,3 +7,4 @@ export * from './getMunicipios';
 export * from './getProvincias';
 export * from './getListaClientes';
 export * from './login';
+export * from './getListaImagesById';

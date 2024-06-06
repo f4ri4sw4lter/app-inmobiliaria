@@ -6,7 +6,7 @@ import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Bo
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
-import { HorizontalImageList } from '../img-lista';
+import { HorizontalImageListEdit } from '../img-lista-edit';
 
 import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 import { updateInmueble } from '../../../helpers/updateInmueble';
@@ -164,7 +164,18 @@ export default function InmuebleEditView() {
       {isLoading == false &&
       
       <Grid container>
+
         <Grid item xs={12}>
+          <Button type="" variant="" color="inherit" startIcon={<Iconify icon="eva:upload-fill" />}>
+            Agregar foto
+          </Button>
+          <br />
+          <br />
+          <HorizontalImageListEdit id={id} />
+        </Grid>
+
+        <Grid item xs={12}>
+        <br />
         <FormControl>
             <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo}/>
             <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>

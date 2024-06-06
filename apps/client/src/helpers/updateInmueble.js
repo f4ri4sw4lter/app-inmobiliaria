@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const updateInmueble = async( data ) => {
 
-    const apiUrl = `/api/propiedad/update/${data.id}`;
+    const baseUrl = `/api/propiedad/update/${data.id}`;
 
     const body = {
         titulo: data.titulo

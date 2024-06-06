@@ -41,4 +41,16 @@ export class ImagesController {
         });
     }
 
+    @Delete('/:imageId')
+    async deleteImage(@Res() res, @Param('imageId') imageId){
+        try{
+            const deletedImage = await this.imagesService.deleteImage(imageId);
+            return res.status(HttpStatus.OK).json({
+                message: 'Imagen eliminada',
+            });
+        } catch(err){
+            throw new NotFoundException('Imagen no existente');
+        }
+    }
+
 }

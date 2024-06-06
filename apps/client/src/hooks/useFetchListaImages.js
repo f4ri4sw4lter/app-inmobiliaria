@@ -10,6 +10,7 @@ export const useFetchListaImages = ( id ) => {
         getListaImagesById( id )
             .then(({ images }) => {
                 setListaImages(images)
+                setIsLoading(false)
             })
     }, []);
     

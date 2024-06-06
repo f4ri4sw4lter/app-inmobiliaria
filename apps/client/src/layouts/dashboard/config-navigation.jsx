@@ -28,11 +28,6 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
     title: 'Not found',
     path: '/404',
     icon: icon('ic_disabled'),

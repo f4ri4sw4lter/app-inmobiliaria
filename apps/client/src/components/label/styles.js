@@ -1,5 +1,5 @@
-import Box from '@mui/material/Box';
 import { alpha, styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
 // ----------------------------------------------------------------------
 

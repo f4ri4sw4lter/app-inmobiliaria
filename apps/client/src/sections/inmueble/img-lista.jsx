@@ -13,6 +13,7 @@ export const HorizontalImageList = ({id}) => {
     const { listaImages, isLoading } = useFetchListaImages( id );
 
     return (
+        listaImages.length > 0 &&
             <>
             <Stack>
                 <Card>
@@ -30,7 +31,7 @@ export const HorizontalImageList = ({id}) => {
                     </Card>
                     ))}
             </Stack>
-        </>
+            </>
     );
 };
 

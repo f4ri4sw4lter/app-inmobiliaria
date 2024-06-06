@@ -23,7 +23,8 @@ import { login } from '../../helpers/login'
 
 // ----------------------------------------------------------------------
 
-export default function LoginView() {
+export default function LoginView({isLogged, setIsLogged}) {
+
   const theme = useTheme();
 
   const router = useRouter();
@@ -31,15 +32,27 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isFailLogin, setIsFailLogin] = useState(false);
 
   const handleSubmit = async (event) => {
+    
     const user = await login({email, password})
 
-    window.localStorage.setItem(
-      'User', JSON.stringify(user)
-    )
+    if(user.status === 401){
 
-    router.push('/')
+      setIsFailLogin(true);
+
+    } else {
+
+      sessionStorage.setItem(
+        'User', JSON.stringify(user)
+      );
+      setIsLogged(true);
+      router.push('/');
+
+    }
+
+    
   };
   
 
@@ -62,7 +75,7 @@ export default function LoginView() {
 
         <TextField
           name="password"
-          label="Password"
+          label="Contraseña"
           type={showPassword ? 'text' : 'password'}
           onChange={(e) => setPassword(e.target.value)}
           InputProps={{
@@ -79,7 +92,7 @@ export default function LoginView() {
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
         <Link variant="subtitle2" underline="hover">
-          Forgot password?
+          Olvidaste tu contraseña?
         </Link>
       </Stack>
 
@@ -122,53 +135,15 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
-
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography>
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider>
-
+          <Typography variant="h4">Iniciar sesion</Typography>
+          <br />
+          {isFailLogin &&
+            <>
+            <Typography variant="h8" style={{color: 'red'}}>Credenciales invalidas</Typography>
+            <br/>
+            <br />
+            </>
+          }
           {renderForm}
         </Card>
       </Stack>

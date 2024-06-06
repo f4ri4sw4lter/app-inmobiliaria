@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-const User = JSON.parse(localStorage.getItem('User'));
+import { User } from '../utils/user';
 
 export const getMunicipios = async(id) => {
 

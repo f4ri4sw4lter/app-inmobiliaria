@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { ModalUploadImg } from '../modal-upload-img';
 
 import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem} from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
-import { HorizontalImageListEdit } from '../img-lista-edit';
 
 import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 import { updateInmueble } from '../../../helpers/updateInmueble';
+import { useFetchListaImages } from '../../../hooks/useFetchListaImages';
+import { EditImgGrid } from '../edit-img-grid';
 
 // ----------------------------------------------------------------------
 
@@ -154,25 +156,22 @@ export default function InmuebleEditView() {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Editar inmueble</Typography>
+        <Typography variant="h4" >Editar inmueble</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="flex-end" spacing={1}>
         <Button type="submit" variant="contained" color="inherit" startIcon={<Iconify icon="eva:save-fill" />}>
           Guardar
+        </Button>
+        <Button type="submit" variant="contained" color="inherit" 
+          onClick={() => navigate('/inmuebles')} 
+          startIcon={<Iconify icon="eva:cancel-fill" />}>
+          Cancelar
         </Button>
       </Stack>
 
       {isLoading == false &&
       
       <Grid container>
-
-        <Grid item xs={12}>
-          <Button type="" variant="" color="inherit" startIcon={<Iconify icon="eva:upload-fill" />}>
-            Agregar foto
-          </Button>
-          <br />
-          <br />
-          <HorizontalImageListEdit id={id} />
-        </Grid>
+        <EditImgGrid id={id}/>
 
         <Grid item xs={12}>
         <br />

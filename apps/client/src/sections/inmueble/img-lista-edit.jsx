@@ -5,22 +5,14 @@ import { useFetchListaImages } from '../../hooks/useFetchListaImages';
 import { useState, useEffect } from 'react';
 import { deleteImageById } from '../../helpers/deleteImageById';
 
-export const HorizontalImageListEdit = ({id}) => {
-
-    const { listaImages, isLoading } = useFetchListaImages( id );
-    
-    const [listaImagenes, setListaImagenes] = useState({});
-
-    useEffect(() => {
-        if(!isLoading){
-            setListaImagenes(listaImages);
-        }
-    }, [listaImages, isLoading]);
+export const ImgListaEdit = ({listaImagenes, setListaImagenes, isLoading}) => {
 
     const handleDelete = (event, id) => {
-        deleteImageById(id);
-        const newArray = listaImagenes.filter(item => item._id !== id);
-        setListaImagenes(newArray);
+        if(window.confirm("Deseas borrar esta imagen?")){
+            deleteImageById(id);
+            const newArray = listaImagenes.filter(item => item._id !== id);
+            setListaImagenes(newArray);
+        }
     }
 
     return (

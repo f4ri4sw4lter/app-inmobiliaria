@@ -27,7 +27,7 @@ export default function InmuebleTableToolbar({ numSelected, filterName, onFilter
     >
       {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
-          {numSelected} selected
+          {numSelected} seleccionado{numSelected>1 && 's'}
         </Typography>
       ) : (
         <OutlinedInput

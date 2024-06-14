@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, NavLink } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
@@ -21,51 +21,9 @@ export default function InmuebleView() {
   const { inmueble, isLoading } = useFetchInmuebleById({ id });
   const [selected, setSelected] = useState([]);
 
-
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setPage(0);
-    setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
-
   const handleBack = () => {
     navigate('/inmuebles');
   };
-
 
   return (
     <Container>
@@ -88,43 +46,50 @@ export default function InmuebleView() {
 
         <Grid item xs={12}>
           {inmueble.cant_amb &&
-            <Typography variant="caption"> {inmueble.cant_amb} ambientes |
+            <Typography variant="caption" sx={{ color: 'primary.main', fontSize: '16px' }}> {inmueble.cant_amb} ambientes 
             </Typography>
           }
+          |
           {inmueble.cant_hab &&
-            <Typography variant="caption"> {inmueble.cant_hab} habitaciones |
+            <Typography variant="caption" sx={{ color: 'primary.main', fontSize: '16px' }}> {inmueble.cant_hab} habitaciones 
             </Typography>
-          }
+          }|
           {inmueble.cant_ba &&
-            <Typography variant="caption"> {inmueble.cant_ba} baños
+            <Typography variant="caption" sx={{ color: 'primary.main', fontSize: '16px'  }}> {inmueble.cant_ba} baños
             </Typography>
           }
+        </Grid>
+
+        <Grid item xs={12}>
+          <Typography variant="h5">Propietario</Typography>
+          <Typography variant="h6" sx={{ color: 'primary.main' }}>{inmueble.propietario}</Typography>
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="h5">{inmueble.contrato}</Typography>
+          <Typography variant="h5">Contrato</Typography>
+          <Typography variant="h6" sx={{ color: 'primary.main' }}>{inmueble.contrato}</Typography>
         </Grid>
         <Grid item xs={10}>
+          <Typography variant="h5" >Estado</Typography>
           {inmueble.estado == 'Alquilado' || inmueble.estado == 'Vendido'
             ? (
-              <Typography variant="h5" sx={{ color: 'red' }}>{inmueble.estado}</Typography>
+              <Typography variant="h6" sx={{ color: 'red' }}>{inmueble.estado}</Typography>
             ) : (
-              <Typography variant="h5" sx={{ color: 'green' }}>{inmueble.estado}</Typography>
+              <Typography variant="h6" sx={{ color: 'green' }}>{inmueble.estado}</Typography>
             )}
-
         </Grid>
 
 
         {inmueble.precio &&
           <Grid item xs={2}>
-            <Typography variant="h4" sx={{}}>Precio</Typography>
-            <Typography variant="h5">${inmueble.precio}ARS
+            <Typography variant="h4" >Precio</Typography>
+            <Typography variant="h6" sx={{ color: 'primary.main'}}>${inmueble.precio}ARS
             </Typography>
           </Grid>
         }
         {inmueble.precio_usd &&
           <Grid item xs={10}>
-            <Typography variant="h5">${inmueble.precio}USD
+            <Typography variant="h6" sx={{ color: 'primary.main'}}>${inmueble.precio}USD
             </Typography>
           </Grid>
         }
@@ -134,8 +99,19 @@ export default function InmuebleView() {
         {inmueble.ubicacion &&
           <Grid item xs={12}>
             <Typography variant="h4" sx={{}}>Ubicacion</Typography>
-            <Typography variant="h5">{inmueble.ubicacion['calle']} {inmueble.ubicacion['altura']}, {inmueble.ubicacion['ciudad']}, {inmueble.ubicacion['provincia']}
-            </Typography>
+            <Typography variant="h6" sx={{ color: 'primary.main'}}>{inmueble.ubicacion['calle']} {inmueble.ubicacion['altura']}, {inmueble.ubicacion['ciudad']}, {inmueble.ubicacion['provincia']}</Typography>
+            {inmueble.ubicacion['mapa'] &&
+              <Grid item xs={12}>
+                <iframe
+                  src={inmueble.ubicacion['mapa']}
+                  width="600"
+                  height="400"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </Grid>
+            } 
           </Grid>
         }
 
@@ -144,8 +120,7 @@ export default function InmuebleView() {
         {inmueble.descripcion &&
           <Grid item xs={12}>
             <Typography variant="h4" sx={{}}>Descripcion</Typography>
-            <h5>{inmueble.descripcion}
-            </h5>
+            <Typography variant="h6" sx={{ color: 'primary.main', whiteSpace: 'pre-line' }}>{inmueble.descripcion}</Typography>
           </Grid>
         }
 

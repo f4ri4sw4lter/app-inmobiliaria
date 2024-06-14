@@ -19,10 +19,6 @@ export const ModalUploadImg = ({ id, fetchImages }) => {
         }
     }, [isUpload])
 
-    useEffect(() => {
-        console.log(selectedFile)
-    }, [selectedFile])
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false);

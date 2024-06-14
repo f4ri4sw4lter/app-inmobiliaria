@@ -19,7 +19,8 @@ export const createInmueble = async( data ) => {
             "provincia": data.provincia,
             "ciudad": data.ciudad,
             "calle": data.calle,
-            "altura": data.altura
+            "altura": data.altura,
+            "mapa": data.mapa
         },
         "equipamientos": "",
         "estado": data.estado,

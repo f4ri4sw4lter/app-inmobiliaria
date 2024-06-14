@@ -18,7 +18,7 @@ export class ClienteController {
         this.logger.log('POST - Creando cliente.');
         const newCliente = await this.clienteService.createCliente(createClienteDTO);
         return res.status(HttpStatus.OK).json({
-            message: 'Producto creado',
+            message: 'Cliente creado',
             cliente: newCliente
         });
     }
@@ -46,7 +46,7 @@ export class ClienteController {
                 cliente: cliente
             });
         }catch(err){
-            throw new NotFoundException('Producto no existente');
+            throw new NotFoundException('Cliente no existente');
         }
         
     }
@@ -86,7 +86,7 @@ export class ClienteController {
             }else{
                 return res.status(HttpStatus.OK).json({
                     message: 'Cliente actualizado',
-                    producto: updatedCliente
+                    cliente: updatedCliente
                 }); 
             }
         }catch(err){

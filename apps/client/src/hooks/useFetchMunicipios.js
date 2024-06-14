@@ -6,16 +6,25 @@ export const useFetchMunicipios = ( id ) => {
     const [municipios, setMunicipios] = useState([]);
     const [municipiosIsLoading, setIsLoading] = useState( true );
 
-    useEffect(() => {
-        getMunicipios(id)
+    const fetchMunicipios = async (id) => {
+        try{
+            getMunicipios(id)
             .then(({ municipios }) => {
                 setMunicipios(municipios);
                 setIsLoading( false );
             })
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        fetchMunicipios(id);
     }, []);
 
     return {
         municipios,
-        municipiosIsLoading
+        municipiosIsLoading,
+        fetchMunicipios
     }
 }

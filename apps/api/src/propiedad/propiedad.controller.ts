@@ -17,7 +17,7 @@ export class PropiedadController {
         this.logger.log('POST - Creando propiedad.');
         const newPropiedad = await this.propiedadService.createPropiedad(createPropiedadDTO);
         return res.status(HttpStatus.OK).json({
-            message: 'Producto creado',
+            message: 'Propiedad creada',
             propiedad: newPropiedad
         });
     }
@@ -45,7 +45,7 @@ export class PropiedadController {
                 propiedad: propiedad
             });
         }catch(err){
-            throw new NotFoundException('Producto no existente');
+            throw new NotFoundException('Propiedad no existente');
         }
         
     }
@@ -85,7 +85,7 @@ export class PropiedadController {
             }else{
                 return res.status(HttpStatus.OK).json({
                     message: 'Propiedad actualizada',
-                    producto: updatedPropiedad
+                    propiedad: updatedPropiedad
                 }); 
             }
         }catch(err){

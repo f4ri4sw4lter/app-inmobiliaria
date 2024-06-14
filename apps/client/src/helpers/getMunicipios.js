@@ -1,4 +1,8 @@
+/*
+TODO: CONSULTA API DE DATOS DEL GOBIERNO ARGENTINO PARA MUNICIPIOS
+https://datosgobar.github.io/georef-ar-api/bulk/
 
+*/
 import axios from 'axios';
 import { User } from '../utils/user';
 
@@ -9,6 +13,9 @@ export const getMunicipios = async(id) => {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token
+            },
+            body: {
+                cantidad: 100
             }
         })
         if (response.status === 200 || response.status === 201) {

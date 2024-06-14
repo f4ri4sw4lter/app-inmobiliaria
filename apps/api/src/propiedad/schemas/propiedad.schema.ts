@@ -38,10 +38,6 @@ export const PropiedadSchema = new Schema({
         type: Number,
         required: true
     },
-    imagenes: {
-        type: [String],
-        required: false
-    },
     ubicacion:{
         provincia: {
             type: String,
@@ -58,6 +54,10 @@ export const PropiedadSchema = new Schema({
         altura: {
             type: Number,
             required: true
+        },
+        mapa: {
+            type: String,
+            required: false
         }
     },
     equipamientos:{

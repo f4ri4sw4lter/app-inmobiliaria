@@ -11,7 +11,6 @@ export const EditImgGrid = ({ id }) => {
     const [listaImagenes, setListaImagenes] = useState({});
 
     useEffect(() => {
-        console.log('Actualizando: ', listaImages)
         setListaImagenes(listaImages);
     }, [listaImages]);
 

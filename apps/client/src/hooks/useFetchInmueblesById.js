@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getInmuebleById } from "../helpers/getInmubleById";
+import { getProvinciaById } from "../helpers/getProvinciaById";
 
 export const useFetchInmuebleById = ( id ) => {
 

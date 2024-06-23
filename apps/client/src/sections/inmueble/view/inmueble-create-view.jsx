@@ -17,7 +17,7 @@ export default function InmuebleCreateView() {
 
   const { provincias, provinciasIsLoading } = useFetchProvincias();
 
-  let { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
+  const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
   const navigate = useNavigate();
 
@@ -48,6 +48,8 @@ export default function InmuebleCreateView() {
   const [mapa, setMapa] = useState('');
 
   const [descripcion, setDescripcion] = useState('');
+
+  const [municipio, setMunicipio] = useState('');
 
 
   const handleChangeTitulo = (event) => {
@@ -80,14 +82,13 @@ export default function InmuebleCreateView() {
     }
   };
 
-  useEffect(() => {
-    
-    console.log(municipios);
-  }, [provincia]);
-
   const handleChangeProvincia = (event) => {
     setProvincia(event.target.value);
     fetchMunicipios(event.target.value);
+  };
+
+  const handleChangeMunicipio = (event) => {
+    setMunicipio(event.target.value);
   };
 
   const handleChangeMapa = (event) => {
@@ -117,17 +118,18 @@ export default function InmuebleCreateView() {
       cant_ba: Number(banios),
       cant_hab: Number(habitaciones),
       precio: Number(precio),
-      imagenes: '',
       contrato: contrato,
       estado: estado,
       calle: calle,
       altura: Number(altura),
-      ciudad: ciudad,
       provincia: provincia,
+      municipio: municipio,
+      mapa: mapa,
+      precioUSD: Number(precioUSD),
       equipamiento: '',
       cliente: 0
     });
-    navigate('/inmuebles');
+    navigate('/backoffice/inmuebles');
   }
 
   useEffect(() => {
@@ -266,14 +268,15 @@ export default function InmuebleCreateView() {
                 <NativeSelect
                   id="municipio"
                   aria-describedby="municipio-helper"
+                  onChange={handleChangeMunicipio}
                 >
                   {
                     municipios.map(municipio => (
-                      <option key={municipio.nombre} value={municipio.nombre}>{municipio.nombre}</option>
+                      <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
                     ))
                   }
                 </NativeSelect>
-                <FormHelperText id="provincia-label"> Municipio </FormHelperText>
+                <FormHelperText id="municipio-label"> Localidad </FormHelperText>
               </FormControl>
             }
           </Grid>
@@ -285,8 +288,8 @@ export default function InmuebleCreateView() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} style={{ marginTop: 20 }}>
-            <FormControl>
+          <Grid item xs={12} style={{ marginTop: 20, width: '100%' }}>
+            <FormControl style={{ width: '100%' }}>
               <Input type="number" id="descripcion" aria-describedby="descripcion-helper" multiline fullWidth={true} onChange={handleChangeDescripcion} />
               <FormHelperText id="descripcion-helper"> Ingrese la descripcion </FormHelperText>
             </FormControl>

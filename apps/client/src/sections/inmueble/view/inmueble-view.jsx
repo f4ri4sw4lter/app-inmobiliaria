@@ -11,6 +11,8 @@ import { HorizontalImageList } from '../img-lista';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 import ArrowBack from '@mui/icons-material/ArrowBack';
+import { getProvinciaById } from '../../../helpers/getProvinciaById';
+import { getMunicipioById } from '../../../helpers/getMunicipioById';
 
 // ----------------------------------------------------------------------
 
@@ -20,10 +22,22 @@ export default function InmuebleView() {
   const { accion, id } = useParams();
   const { inmueble, isLoading } = useFetchInmuebleById({ id });
   const [selected, setSelected] = useState([]);
+  const [municipio, setMunicipio] = useState([]);
+  const [provincia, setProvincia] = useState([]);
 
   const handleBack = () => {
-    navigate('/inmuebles');
+    navigate('/backoffice/inmuebles');
   };
+
+  useEffect(() => {
+    if(!isLoading){
+      getProvinciaById(inmueble.ubicacion.provincia)
+      .then(({provincias}) => setProvincia(provincias[0].nombre))
+
+      getMunicipioById(inmueble.ubicacion.municipio)
+      .then(({municipios}) => setMunicipio(municipios[0].nombre))
+    }
+  }, [inmueble, isLoading]);
 
   return (
     <Container>
@@ -34,7 +48,7 @@ export default function InmuebleView() {
           />
         <Typography variant="h4">{inmueble.titulo}</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:edit-fill" />} href={`/inmuebles/editar/${id}`}>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:edit-fill" />} href={`/backoffice/inmuebles/editar/${id}`}>
           Editar
         </Button>
       </Stack>
@@ -99,7 +113,7 @@ export default function InmuebleView() {
         {inmueble.ubicacion &&
           <Grid item xs={12}>
             <Typography variant="h4" sx={{}}>Ubicacion</Typography>
-            <Typography variant="h6" sx={{ color: 'primary.main'}}>{inmueble.ubicacion['calle']} {inmueble.ubicacion['altura']}, {inmueble.ubicacion['ciudad']}, {inmueble.ubicacion['provincia']}</Typography>
+            <Typography variant="h6" sx={{ color: 'primary.main'}}>{inmueble.ubicacion['calle']} {inmueble.ubicacion['altura']}, {municipio}, {provincia}</Typography>
             {inmueble.ubicacion['mapa'] &&
               <Grid item xs={12}>
                 <iframe

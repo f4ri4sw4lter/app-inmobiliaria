@@ -43,7 +43,7 @@ export const PropiedadSchema = new Schema({
             type: String,
             required: true
         },
-        ciudad: {
+        municipio: {
             type: String,
             required: true
         },

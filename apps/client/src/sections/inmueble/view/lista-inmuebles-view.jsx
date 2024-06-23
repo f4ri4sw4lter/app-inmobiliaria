@@ -100,7 +100,7 @@ export default function ListaInmuebleView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista Inmuebles</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/inmuebles/crear">
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/backoffice/inmuebles/crear">
           Agregar Inmueble
         </Button>
       </Stack>

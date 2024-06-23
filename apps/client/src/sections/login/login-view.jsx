@@ -48,7 +48,7 @@ export default function LoginView({isLogged, setIsLogged}) {
         'User', JSON.stringify(user)
       );
       setIsLogged(true);
-      router.push('/');
+      router.push('/backoffice');
 
     }
 

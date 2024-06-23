@@ -45,7 +45,7 @@ export default function InmuebleEditView() {
 
   const [altura, setAltura] = useState('');
 
-  const [ciudad, setCiudad] = useState('');
+  const [municipio, setMunicipio] = useState('');
 
   const [provincia, setProvincia] = useState('');
 
@@ -76,8 +76,8 @@ export default function InmuebleEditView() {
       setAltura(new_value);
     }
   };
-  const handleChangeCiudad = (event) => {
-    setCiudad(event.target.value);
+  const handleChangeMunicipio = (event) => {
+    setMunicipio(event.target.value);
   };
   const handleChangeProvincia = (event) => {
     setProvincia(event.target.value);
@@ -108,7 +108,7 @@ export default function InmuebleEditView() {
       precio: precio,
       calle: calle,
       altura: altura,
-      ciudad: ciudad,
+      municipio: municipio,
       provincia: provincia,
       mapa: mapa,
       descripcion: descripcion,
@@ -118,12 +118,11 @@ export default function InmuebleEditView() {
       equipamiento: '',
       cliente: 0,
     });
-    navigate(`/inmuebles/ver/${id}`);
+    navigate(`/backoffice/inmuebles/ver/${id}`);
   }
 
   useEffect(() => {
     if (!isLoading) {
-      console.log(inmueble)
       setTitulo(inmueble.titulo);
       setContrato(inmueble.contrato);
       setEstado(inmueble.estado);
@@ -134,7 +133,7 @@ export default function InmuebleEditView() {
       setHabitaciones(inmueble.cant_hab);
       setCalle(inmueble.ubicacion['calle']);
       setAltura(parseInt(inmueble.ubicacion['altura'], 10));
-      setCiudad(inmueble.ubicacion['ciudad']);
+      setMunicipio(inmueble.ubicacion['municipio']);
       setProvincia(inmueble.ubicacion['provincia']);
       setDescripcion(inmueble.descripcion);
       setMapa(inmueble.ubicacion['mapa']);
@@ -168,7 +167,7 @@ export default function InmuebleEditView() {
             Guardar
           </Button>
           <Button type="submit" variant="contained" color="inherit"
-            onClick={() => navigate(`/inmuebles/ver/${id}`)}
+            onClick={() => navigate(`/backoffice/inmuebles/ver/${id}`)}
             startIcon={<Iconify icon="eva:cancel-fill" />}>
             Cancelar
           </Button>
@@ -265,8 +264,8 @@ export default function InmuebleEditView() {
             </Grid>
             <Grid item xs={3} style={{ marginTop: 30 }}>
               <FormControl>
-                <Input id="ciudad" aria-describedby="ciudad-helper" multiline value={ciudad} onChange={handleChangeCiudad} />
-                <FormHelperText id="ciudad-helper"> Ciudad </FormHelperText>
+                <Input id="municipio" aria-describedby="municipio-helper" multiline value={municipio} onChange={handleChangeMunicipio} />
+                <FormHelperText id="municipio-helper"> Localidad </FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ marginTop: 30 }}>

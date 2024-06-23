@@ -130,14 +130,14 @@ export default function InmuebleTableRow({
         }}
       >
         <MenuItem>
-          <NavLink to={`/inmuebles/ver/${id}`} className='nav-item nav-link' key="ver">
+          <NavLink to={`/backoffice/inmuebles/ver/${id}`} className='nav-item nav-link' key="ver">
             <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
             Ver
           </NavLink>
         </MenuItem>
 
         <MenuItem>
-          <NavLink to={`/inmuebles/editar/${id}`} className='nav-item nav-link' key="editar">
+          <NavLink to={`/backoffice/inmuebles/editar/${id}`} className='nav-item nav-link' key="editar">
             <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
             Editar
           </NavLink>

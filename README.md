@@ -3,13 +3,21 @@ Aplicacion web para Inmobiliaria Ferreyra
 
 
 # Instalacion
-1. Clonar el repositorio
-2. Dentro del directorio ejecutar 
+1.Requisitos:
+* node >= 18
+* npm >= 9
+2. Clonar el repositorio
   ```
-  npm install
-  npm run build
-  npm run start
+  git clone https://github.com/f4ri4sw4lter/app-inmobiliaria.git
   ```
-3.En el navegador dirigirse a la direccion:
-
->http://localhost:3000/
+3. Dentro del directorio ejecutar 
+```
+npm install
+```
+```
+npm run build
+```
+```
+npm run start
+```
+4.En el navegador dirigirse a la direccion ```http://localhost:3007/```

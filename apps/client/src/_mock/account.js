@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------
+const User = JSON.parse(localStorage.getItem('User'))
 
 export const account = {
-  displayName: 'Jaydon Frankie',
-  email: 'demo@minimals.cc',
+  displayName: 'Walter Farias',
+  email: 'admin@admin.com',
   photoURL: '/assets/images/avatars/avatar_25.jpg',
 };

@@ -16,6 +16,7 @@ import { RouterLink } from '../../routes/components';
 import { useResponsive } from '../../hooks/use-responsive';
 
 import { account } from '../../_mock/account';
+import { User } from '../../utils/user';
 
 import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
@@ -53,7 +54,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+        <Typography variant="subtitle2">{User.name} {User.lastname}</Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {account.role}

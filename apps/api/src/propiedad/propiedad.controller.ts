@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Res, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards } from '@nestjs/common';
 import { CreatePropiedadDTO } from './dto/propiedad.dto';
 import { PropiedadService } from './propiedad.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 //@UseGuards(JwtAuthGuard)
 @Controller('propiedad')
@@ -17,13 +17,14 @@ export class PropiedadController {
         this.logger.log('POST - Creando propiedad.');
         const newPropiedad = await this.propiedadService.createPropiedad(createPropiedadDTO);
         return res.status(HttpStatus.OK).json({
-            message: 'Producto creado',
+            message: 'Propiedad creada',
             propiedad: newPropiedad
         });
     }
 
     //Agregar try
     @Get('/')
+    @UseGuards(AuthGuard)
     async getPropiedades(@Res() res){
         this.logger.log('GET - lista de propiedades.');
         const propiedades = await this.propiedadService.getPropiedades();
@@ -34,6 +35,7 @@ export class PropiedadController {
     }
 
     @Get('/:propiedadId')
+    @UseGuards(AuthGuard)
     async getPropiedad(@Res() res, @Param('propiedadId') propiedadId){
         this.logger.log('GET - propiedad.');
         try{
@@ -43,12 +45,13 @@ export class PropiedadController {
                 propiedad: propiedad
             });
         }catch(err){
-            throw new NotFoundException('Producto no existente');
+            throw new NotFoundException('Propiedad no existente');
         }
         
     }
 
     @Delete('/delete/:propiedadId')
+    @UseGuards(AuthGuard)
     async deletePropiedad(@Res() res, @Param('propiedadId') propiedadId){
         this.logger.log('DELETE - Borrando propiedad.');
         try{
@@ -70,6 +73,7 @@ export class PropiedadController {
     }
 
     @Put('/update/:propiedadId')
+    @UseGuards(AuthGuard)
     async updatePropiedad(@Res() res, @Body() createPropiedadDTO, @Param('propiedadId') propiedadId){
         this.logger.log('PUT - Actualizando propiedad.');
         try{
@@ -81,7 +85,7 @@ export class PropiedadController {
             }else{
                 return res.status(HttpStatus.OK).json({
                     message: 'Propiedad actualizada',
-                    producto: updatedPropiedad
+                    propiedad: updatedPropiedad
                 }); 
             }
         }catch(err){

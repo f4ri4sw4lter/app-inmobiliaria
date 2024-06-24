@@ -10,12 +10,14 @@ export const UserPage = lazy(() => import('../pages/user'));
 export const LoginPage = lazy(() => import('../pages/login'));
 export const ProductsPage = lazy(() => import('../pages/products'));
 export const Page404 = lazy(() => import('../pages/page-not-found'));
+export const FrontPage = lazy(() => import('../pages/front'));
 
 // ----------------------------------------------------------------------
 
-export default function Router() {
+export default function Router({isLogged, setIsLogged}) {
   const routes = useRoutes([
     {
+      path: 'backoffice',
       element: (
         <DashboardLayout>
           <Suspense>
@@ -31,8 +33,15 @@ export default function Router() {
       ],
     },
     {
+      path: '/',
+      element: <FrontPage/>,
+      children: [
+        {path: '/propiedad/:propiedadId', element: <FrontPage/>}
+      ]
+    },
+    {
       path: 'login',
-      element: <LoginPage />,
+      element: <LoginPage isLogged={isLogged} setIsLogged={setIsLogged}/>,
     },
     {
       path: '404',

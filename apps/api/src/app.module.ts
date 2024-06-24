@@ -14,6 +14,7 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { ClienteModule } from './cliente/cliente.module';
+import { ImagesModule } from './images/images.module';
 import config from './config';
 
 
@@ -72,6 +73,8 @@ import config from './config';
         }
       }
     }),
+
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

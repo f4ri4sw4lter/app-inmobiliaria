@@ -8,3 +8,4 @@ apps/client/dist
 apps/client/.turbo
 apps/client/node_modules
 apps/client/.gitignore
+apps/client/public/assets/propiedades/

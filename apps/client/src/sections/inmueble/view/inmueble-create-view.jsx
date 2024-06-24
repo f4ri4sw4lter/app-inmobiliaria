@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem} from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -16,7 +16,8 @@ import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
 export default function InmuebleCreateView() {
 
   const { provincias, provinciasIsLoading } = useFetchProvincias();
-  let { municipios, municipiosIsLoading } = useFetchMunicipios(2);
+
+  const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
   const navigate = useNavigate();
 
@@ -44,13 +45,17 @@ export default function InmuebleCreateView() {
 
   const [provincia, setProvincia] = useState('');
 
+  const [mapa, setMapa] = useState('');
+
   const [descripcion, setDescripcion] = useState('');
-  
-  
+
+  const [municipio, setMunicipio] = useState('');
+
+
   const handleChangeTitulo = (event) => {
     setTitulo(event.target.value);
   };
-  
+
   const handleChangeContrato = (event) => {
     setContrato(event.target.value);
   };
@@ -72,16 +77,22 @@ export default function InmuebleCreateView() {
   const handleChangeAltura = (event) => {
     const { value } = event.target;
     const new_value = value.replace(/[a-zA-Z]/g, '');
-    if(typeof new_value != 'undefined'){
+    if (typeof new_value != 'undefined') {
       setAltura(new_value);
     }
   };
-  useEffect(() => {
-    useFetchMunicipios(provincia);
-  }, [provincia]);
 
   const handleChangeProvincia = (event) => {
     setProvincia(event.target.value);
+    fetchMunicipios(event.target.value);
+  };
+
+  const handleChangeMunicipio = (event) => {
+    setMunicipio(event.target.value);
+  };
+
+  const handleChangeMapa = (event) => {
+    setMapa(event.target.value);
   };
 
   const handleChangeDescripcion = (event) => {
@@ -107,26 +118,27 @@ export default function InmuebleCreateView() {
       cant_ba: Number(banios),
       cant_hab: Number(habitaciones),
       precio: Number(precio),
-      imagenes: '',
       contrato: contrato,
       estado: estado,
       calle: calle,
       altura: Number(altura),
-      ciudad: ciudad,
       provincia: provincia,
+      municipio: municipio,
+      mapa: mapa,
+      precioUSD: Number(precioUSD),
       equipamiento: '',
       cliente: 0
     });
-    navigate('/inmuebles');
+    navigate('/backoffice/inmuebles');
   }
-  
+
   useEffect(() => {
-    if(contrato == 'Alquiler'){
+    if (contrato == 'Alquiler') {
       setEstados(<>
         <option value={"En Alquiler"}>En Alquiler</option>
         <option value={"Alquilado"}>Alquilado</option>
       </>)
-    }else{
+    } else {
       setEstados(<>
         <option value={"En venta"}>En venta</option>
         <option value={"Vendido"}>Vendido</option>
@@ -139,144 +151,152 @@ export default function InmuebleCreateView() {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Crear inmueble</Typography>
-        <Button type="submit" variant="contained" color="inherit" startIcon={<Iconify icon="eva:save-fill" />}>
-          Guardar
-        </Button>
-      </Stack>
-      
-      <Grid container>
-        <Grid item xs={12}>
-        <FormControl>
-            <Input id="titulo" aria-describedby="titulo-helper" onChange={handleChangeTitulo}/>
-            <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>
-        </FormControl>
-        </Grid>
-            
-        <Grid item xs={3} style={{ marginTop:20 }}>
-        <FormControl>
-          <NativeSelect
-            id="contrato" 
-            aria-describedby="titulo-helper"
-            defaultValue="Alquiler"
-            onChange={handleChangeContrato}
-          >
-            <option value="Alquiler">Alquiler</option>
-            <option value="Venta">Venta</option>
-          </NativeSelect>
-          <FormHelperText id="contrato-label">Seleccione un tipo de contrato</FormHelperText>
-        </FormControl>
-        </Grid>
-        <Grid item xs={9} style={{ marginTop:20 }}>
-        <FormControl>
-          <NativeSelect
-            id="estado" 
-            aria-describedby="titulo-helper"
-            defaultValue="En Alquiler"
-            onChange={handleChangeEstado}
-          >
-            {estados}
-          </NativeSelect>
-          <FormHelperText id="estado-label">Seleccione el estado del inmueble</FormHelperText>
-        </FormControl>
-        </Grid>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Typography variant="h4">Crear inmueble</Typography>
+          <Button type="submit" variant="contained" color="inherit" startIcon={<Iconify icon="eva:save-fill" />}>
+            Guardar
+          </Button>
+        </Stack>
 
-        {/* Precio */}
-        <Grid item xs={3} style={{ marginTop:20 }}>
-        $
-        <FormControl>
-          <Input id="precio" aria-describedby="precio-helper" onChange={handleChangePrecio}/>
-          <FormHelperText id="precio-helper"> Ingrese el precio en ARS</FormHelperText>
-        </FormControl>
-        </Grid>
-        <Grid item xs={9} style={{ marginTop:20 }}>
-        $
-        <FormControl>
-          <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" onChange={handleChangePrecioUSD}/>
-          <FormHelperText id="precioUSD-helper"> Ingrese el precio en USD </FormHelperText>
-        </FormControl>
-        </Grid>
+        <Grid container>
+          <Grid item xs={12}>
+            <FormControl>
+              <Input id="titulo" aria-describedby="titulo-helper" onChange={handleChangeTitulo} />
+              <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>
+            </FormControl>
+          </Grid>
 
-        {/* Ambientes */}
-        <Grid item xs={4} style={{ marginTop:30 }}>
-        <FormControl>
-          <Input type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes}/>
-          <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
-        </FormControl>
-        </Grid>
-        <Grid item xs={4} style={{ marginTop:30 }}>
-        <FormControl>
-          <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones}/>
-          <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
-        </FormControl>
-        </Grid>
-        <Grid item xs={4} style={{ marginTop:30 }}>
-        <FormControl>
-          <Input type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios}/>
-          <FormHelperText id="banios-helper"> Baños </FormHelperText>
-        </FormControl>
-        </Grid>
+          <Grid item xs={3} style={{ marginTop: 20 }}>
+            <FormControl>
+              <NativeSelect
+                id="contrato"
+                aria-describedby="titulo-helper"
+                defaultValue="Alquiler"
+                onChange={handleChangeContrato}
+              >
+                <option value="Alquiler">Alquiler</option>
+                <option value="Venta">Venta</option>
+              </NativeSelect>
+              <FormHelperText id="contrato-label">Seleccione un tipo de contrato</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={9} style={{ marginTop: 20 }}>
+            <FormControl>
+              <NativeSelect
+                id="estado"
+                aria-describedby="titulo-helper"
+                defaultValue="En Alquiler"
+                onChange={handleChangeEstado}
+              >
+                {estados}
+              </NativeSelect>
+              <FormHelperText id="estado-label">Seleccione el estado del inmueble</FormHelperText>
+            </FormControl>
+          </Grid>
 
-        {/* Ubicacion */}
-        <Grid item xs={3} style={{ marginTop:30 }}>
-        <FormControl>
-          <Input id="calle" aria-describedby="calle-helper" multiline onChange={handleChangeCalle}/>
-          <FormHelperText id="calle-helper"> Calle </FormHelperText>
-        </FormControl>
-        </Grid>
-        <Grid item xs={2} style={{ marginTop:30, marginRight:20 }}>
-        <FormControl>
-          <Input type="number" id="altura" aria-describedby="altura-helper" onChange={handleChangeAltura}/>
-          <FormHelperText id="altura-helper"> Altura </FormHelperText>
-        </FormControl>
-        </Grid>
-        <Grid item xs={3} style={{ marginTop:30, marginRight:20 }}>
-        {provinciasIsLoading == false &&
-        <FormControl>
-          <NativeSelect
-            id="provincia" 
-            aria-describedby="provincia-helper"
-            value={provincia}
-            onChange={handleChangeProvincia}
-          >
-            {
-              provincias.map( provincia => (
-                <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
-              ))
+          {/* Precio */}
+          <Grid item xs={3} style={{ marginTop: 20 }}>
+            $
+            <FormControl>
+              <Input id="precio" aria-describedby="precio-helper" onChange={handleChangePrecio} />
+              <FormHelperText id="precio-helper"> Ingrese el precio en ARS</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={9} style={{ marginTop: 20 }}>
+            $
+            <FormControl>
+              <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" onChange={handleChangePrecioUSD} />
+              <FormHelperText id="precioUSD-helper"> Ingrese el precio en USD </FormHelperText>
+            </FormControl>
+          </Grid>
+
+          {/* Ambientes */}
+          <Grid item xs={4} style={{ marginTop: 30 }}>
+            <FormControl>
+              <Input type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes} />
+              <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4} style={{ marginTop: 30 }}>
+            <FormControl>
+              <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones} />
+              <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4} style={{ marginTop: 30 }}>
+            <FormControl>
+              <Input type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios} />
+              <FormHelperText id="banios-helper"> Baños </FormHelperText>
+            </FormControl>
+          </Grid>
+
+          {/* Ubicacion */}
+          <Grid item xs={3} style={{ marginTop: 30 }}>
+            <FormControl>
+              <Input id="calle" aria-describedby="calle-helper" multiline onChange={handleChangeCalle} />
+              <FormHelperText id="calle-helper"> Calle </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
+            <FormControl>
+              <Input type="number" id="altura" aria-describedby="altura-helper" onChange={handleChangeAltura} />
+              <FormHelperText id="altura-helper"> Altura </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item xs={3} style={{ marginTop: 30, marginRight: 20 }}>
+            {provinciasIsLoading == false &&
+              <FormControl>
+                <NativeSelect
+                  id="provincia"
+                  aria-describedby="provincia-helper"
+                  value={provincia}
+                  onChange={handleChangeProvincia}
+                >
+                  {
+                    provincias.map(provincia => (
+                      <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
+                    ))
+                  }
+                </NativeSelect>
+                <FormHelperText id="provincia-label">Provincia</FormHelperText>
+              </FormControl>
             }
-          </NativeSelect>
-          <FormHelperText id="provincia-label">Provincia</FormHelperText>
-        </FormControl>
-        }
-        </Grid>
-        <Grid item xs={3} style={{ marginTop:30 }}>
-        {municipiosIsLoading == false &&
-        <FormControl>
-          <NativeSelect
-            id="municipio" 
-            aria-describedby="municipio-helper"
-          >
-            {
-              municipios.map( municipio => (
-                <option key={municipio.nombre} value={municipio.nombre}>{municipio.nombre}</option>
-              ))
+          </Grid>
+          <Grid item xs={3} style={{ marginTop: 30 }}>
+            {municipiosIsLoading == false &&
+              <FormControl>
+                <NativeSelect
+                  id="municipio"
+                  aria-describedby="municipio-helper"
+                  onChange={handleChangeMunicipio}
+                >
+                  {
+                    municipios.map(municipio => (
+                      <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
+                    ))
+                  }
+                </NativeSelect>
+                <FormHelperText id="municipio-label"> Localidad </FormHelperText>
+              </FormControl>
             }
-          </NativeSelect>
-          <FormHelperText id="provincia-label"> Municipio </FormHelperText>
-        </FormControl>
-        }
-        </Grid>
+          </Grid>
 
-        <Grid item xs={12} style={{ marginTop:20 }}>
-        <FormControl>
-          <Input type="number" id="descripcion" aria-describedby="descripcion-helper" multiline fullWidth={true} onChange={handleChangeDescripcion}/>
-          <FormHelperText id="descripcion-helper"> Ingrese la descripcion </FormHelperText>
-        </FormControl>
-        </Grid>
+          <Grid item xs={6} style={{ width: '100%' }}>
+            <FormControl style={{ marginTop: 30, width: '100%' }}>
+              <Input type="text" id="mapa" aria-describedby="mapa-helper" value={mapa} onChange={handleChangeMapa} />
+              <FormHelperText id="mapa-helper"> Mapa </FormHelperText>
+            </FormControl>
+          </Grid>
 
-        
-      </Grid>
+          <Grid item xs={12} style={{ marginTop: 20, width: '100%' }}>
+            <FormControl style={{ width: '100%' }}>
+              <Input type="number" id="descripcion" aria-describedby="descripcion-helper" multiline fullWidth={true} onChange={handleChangeDescripcion} />
+              <FormHelperText id="descripcion-helper"> Ingrese la descripcion </FormHelperText>
+            </FormControl>
+          </Grid>
+
+
+        </Grid>
       </form>
     </Container>
   );

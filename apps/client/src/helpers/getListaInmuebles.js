@@ -1,12 +1,12 @@
 import axios from 'axios';
+import { User } from '../utils/user';
 
 export const getListaInmuebles = async () => {
-
     try{
         const response = await axios.get('/api/propiedad/', {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDk2MTE2NGU1ZDk5OTZhMzJlN2ExODMiLCJpYXQiOjE2OTAyNDUyMzQsImV4cCI6MTY5MTEwOTIzNH0.4KM3p9k-lE5GW5ZpPXaoLpTwFliuqfb7W5yXkymTtHM'
+                Authorization: 'Bearer ' + User.token
             }
         })
         if (response.status === 200 || response.status === 201) {

@@ -9,7 +9,7 @@ import { Model } from 'mongoose';
  * Importaciones internas
  */
 import { Propiedad } from './interfaces/propiedad.interface';
-import { CreatePropiedadDTO } from './dto/propiedad.dto';
+import { CreatePropiedadDTO, UpdatePropiedadDTO } from './dto/propiedad.dto';
 
 
 @Injectable()
@@ -34,10 +34,11 @@ export class PropiedadService{
         return newPropiedad;
     }
 
-    async updatePropiedad(propiedadId: string, createPropiedadDTO: CreatePropiedadDTO): Promise<Propiedad>{
+    async updatePropiedad(propiedadId: string, updatePropiedadDTO: UpdatePropiedadDTO): Promise<Propiedad>{
+        console.log('Actualizando propiedad', updatePropiedadDTO);
         const updatedPropiedad = await this.propiedadModel.findByIdAndUpdate(
             propiedadId, 
-            createPropiedadDTO,
+            updatePropiedadDTO,
             { new: true });
         return updatedPropiedad;
     }

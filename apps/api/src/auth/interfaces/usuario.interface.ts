@@ -3,10 +3,14 @@
  */
 import { Document } from "mongoose";
 
-
+export type role = {
+	name: string;
+	level: string;
+}
 export interface Usuario extends Document {
-    username: string;
+    name: string;
+    lastname: string;
+    email: string;
     password: string;
-    role: string;
-    id: number;
+    role: role;
 }

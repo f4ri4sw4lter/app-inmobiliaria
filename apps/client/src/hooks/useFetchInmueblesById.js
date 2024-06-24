@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getInmuebleById } from "../helpers/getInmubleById";
+import { getProvinciaById } from "../helpers/getProvinciaById";
 
 export const useFetchInmuebleById = ( id ) => {
 
@@ -7,7 +8,7 @@ export const useFetchInmuebleById = ( id ) => {
     const [isLoading, setIsLoading] = useState( true );
 
     useEffect(() => {
-        getInmuebleById(id)
+        getInmuebleById( id )
             .then(( {propiedad} ) => {
                 setInmueble(propiedad);
                 setIsLoading( false );

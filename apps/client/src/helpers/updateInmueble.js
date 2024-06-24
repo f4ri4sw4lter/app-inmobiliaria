@@ -1,26 +1,28 @@
 import axios from 'axios';
+import { User } from '../utils/user';
 
 export const updateInmueble = async( data ) => {
 
-    const apiUrl = `/api/propiedad/update/${data.id}`;
+    const srcMapa = data.mapa.match(/src="([^"]+)"/);
+    if(srcMapa){
+        data.mapa = String(srcMapa[1]);
+    }
 
-    const body = {
-        titulo: data.titulo
-    };
+    data.ubicacion = {
+        calle: data.calle,
+        altura: data.altura,
+        ciudad: data.ciudad,
+        provincia: data.provincia,
+        mapa: data.mapa
+    }
 
-    const requestConfig = {
-        method: 'PUT',
+    const baseUrl = `/api/propiedad/update/${data.id}`;
+    const response = await axios.put(baseUrl,data,{
         headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)
-    };
-
-    fetch(apiUrl, requestConfig)
-    .then(response => {
-        console.log(response)
+            Authorization: 'Bearer ' + User.token
+        }
     })
-    .catch(error => {
-        console.error('Error al realizar la solicitud:', error);
-    });
+
+    return response.data
 }

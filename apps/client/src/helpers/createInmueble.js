@@ -1,8 +1,13 @@
 import axios from 'axios';
+import { User } from '../utils/user';
 
 export const createInmueble = async( data ) => {
 
     const apiUrl = '/api/propiedad/create';
+    const srcMapa = data.mapa.match(/src="([^"]+)"/);
+    if(srcMapa){
+        data.mapa = String(srcMapa[1]);
+    }
 
     const newInmueble = {
         "propietario": data.propietario,
@@ -16,9 +21,10 @@ export const createInmueble = async( data ) => {
         "imagenes": null,
         "ubicacion":{
             "provincia": data.provincia,
-            "ciudad": data.ciudad,
+            "municipio": data.municipio,
             "calle": data.calle,
-            "altura": data.altura
+            "altura": data.altura,
+            "mapa": data.mapa
         },
         "equipamientos": "",
         "estado": data.estado,
@@ -30,11 +36,10 @@ export const createInmueble = async( data ) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + User.token
         },
         body: JSON.stringify(newInmueble)
     };
-
-    console.log(requestConfig);
 
     fetch(apiUrl, requestConfig)
     .then(response => {

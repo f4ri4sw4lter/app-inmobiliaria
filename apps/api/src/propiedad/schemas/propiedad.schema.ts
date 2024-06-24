@@ -38,16 +38,12 @@ export const PropiedadSchema = new Schema({
         type: Number,
         required: true
     },
-    imagenes: {
-        type: [String],
-        required: false
-    },
     ubicacion:{
         provincia: {
             type: String,
             required: true
         },
-        ciudad: {
+        municipio: {
             type: String,
             required: true
         },
@@ -58,6 +54,10 @@ export const PropiedadSchema = new Schema({
         altura: {
             type: Number,
             required: true
+        },
+        mapa: {
+            type: String,
+            required: false
         }
     },
     equipamientos:{

@@ -4,8 +4,9 @@
 import { Document } from "mongoose";
 
 export type ubicacion = {
+	mapa: string;
 	provincia: string;
-	ciudad: string;
+	municipio: string;
 	calle: string;
 	altura: number;
 }
@@ -26,7 +27,6 @@ export interface Propiedad extends Document {
 	cant_ba: number;
 	cant_hab: number;
 	precio: number;
-	imagenes?: string[];
 	ubicacion: ubicacion;
 	equipamientos?: equipamiento[];
 	estado: string;

@@ -6,7 +6,7 @@ import { Grid } from '@mui/material';
 
 export const EditImgGrid = ({ id }) => {
 
-    const { listaImages, isLoadingImages, fetchImages } = useFetchListaImages(id);
+    const { listaImages, isLoadingImages, fetchImages } = useFetchListaImages('propiedad', id);
 
     const [listaImagenes, setListaImagenes] = useState({});
 

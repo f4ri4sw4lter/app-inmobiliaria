@@ -9,7 +9,7 @@ export const ImgListaEdit = ({listaImagenes, setListaImagenes, isLoading}) => {
 
     const handleDelete = (event, id) => {
         if(window.confirm("Deseas borrar esta imagen?")){
-            deleteImageById(id);
+            deleteImageById('propiedad', id);
             const newArray = listaImagenes.filter(item => item._id !== id);
             setListaImagenes(newArray);
         }
@@ -39,7 +39,7 @@ export const ImgListaEdit = ({listaImagenes, setListaImagenes, isLoading}) => {
                             >
                                 <CloseIcon />
                             </IconButton>
-                            <CardMedia component="img" height="140" width="400" image={`/public/assets/propiedades/${img.filename}`} alt="foto de la propiedad" />
+                            <CardMedia component="img" height="140" width="400" image={`/public/assets/images/propiedades/${img.filename}`} alt="foto de la propiedad" />
                         </Card>
                     ))
                 }

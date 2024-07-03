@@ -5,7 +5,7 @@ export const ImagesSchema = new Schema({
         type: String,
         required: true
     },
-    propiedadId: {
+    referenceId: {
         type: String,
         required: true
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getListaImagesById } from "../helpers";
 
-export const useFetchListaImages = ( id ) => {
+export const useFetchListaImages = ( reference, id ) => {
     
     const [listaImages, setListaImages] = useState([]);
     const [isLoadingImages, setIsLoading] = useState( true );
@@ -10,7 +10,7 @@ export const useFetchListaImages = ( id ) => {
 
         setIsLoading(true)
         try{
-            getListaImagesById( id )
+            getListaImagesById( reference, id )
             .then(({ images }) => {
                 setListaImages(images)
                 setIsLoading(false)

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const createImage = async (data, id, setIsUpload) => {
+export const createImage = async (reference, data, id, setIsUpload) => {
 
-    const urlApi =  `/api/images/upload/${id}`
+    const urlApi =  `/api/images/upload/${reference}/${id}`
 
     const form = new FormData();
     form.append("file", data);

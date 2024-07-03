@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getListaImagesById = async ( id ) => {
+export const getListaImagesById = async ( reference, id ) => {
     try{
-        const response = await axios.get(`/api/images/${id}`, {
+        const response = await axios.get(`/api/images/${reference}/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

@@ -8,13 +8,8 @@ import { ImagesDTO } from './dto/images.dto';
 export class ImagesService {
     constructor( @InjectModel('Images') private imagesModel: Model<Images> ){}
 
-    /*async getImages(imageId: string): Promise<Images>{
-        const image = await this.imagesModel.findById(imageId);
-        return image;
-    }*/
-
-    async getImages(propiedadId: string): Promise<Images[]>{
-        const images = await this.imagesModel.find({propiedadId});
+    async getImages(referenceId: string): Promise<Images[]>{
+        const images = await this.imagesModel.find({referenceId});
         return images;
     }
 

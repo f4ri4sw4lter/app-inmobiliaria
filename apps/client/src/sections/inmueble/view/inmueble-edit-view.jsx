@@ -12,6 +12,8 @@ import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 import { updateInmueble } from '../../../helpers/updateInmueble';
 import { useFetchListaImages } from '../../../hooks/useFetchListaImages';
 import { EditImgGrid } from '../edit-img-grid';
+import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
+import { useFetchProvincias } from '../../../hooks/useFetchProvincias';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +24,11 @@ export default function InmuebleEditView() {
   const { accion, id } = useParams();
 
   const { inmueble, isLoading } = useFetchInmuebleById({ id });
+
+  const { provincias, provinciasIsLoading } = useFetchProvincias();
+
+  const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
+
 
   const [titulo, setTitulo] = useState('');
 
@@ -137,6 +144,7 @@ export default function InmuebleEditView() {
       setProvincia(inmueble.ubicacion['provincia']);
       setDescripcion(inmueble.descripcion);
       setMapa(inmueble.ubicacion['mapa']);
+      fetchMunicipios(inmueble.ubicacion['provincia']);
     }
   }, [isLoading])
 
@@ -230,49 +238,76 @@ export default function InmuebleEditView() {
             </Grid>
 
             {/* Ambientes */}
-            <Grid item xs={4} style={{ marginTop: 30 }}>
+            <Grid item xs={3} style={{ marginTop: 30 }}>
               <FormControl>
                 <Input value={ambientes} type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes} />
                 <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={4} style={{ marginTop: 30 }}>
+            <Grid item xs={3} style={{ marginTop: 30 }}>
               <FormControl>
                 <Input value={habitaciones} type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones} />
                 <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={4} style={{ marginTop: 30 }}>
+            <Grid item xs={3} style={{ marginTop: 30 }}>
               <FormControl>
                 <Input value={banios} type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios} />
                 <FormHelperText id="banios-helper"> Baños </FormHelperText>
               </FormControl>
             </Grid>
+            <Grid item xs={3} style={{ marginTop: 30 }}></Grid>
 
             {/* Ubicacion */}
-            <Grid item xs={3} style={{ marginTop: 30 }}>
+            <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
               <FormControl>
                 <Input id="calle" aria-describedby="calle-helper" multiline value={calle} onChange={handleChangeCalle} />
                 <FormHelperText id="calle-helper"> Calle </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={3} style={{ marginTop: 30 }}>
+            <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
               <FormControl>
                 <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura} />
                 <FormHelperText id="altura-helper"> Altura </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={3} style={{ marginTop: 30 }}>
-              <FormControl>
-                <Input id="municipio" aria-describedby="municipio-helper" multiline value={municipio} onChange={handleChangeMunicipio} />
-                <FormHelperText id="municipio-helper"> Localidad </FormHelperText>
-              </FormControl>
+            <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
+              {provinciasIsLoading == false &&
+                <FormControl>
+                  <NativeSelect
+                    id="provincia"
+                    aria-describedby="provincia-helper"
+                    value={provincia}
+                    onChange={handleChangeProvincia}
+                  >
+                    {
+                      provincias.map(provincia => (
+                        <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
+                      ))
+                    }
+                  </NativeSelect>
+                  <FormHelperText id="provincia-label">Provincia</FormHelperText>
+                </FormControl>
+              }
             </Grid>
-            <Grid item xs={3} style={{ marginTop: 30 }}>
-              <FormControl>
-                <Input id="provincia" aria-describedby="provincia-helper" multiline value={provincia} onChange={handleChangeProvincia} />
-                <FormHelperText id="provincia-helper"> Provincia </FormHelperText>
-              </FormControl>
+            <Grid item xs={2} style={{ marginTop: 30 }}>
+              {municipiosIsLoading == false &&
+                <FormControl>
+                  <NativeSelect
+                    id="municipio"
+                    aria-describedby="municipio-helper"
+                    onChange={handleChangeMunicipio}
+                    value={municipio}
+                  >
+                    {
+                      municipios.map(municipio => (
+                        <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
+                      ))
+                    }
+                  </NativeSelect>
+                  <FormHelperText id="municipio-label"> Localidad </FormHelperText>
+                </FormControl>
+              }
             </Grid>
             <Grid item xs={6} style={{ width: '100%' }}>
               <FormControl style={{ marginTop: 30, width: '100%' }}>

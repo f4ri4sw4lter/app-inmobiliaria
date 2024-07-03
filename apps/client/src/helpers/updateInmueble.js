@@ -11,11 +11,12 @@ export const updateInmueble = async( data ) => {
     data.ubicacion = {
         calle: data.calle,
         altura: data.altura,
-        ciudad: data.ciudad,
+        municipio: data.municipio,
         provincia: data.provincia,
         mapa: data.mapa
     }
 
+    console.log(data);
     const baseUrl = `/api/propiedad/update/${data.id}`;
     const response = await axios.put(baseUrl,data,{
         headers: {

@@ -37,9 +37,8 @@ export const ModalUploadImg = ({ id, fetchImages }) => {
         if (selectedFile) {
 
             try {
-                await createImage(selectedFile, id, setIsUpload)
+                await createImage('propiedad', selectedFile, id, setIsUpload)
                 handleClose();
-                alert('Imagen subida con éxito');
 
             } catch (error) {
 

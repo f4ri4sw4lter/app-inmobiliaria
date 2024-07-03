@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles';
 
 export const HorizontalImageList = ({ id }) => {
 
-    const { listaImages, isLoading } = useFetchListaImages(id);
+    const { listaImages, isLoading } = useFetchListaImages('propiedad', id);
     const [urlBanner, setUrlBanner] = React.useState('');
 
 
@@ -28,7 +28,7 @@ export const HorizontalImageList = ({ id }) => {
 
     useEffect(() => {
         if (listaImages.length > 0) {
-            setUrlBanner(`/public/assets/propiedades/${listaImages[0].filename}`);
+            setUrlBanner(`/public/assets/images/propiedades/${listaImages[0].filename}`);
         }
     }, [listaImages]);
 
@@ -50,12 +50,12 @@ export const HorizontalImageList = ({ id }) => {
                         <StyledCard
                             key={index}
                             style={{ hover: { cursor: 'pointer' } }}
-                            onClick={() => setUrlBanner(`/public/assets/propiedades/${img.filename}`)}>
+                            onClick={() => setUrlBanner(`/public/assets/images/propiedades/${img.filename}`)}>
                             <CardMedia
                                 component="img"
                                 height="140"
                                 width="400"
-                                image={`/public/assets/propiedades/${img.filename}`}
+                                image={`/public/assets/images/propiedades/${img.filename}`}
                                 alt="foto de la propiedad"
                             />
                         </StyledCard>
@@ -64,30 +64,3 @@ export const HorizontalImageList = ({ id }) => {
         </>
     );
 };
-
-const itemData = [
-    {
-        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Burger',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-        title: 'Camera',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-        title: 'Coffee',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-        title: 'Hats',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-        title: 'Honey',
-    }
-];

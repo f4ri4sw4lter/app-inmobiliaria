@@ -24,7 +24,6 @@ export class PropiedadController {
 
     //Agregar try
     @Get('/')
-    @UseGuards(AuthGuard)
     async getPropiedades(@Res() res){
         this.logger.log('GET - lista de propiedades.');
         const propiedades = await this.propiedadService.getPropiedades();
@@ -35,7 +34,6 @@ export class PropiedadController {
     }
 
     @Get('/:propiedadId')
-    @UseGuards(AuthGuard)
     async getPropiedad(@Res() res, @Param('propiedadId') propiedadId){
         this.logger.log('GET - propiedad.');
         try{

@@ -10,8 +10,8 @@ export interface CreateClienteDTO {
     nombre: string;
 	apellido: string;
 	correo: string;
-	celular: number;
-	telefono: number;
+	celular: string;
+	telefono: string;
 	ubicacion: ubicacion;
     readonly createdAt?: Date;
 }

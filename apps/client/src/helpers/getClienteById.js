@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getClienteById = async({ id }) => {
+export const getClienteById = async( id ) => {
 
     try{
         const response = await axios.get(`/api/cliente/${id}`, {

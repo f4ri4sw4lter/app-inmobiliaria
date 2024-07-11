@@ -4,17 +4,18 @@ import { getListaClientes } from "../helpers";
 export const useFetchListaClientes = () => {
     
     const [listaClientes, setListaClientes] = useState([]);
-    const [isLoading, setIsLoading] = useState( true );
+    const [listaClientesIsLoading, setIsLoading] = useState( true );
 
     useEffect(() => {
         getListaClientes()
             .then(({ clientes }) => {
-                setListaClientes(clientes)
+                setListaClientes(clientes);
+                setIsLoading(false);
             })
     }, []);
     
     return {
         listaClientes,
-        isLoading
+        listaClientesIsLoading
     }
 }

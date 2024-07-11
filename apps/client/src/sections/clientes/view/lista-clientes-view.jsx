@@ -29,8 +29,6 @@ export default function ListaClientesView() {
 
   const { listaClientes, isLoading } = useFetchListaClientes();
 
-  console.log(listaClientes)
-
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -103,10 +101,10 @@ export default function ListaClientesView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Lista de Usuarios</Typography>
+        <Typography variant="h4">Lista de Clientes</Typography>
 
         <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          Agregar Usuario
+          Agregar Cliente
         </Button>
       </Stack>
 
@@ -128,10 +126,12 @@ export default function ListaClientesView() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
+                  { id: 'dni', label: 'DNI' },
                   { id: 'apellido', label: 'Apellido' },
                   { id: 'nombre', label: 'Nombre' },
                   { id: 'correo', label: 'Correo' },
                   { id: 'telefono', label: 'Telefono' },
+                  { id: 'celuluar', label: 'Celular' },
                 ]}
               />
               <TableBody>
@@ -140,10 +140,12 @@ export default function ListaClientesView() {
                   .map((row) => (
                     <ClienteTableRow
                       key={row.id}
+                      dni={row.dni}
                       apellido={row.apellido}
                       nombre={row.nombre}
                       correo={row.correo}
                       telefono={row.telefono}
+                      celular={row.celular}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

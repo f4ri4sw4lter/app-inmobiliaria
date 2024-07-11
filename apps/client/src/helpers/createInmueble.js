@@ -2,6 +2,7 @@ import axios from 'axios';
 import { User } from '../utils/user';
 
 export const createInmueble = async( data ) => {
+    console.log(data)
 
     const apiUrl = '/api/propiedad/create';
     const srcMapa = data.mapa.match(/src="([^"]+)"/);
@@ -18,6 +19,7 @@ export const createInmueble = async( data ) => {
         "cant_ba": data.cant_ba,
         "cant_hab": data.cant_hab,
         "precio": data.precio,
+        "precioUSD": data.precioUSD,
         "imagenes": null,
         "ubicacion":{
             "provincia": data.provincia,

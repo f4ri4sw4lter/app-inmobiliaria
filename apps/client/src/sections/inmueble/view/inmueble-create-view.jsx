@@ -10,6 +10,7 @@ import { HorizontalImageList } from '../img-lista';
 import { createInmueble } from '../../../helpers/createInmueble';
 import { useFetchProvincias } from '../../../hooks/useFetchProvincias';
 import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
+import { useFetchListaClientes } from '../../../hooks/useFetchListaClientes';
 
 // ----------------------------------------------------------------------
 
@@ -19,7 +20,11 @@ export default function InmuebleCreateView() {
 
   const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
+  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
+
   const navigate = useNavigate();
+
+  const [cliente, setCliente] = useState('');
 
   const [titulo, setTitulo] = useState('');
 
@@ -108,9 +113,13 @@ export default function InmuebleCreateView() {
     setBanios(event.target.value);
   };
 
+  const handleChangeCliente = (event) => {
+    setCliente(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     createInmueble({
-      propietario: 1111,
+      propietario: cliente,
       titulo: titulo,
       descripcion: descripcion,
       tipo: '-',
@@ -118,6 +127,7 @@ export default function InmuebleCreateView() {
       cant_ba: Number(banios),
       cant_hab: Number(habitaciones),
       precio: Number(precio),
+      precioUSD: Number(precioUSD),
       contrato: contrato,
       estado: estado,
       calle: calle,
@@ -125,9 +135,7 @@ export default function InmuebleCreateView() {
       provincia: provincia,
       municipio: municipio,
       mapa: mapa,
-      precioUSD: Number(precioUSD),
       equipamiento: '',
-      cliente: 0
     });
     navigate('/backoffice/inmuebles');
   }
@@ -159,7 +167,29 @@ export default function InmuebleCreateView() {
         </Stack>
 
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={3} style={{ marginTop: 0 }}>
+            {listaClientesIsLoading == false &&
+              <FormControl>
+                <NativeSelect
+                  id="cliente"
+                  aria-describedby="cliente-helper"
+                  onChange={handleChangeCliente}
+                  defaultValue={''}
+                  key="native-select-1"
+                >
+                  <option value="" key="0">Seleccione un propietario</option>
+                  {
+                    listaClientes.map(cliente => (
+                      <option key="{cliente.id}" value="{cliente._id}" >{cliente.apellido +' ' + cliente.nombre} ({cliente.dni})</option>
+                    ))
+                  }
+                </NativeSelect>
+                <FormHelperText id="cliente-label"> Propietario </FormHelperText>
+              </FormControl>
+            }
+          </Grid>
+
+          <Grid item xs={9}>
             <FormControl>
               <Input id="titulo" aria-describedby="titulo-helper" onChange={handleChangeTitulo} />
               <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>

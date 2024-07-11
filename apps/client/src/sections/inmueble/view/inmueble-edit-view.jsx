@@ -14,6 +14,7 @@ import { useFetchListaImages } from '../../../hooks/useFetchListaImages';
 import { EditImgGrid } from '../edit-img-grid';
 import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
 import { useFetchProvincias } from '../../../hooks/useFetchProvincias';
+import { useFetchListaClientes } from '../../../hooks/useFetchListaClientes';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,9 @@ export default function InmuebleEditView() {
 
   const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
+  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
+
+  const [cliente, setCliente] = useState('');
 
   const [titulo, setTitulo] = useState('');
 
@@ -61,6 +65,9 @@ export default function InmuebleEditView() {
   const [descripcion, setDescripcion] = useState('');
 
 
+  const handleChangeCliente = (event) => {
+    setCliente(event.target.value);
+  };
   const handleChangeTitulo = (event) => {
     setTitulo(event.target.value);
   };
@@ -108,11 +115,12 @@ export default function InmuebleEditView() {
   const handleSubmit = (event) => {
     updateInmueble({
       id: id,
-      propietario: 1111,
+      propietario: cliente,
       titulo: titulo,
       contrato: contrato,
       estado: estado,
       precio: precio,
+      precioUSD: precioUSD,
       calle: calle,
       altura: altura,
       municipio: municipio,
@@ -144,6 +152,7 @@ export default function InmuebleEditView() {
       setProvincia(inmueble.ubicacion['provincia']);
       setDescripcion(inmueble.descripcion);
       setMapa(inmueble.ubicacion['mapa']);
+      setCliente(inmueble.propietario);
       fetchMunicipios(inmueble.ubicacion['provincia']);
     }
   }, [isLoading])
@@ -186,7 +195,30 @@ export default function InmuebleEditView() {
           <Grid container>
             <EditImgGrid id={id} />
 
-            <Grid item xs={12}>
+            <Grid item xs={3} style={{ marginTop: 30 }}>
+              {listaClientesIsLoading == false &&
+                <FormControl>
+                  <NativeSelect
+                    id="cliente"
+                    aria-describedby="cliente-helper"
+                    onChange={handleChangeCliente}
+                  >
+                    {
+                      cliente == null &&
+                      <option value="">Seleccione un propietario</option>
+                    } 
+                    {
+                      listaClientes.map(cliente => (
+                        <option key={cliente.dni} value={cliente._id}>{cliente.apellido +' ' + cliente.nombre} ({cliente.dni})</option>
+                      ))
+                    }
+                  </NativeSelect>
+                  <FormHelperText id="cliente-label"> Propietario </FormHelperText>
+                </FormControl>
+              }
+            </Grid>
+
+            <Grid item xs={9}>
               <br />
               <FormControl>
                 <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo} />

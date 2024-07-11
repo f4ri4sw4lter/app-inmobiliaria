@@ -18,10 +18,12 @@ import Iconify from '../../components/iconify';
 
 export default function ClienteTableRow({
   selected,
+  dni,
   apellido,
   nombre,
   correo,
   telefono,
+  celular,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -50,6 +52,8 @@ export default function ClienteTableRow({
           </Stack>
         </TableCell>*/}
 
+        <TableCell>{dni}</TableCell>
+
         <TableCell>{apellido}</TableCell>
 
         <TableCell>{nombre}</TableCell>
@@ -57,6 +61,8 @@ export default function ClienteTableRow({
         <TableCell>{correo}</TableCell>
 
         <TableCell>{telefono}</TableCell>
+
+        <TableCell>{celular}</TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>

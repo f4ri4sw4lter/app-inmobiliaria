@@ -23,11 +23,11 @@ export const ClienteSchema = new Schema({
         required: true
     },
 	celular: {
-        type: Number,
+        type: String,
         required: true
     },
 	telefono: {
-        type: Number,
+        type: String,
         required: false
     },
 	ubicacion:{

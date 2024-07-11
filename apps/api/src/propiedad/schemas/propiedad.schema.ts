@@ -7,7 +7,7 @@ import { ubicacion, equipamiento } from "../interfaces/propiedad.interface";
 
 export const PropiedadSchema = new Schema({
     propietario:{
-        type: Number,
+        type: String,
         required: true
     },
     titulo: {
@@ -35,6 +35,10 @@ export const PropiedadSchema = new Schema({
         required: true
     },
     precio: {
+        type: Number,
+        required: true
+    },
+    precioUSD: {
         type: Number,
         required: true
     },

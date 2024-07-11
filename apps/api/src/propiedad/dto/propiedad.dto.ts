@@ -9,7 +9,7 @@ import { ubicacion, equipamiento } from "../interfaces/propiedad.interface";
  * TODO: Acomodar contrato.
  */
 export interface CreatePropiedadDTO {
-	propietario: number;
+	propietario: string;
 	titulo: string;
 	descripcion: string;
 	tipo: string;
@@ -17,6 +17,7 @@ export interface CreatePropiedadDTO {
 	cant_ba: number;
 	cant_hab: number;
 	precio: number;
+	precioUSD?: number;
 	ubicacion: ubicacion;
 	equipamientos?: equipamiento[];
 	estado: string;
@@ -26,7 +27,7 @@ export interface CreatePropiedadDTO {
 }
 
 export interface UpdatePropiedadDTO {
-	propietario?: number;
+	propietario?: string;
 	titulo?: string;
 	descripcion?: string;
 	tipo?: string;
@@ -34,6 +35,7 @@ export interface UpdatePropiedadDTO {
 	cant_ba?: number;
 	cant_hab?: number;
 	precio?: number;
+	precioUSD?: number;
 	ubicacion?: ubicacion;
 	equipamientos?: equipamiento[];
 	estado?: string;

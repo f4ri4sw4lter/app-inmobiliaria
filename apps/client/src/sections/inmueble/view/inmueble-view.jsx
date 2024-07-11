@@ -13,6 +13,7 @@ import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { getProvinciaById } from '../../../helpers/getProvinciaById';
 import { getMunicipioById } from '../../../helpers/getMunicipioById';
+import { useFetchClienteById } from '../../../hooks/useFetchClienteById';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,8 @@ export default function InmuebleView() {
   const navigate = useNavigate();
   const { accion, id } = useParams();
   const { inmueble, isLoading } = useFetchInmuebleById({ id });
+  const { cliente, clienteIsLoading, fetchCliente } = useFetchClienteById();
+
   const [selected, setSelected] = useState([]);
   const [municipio, setMunicipio] = useState([]);
   const [provincia, setProvincia] = useState([]);
@@ -36,6 +39,8 @@ export default function InmuebleView() {
 
       getMunicipioById(inmueble.ubicacion.municipio)
       .then(({municipios}) => setMunicipio(municipios[0].nombre))
+
+      fetchCliente(inmueble.propietario)
     }
   }, [inmueble, isLoading]);
 
@@ -76,7 +81,7 @@ export default function InmuebleView() {
 
         <Grid item xs={12}>
           <Typography variant="h5">Propietario</Typography>
-          <Typography variant="h6" sx={{ color: 'primary.main' }}>{inmueble.propietario}</Typography>
+          <Typography variant="h6" sx={{ color: 'primary.main' }}>{cliente.apellido} {cliente.nombre} ({cliente.dni})</Typography>
         </Grid>
 
         <Grid item xs={2}>
@@ -97,13 +102,13 @@ export default function InmuebleView() {
         {inmueble.precio &&
           <Grid item xs={2}>
             <Typography variant="h4" >Precio</Typography>
-            <Typography variant="h6" sx={{ color: 'primary.main'}}>${inmueble.precio}ARS
+            <Typography variant="h6" sx={{ color: 'primary.main'}}>${inmueble.precio} ARS
             </Typography>
           </Grid>
         }
-        {inmueble.precio_usd &&
-          <Grid item xs={10}>
-            <Typography variant="h6" sx={{ color: 'primary.main'}}>${inmueble.precio}USD
+        {inmueble.precioUSD &&
+          <Grid item xs={10} sx={{ marginTop: '35px' }}>
+            <Typography variant="h6" sx={{ color: 'primary.main'}}>${inmueble.precioUSD} USD
             </Typography>
           </Grid>
         }

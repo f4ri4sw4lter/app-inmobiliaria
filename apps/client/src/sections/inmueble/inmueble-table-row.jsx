@@ -23,10 +23,10 @@ import { deleteInmuebleById } from '../../helpers/deleteInmuebleById';
 // ----------------------------------------------------------------------
 
 export default function InmuebleTableRow({
+  selected,
   id,
   titulo,
   contrato,
-  selected,
   estado,
   ambientes,
   habitaciones,

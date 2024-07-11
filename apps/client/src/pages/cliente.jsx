@@ -8,7 +8,7 @@ export default function ClientePage() {
     return (
         <>
             <Helmet>
-                <title> Usuarios </title>
+                <title> Clientes </title>
             </Helmet>
 
             <ListaClientesView />

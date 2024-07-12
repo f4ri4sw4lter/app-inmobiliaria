@@ -5,7 +5,7 @@ import { Document } from "mongoose";
 
 export type ubicacion = {
 	provincia: string;
-	ciudad: string;
+	municipio: string;
 	calle: string;
 	altura: number;
 }

@@ -24,7 +24,7 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 
-export default function UserView() {
+export default function ListaUserView() {
 
   const [page, setPage] = useState(0);
 

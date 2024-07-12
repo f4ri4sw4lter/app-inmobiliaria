@@ -29,7 +29,7 @@ export default function Router({isLogged, setIsLogged}) {
         { element: <IndexPage />, index: true },
         { path: 'inmuebles/:accion?/:id?', element: <InmueblePage />},
         { path: 'users', element: <UserPage /> },
-        { path: 'clientes', element: <ClientePage /> },
+        { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
       ],
     },
     {

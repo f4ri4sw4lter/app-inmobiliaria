@@ -103,7 +103,7 @@ export default function ListaClientesView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista de Clientes</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/backoffice/clientes/crear">
           Agregar Cliente
         </Button>
       </Stack>
@@ -140,6 +140,7 @@ export default function ListaClientesView() {
                   .map((row) => (
                     <ClienteTableRow
                       key={row.id}
+                      id={row._id}
                       dni={row.dni}
                       apellido={row.apellido}
                       nombre={row.nombre}

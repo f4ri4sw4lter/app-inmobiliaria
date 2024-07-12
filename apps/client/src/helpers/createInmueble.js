@@ -2,7 +2,6 @@ import axios from 'axios';
 import { User } from '../utils/user';
 
 export const createInmueble = async( data ) => {
-    console.log(data)
 
     const apiUrl = '/api/propiedad/create';
     const srcMapa = data.mapa.match(/src="([^"]+)"/);

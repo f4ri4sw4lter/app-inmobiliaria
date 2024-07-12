@@ -12,12 +12,6 @@ export default function InmueblePage() {
 
   const { accion, id } = useParams();
 
-  if(typeof id !== 'undefined'){
-    
-  }
-
-  const [view, setView] = useState();
-
   function SeleccionarVista (){
     if(typeof accion == 'undefined'){
       return(<ListaInmuebleView />)

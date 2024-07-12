@@ -9,9 +9,9 @@ export interface CreateClienteDTO {
 	readonly dni: number;
     nombre: string;
 	apellido: string;
-	correo: string;
-	celular: string;
-	telefono: string;
+	correo?: string;
+	celular?: string;
+	telefono?: string;
 	ubicacion: ubicacion;
     readonly createdAt?: Date;
 }

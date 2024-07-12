@@ -35,7 +35,7 @@ export const ClienteSchema = new Schema({
             type: String,
             required: true
         },
-        ciudad: {
+        municipio: {
             type: String,
             required: true
         },

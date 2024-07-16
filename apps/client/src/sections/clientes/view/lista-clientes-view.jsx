@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Parser } from '@json2csv/plainjs';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -27,6 +28,24 @@ import { useFetchListaClientes } from "../../../hooks/useFetchListaClientes";
 
 export default function ListaClientesView() {
 
+  
+  /*useEffect(() => {
+    if (!isLoading) {
+      try {
+        const opts = { 
+          header: true,
+          fields: ['dni', 'nombre', 'apellido', 'celular', 'ubicacion.provincia', 'ubicacion.municipio', 'ubicacion.calle', 'ubicacion.altura']
+          };
+          const parser = new Parser(opts);
+          const csv = parser.parse(listaClientes);
+          console.log(csv);
+          } catch (err) {
+            console.error(err);
+            }
+            }
+            }, [isLoading]);*/
+            
+            
   const { listaClientes, isLoading } = useFetchListaClientes();
 
   const [page, setPage] = useState(0);
@@ -35,11 +54,13 @@ export default function ListaClientesView() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('id');
+  const [orderBy, setOrderBy] = useState('nombre');
 
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [dataFiltered, setDataFiltered] = useState(listaClientes);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -51,18 +72,18 @@ export default function ListaClientesView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.titulo);
+      const newSelecteds = listaClientes.map((n) => n.nombre);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, nombre) => {
+    const selectedIndex = selected.indexOf(nombre);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, nombre);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -90,11 +111,17 @@ export default function ListaClientesView() {
     setFilterName(event.target.value);
   };
 
-  const dataFiltered = applyFilter({
-    inputData: listaClientes,
-    comparator: getComparator(order, orderBy),
-    filterName,
-  });
+  useEffect(() => {
+    if (!isLoading) {
+      let aux = applyFilter({
+        inputData: listaClientes,
+        comparator: getComparator(order, orderBy),
+        filterName,
+      })
+      setDataFiltered(aux)
+    }
+  }, [listaClientes, isLoading, filterName]);
+  
 
   const notFound = !dataFiltered.length && !!filterName;
 
@@ -128,27 +155,28 @@ export default function ListaClientesView() {
                 headLabel={[
                   { id: 'dni', label: 'DNI' },
                   { id: 'apellido', label: 'Apellido' },
-                  { id: 'nombre', label: 'Nombre' },
+                  { id: 'name', label: 'Nombre' },
                   { id: 'correo', label: 'Correo' },
                   { id: 'telefono', label: 'Telefono' },
                   { id: 'celuluar', label: 'Celular' },
                 ]}
               />
               <TableBody>
-                {dataFiltered
+                {dataFiltered &&
+                  dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <ClienteTableRow
-                      key={row.id}
+                      key={row._id}
                       id={row._id}
                       dni={row.dni}
                       apellido={row.apellido}
-                      nombre={row.nombre}
+                      name={row.nombre}
                       correo={row.correo}
                       telefono={row.telefono}
                       celular={row.celular}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      selected={selected.indexOf(row.nombre) !== -1}
+                      handleClick={(event) => handleClick(event, row.nombre)}
                     />
                   ))}
 
@@ -171,6 +199,7 @@ export default function ListaClientesView() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina:"
         />
       </Card>
     </Container>

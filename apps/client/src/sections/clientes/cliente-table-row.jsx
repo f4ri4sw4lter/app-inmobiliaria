@@ -25,7 +25,7 @@ export default function ClienteTableRow({
   id,
   dni,
   apellido,
-  nombre,
+  name,
   correo,
   telefono,
   celular,
@@ -72,7 +72,7 @@ export default function ClienteTableRow({
 
         <TableCell>{apellido}</TableCell>
 
-        <TableCell>{nombre}</TableCell>
+        <TableCell>{name}</TableCell>
 
         <TableCell>{correo}</TableCell>
 
@@ -125,12 +125,14 @@ export default function ClienteTableRow({
 }
 
 ClienteTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
   handleClick: PropTypes.func,
   isVerified: PropTypes.any,
   name: PropTypes.any,
-  role: PropTypes.any,
+  dni: PropTypes.any,
+  apellido: PropTypes.any,
+  correo: PropTypes.any,
+  telefono: PropTypes.any,
+  celular: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
 };

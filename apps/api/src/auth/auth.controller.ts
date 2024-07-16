@@ -33,9 +33,9 @@ export class AuthController {
      */
     async alreadyExistUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<boolean> {
         const usuario = await this.authService.findUsuario(LoginUsuarioDTO.email);
-        if(usuario){
+        if (usuario) {
             const isValidPass = this.bcrypt.compare(LoginUsuarioDTO.password, usuario.password);
-            if(isValidPass){
+            if (isValidPass) {
                 return true;
             }
         }
@@ -51,7 +51,7 @@ export class AuthController {
 
         RegisterUsuarioDTO.password = await this.encryptPassword(RegisterUsuarioDTO.password);
 
-        const already_exist = await this.alreadyExistUsuario({email, password});
+        const already_exist = await this.alreadyExistUsuario({ email, password });
 
         if (already_exist) {
             this.logger.log('ERROR: Usuario ya existente');
@@ -59,7 +59,7 @@ export class AuthController {
                 message: 'Usuario ya existente.'
             });
         }
-        
+
         //Guardamos el nuevo usuario
         else {
             await this.authService.createUsuario(RegisterUsuarioDTO);
@@ -69,15 +69,26 @@ export class AuthController {
         }
     }
 
+    @Get('/')
+    @UseGuards(AuthGuard)
+    async getUsuarios(@Res() res){
+        this.logger.log('GET - lista de usuarios.');
+        const usuarios = await this.authService.getUsuarios();
+        return res.status(HttpStatus.OK).json({
+            message: 'Lista de usuarios',
+            usuarios: usuarios
+        });
+    }
+
     @Post('/login')
     async login(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
         this.logger.log('GET - Logeando usuario.');
 
         const user = await this.authService.findUsuario(LoginUsuarioDTO.email);
 
-        if(user){
+        if (user) {
             const isValidPass = await this.bcrypt.compare(LoginUsuarioDTO.password, user.password);
-            if(isValidPass){
+            if (isValidPass) {
 
                 const payload: PayloadToken = { email: user.email };
 
@@ -93,7 +104,29 @@ export class AuthController {
             }
         }
 
-        throw new UnauthorizedException('Credenciales incorrectas');    
+        throw new UnauthorizedException('Credenciales incorrectas');
+    }
+
+    @Delete('/delete/:usuarioId')
+    @UseGuards(AuthGuard)
+    async deleteUser(@Res() res, @Param('usuarioId') usuarioId: string) {
+        this.logger.log('DELETE - Borrando user.');
+        try {
+            const deletedUsuario = await this.authService.deleteUsuario(usuarioId);
+            if (deletedUsuario === null) {
+                return res.status(HttpStatus.CONFLICT).json({
+                    message: 'Usuario inexistente'
+                });
+            } else {
+                return res.status(HttpStatus.OK).json({
+                    message: 'Usuario eliminada correctamente',
+                    User: deletedUsuario
+                });
+            }
+
+        } catch (err) {
+            throw err;
+        }
     }
 
 

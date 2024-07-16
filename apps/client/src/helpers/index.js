@@ -5,6 +5,7 @@ export * from './getInmubleById';
 export * from './getMunicipios';
 export * from './getProvincias';
 export * from './getListaClientes';
+export * from './getListaUsuarios';
 export * from './getListaImagesById';
 export * from './getClienteById';
 export * from './deleteInmuebleById';

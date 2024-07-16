@@ -12,6 +12,7 @@ import Iconify from '../../components/iconify';
 // ----------------------------------------------------------------------
 
 export default function ClienteTableToolbar({ numSelected, filterName, onFilterName }) {
+
   return (
     <Toolbar
       sx={{

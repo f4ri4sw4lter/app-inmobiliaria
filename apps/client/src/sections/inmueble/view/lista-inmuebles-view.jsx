@@ -170,6 +170,7 @@ export default function ListaInmuebleView() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina:"
         />
       </Card>
     </Container>

@@ -11,7 +11,6 @@ export const createRoles = async () => {
             new RolSchema({name: 'moderador'}).save(),
             new RolSchema({name: 'admin'}).save()
         ]);
-        console.log(values);
     } catch (error) {
         console.log(error);
     }

@@ -44,7 +44,7 @@ export const createInmueble = async( data ) => {
 
     fetch(apiUrl, requestConfig)
     .then(response => {
-        console.log(response)
+        console.log('OK')
     })
     .catch(error => {
         console.error('Error al realizar la solicitud:', error);

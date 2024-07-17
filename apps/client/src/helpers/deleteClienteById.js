@@ -2,7 +2,7 @@ import axios from 'axios';
 import { User } from '../utils/user';
 
 export const deleteClienteById = async( id ) => {
-    console.log(id)
+
     try{
         const response = await axios.delete(`/api/cliente/delete/${id}`, {
             headers: {

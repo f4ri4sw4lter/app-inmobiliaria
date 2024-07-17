@@ -12,7 +12,6 @@ export const getInmueblesByCliente = async( id ) => {
         })
         if (response.status === 200 || response.status === 201) {
             const data = response.data;
-            console.log(data)
             return data;
         }
     }

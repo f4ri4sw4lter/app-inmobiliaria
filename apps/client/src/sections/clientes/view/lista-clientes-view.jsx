@@ -28,24 +28,6 @@ import { useFetchListaClientes } from "../../../hooks/useFetchListaClientes";
 
 export default function ListaClientesView() {
 
-  
-  /*useEffect(() => {
-    if (!isLoading) {
-      try {
-        const opts = { 
-          header: true,
-          fields: ['dni', 'nombre', 'apellido', 'celular', 'ubicacion.provincia', 'ubicacion.municipio', 'ubicacion.calle', 'ubicacion.altura']
-          };
-          const parser = new Parser(opts);
-          const csv = parser.parse(listaClientes);
-          console.log(csv);
-          } catch (err) {
-            console.error(err);
-            }
-            }
-            }, [isLoading]);*/
-            
-            
   const { listaClientes, isLoading } = useFetchListaClientes();
 
   const [page, setPage] = useState(0);

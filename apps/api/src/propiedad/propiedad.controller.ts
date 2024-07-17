@@ -48,6 +48,21 @@ export class PropiedadController {
         
     }
 
+    @Get('/cliente/:clienteId')
+    async getPropiedadByCliente(@Res() res, @Param('clienteId') clienteId){
+        this.logger.log('GET - propiedad.');
+        try{
+            const propiedades = await this.propiedadService.getPropiedadesByCliente({propietario: clienteId});
+            return res.status(HttpStatus.OK).json({
+                message: 'Lista de propiedades',
+                propiedades: propiedades
+            });
+        }catch(err){
+            throw new NotFoundException('Propiedad no existente');
+        }
+        
+    }
+
     @Delete('/delete/:propiedadId')
     @UseGuards(AuthGuard)
     async deletePropiedad(@Res() res, @Param('propiedadId') propiedadId){

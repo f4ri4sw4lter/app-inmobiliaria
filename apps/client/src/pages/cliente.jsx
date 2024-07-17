@@ -1,9 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
-import { ListaClientesView } from '../sections/clientes/view';
+import { ListaClientesView, ClienteEditView, ClienteView, ClienteCreateView } from '../sections/clientes/view';
 import { useFetchClienteById } from '../hooks/useFetchClienteById';
 import { useParams } from 'react-router-dom';
-import ClienteCreateView from '../sections/clientes/view/cliente-create-view';
 
 
 export default function ClientePage() {
@@ -18,16 +17,10 @@ export default function ClientePage() {
                 return (<ClienteCreateView />)
             }
             if (accion == 'ver') {
-                return (
-                    isLoading == false &&
-                    <ClientesView />
-                )
+                return (<ClienteView />)
             }
             else if (accion == 'editar') {
-                return (
-                    isLoading == false &&
-                    <ClientesEditView />
-                )
+                return (<ClienteEditView />)
             }
             else {
                 return (<NotFoundPage />)

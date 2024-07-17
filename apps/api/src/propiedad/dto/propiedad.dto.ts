@@ -11,12 +11,12 @@ import { ubicacion, equipamiento } from "../interfaces/propiedad.interface";
 export interface CreatePropiedadDTO {
 	propietario: string;
 	titulo: string;
-	descripcion: string;
+	descripcion?: string;
 	tipo: string;
 	cant_amb: number;
 	cant_ba: number;
 	cant_hab: number;
-	precio: number;
+	precio?: number;
 	precioUSD?: number;
 	ubicacion: ubicacion;
 	equipamientos?: equipamiento[];

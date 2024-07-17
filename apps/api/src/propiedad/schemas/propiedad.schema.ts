@@ -16,7 +16,7 @@ export const PropiedadSchema = new Schema({
     },
 	descripcion: {
         type: String,
-        required: true
+        required: false
     },
     tipo: {
         type: String,
@@ -36,11 +36,11 @@ export const PropiedadSchema = new Schema({
     },
     precio: {
         type: Number,
-        required: true
+        required: false
     },
     precioUSD: {
         type: Number,
-        required: true
+        required: false
     },
     ubicacion:{
         provincia: {

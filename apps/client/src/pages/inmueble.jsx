@@ -19,16 +19,13 @@ export default function InmueblePage() {
       if(accion == 'crear'){
         return(<InmuebleCreateView />)
       }
-      const { inmueble, isLoading } = useFetchInmuebleById({ id });
       if (accion == 'ver'){
         return(
-          isLoading == false &&
           <InmuebleView />
         )
       }
       else if (accion == 'editar'){
         return(
-          isLoading == false &&
           <InmuebleEditView />
         )
       }

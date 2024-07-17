@@ -28,6 +28,11 @@ export class PropiedadService{
         return propiedades;
     }
 
+    async getPropiedadesByCliente(propietario): Promise<Propiedad[]>{
+        const propiedades = await this.propiedadModel.find(propietario);
+        return propiedades;
+    }
+
     async createPropiedad(createPropiedadDTO: CreatePropiedadDTO): Promise<Propiedad>{
         const newPropiedad = new this.propiedadModel(createPropiedadDTO);
         await newPropiedad.save();

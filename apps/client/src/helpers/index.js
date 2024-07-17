@@ -8,6 +8,7 @@ export * from './getListaClientes';
 export * from './getListaUsuarios';
 export * from './getListaImagesById';
 export * from './getClienteById';
+export * from './getInmueblesByCliente';
 export * from './deleteInmuebleById';
 export * from './deleteImageById';
 export * from './deleteClienteById';

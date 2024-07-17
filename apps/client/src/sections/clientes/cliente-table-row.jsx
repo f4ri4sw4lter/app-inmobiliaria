@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { NavLink } from 'react-router-dom';
 
 import Iconify from '../../components/iconify';
 
@@ -64,23 +64,20 @@ export default function ClienteTableRow({
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell>
 
-        <TableCell>{dni}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{dni}</TableCell>
 
-        <TableCell>{apellido}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{apellido}</TableCell>
 
-        <TableCell>{name}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{name}</TableCell>
 
-        <TableCell>{correo}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{correo}</TableCell>
 
-        <TableCell>{telefono}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{telefono}</TableCell>
 
-        <TableCell>{celular}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{celular}</TableCell>
 
-        <TableCell align="right">
+        <TableCell align="right" sx={{ border: '1px solid #ccc' }}>
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
@@ -94,20 +91,40 @@ export default function ClienteTableRow({
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
-          sx: { width: 140 },
+          sx: { width: 140, border: '1px solid #ccc' },
         }}
       >
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+        
+        <NavLink to={`/backoffice/clientes/ver/${id}`} className='nav-item nav-link' key="ver">
+          <MenuItem sx={{ border: '1px solid #ccc' }}>
+            <Button>
+              <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+              Ver
+            </Button>
+          </MenuItem>
+        </NavLink>
+
+        <NavLink to={`/backoffice/clientes/editar/${id}`} className='nav-item nav-link' key="editar">
+          <MenuItem sx={{ border: '1px solid #ccc' }}>
+            <Button>
+              <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+              Editar
+            </Button>
+          </MenuItem >
+        </NavLink>
+
+        <MenuItem sx={{ color: 'error.main', border: '1px solid #ccc' }}>
           <Button onClick={handleClickOpenDialog}>
+            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
             Borrar
           </Button>
         </MenuItem>
+
         <Dialog open={openDialog} onClose={handleCloseDialog}>
           <DialogTitle>Confirmación</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              ¿Estás seguro de que deseas borrar este inmueble?
+              ¿Estás seguro de que deseas borrar este cliente?
             </DialogContentText>
           </DialogContent>
           <DialogActions>

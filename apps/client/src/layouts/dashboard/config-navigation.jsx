@@ -3,34 +3,39 @@ import SvgColor from '../../components/svg-color';
 // ----------------------------------------------------------------------
 
 const icon = (name) => (
-  <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
+  <SvgColor src={`/assets/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />
 );
 
 const navConfig = [
   {
     title: 'Inicio',
     path: '/backoffice',
-    icon: icon('ic_analytics'),
+    icon: icon('flaticon/grafico'),
   },
   {
     title: 'Inmuebles',
     path: '/backoffice/inmuebles',
-    icon: icon('ic_cart'),
+    icon: icon('flaticon/edificio'),
+  },
+  {
+    title: 'Contratos',
+    path: '/backoffice',
+    icon: icon('flaticon/monedas'),
   },
   {
     title: 'Usuarios',
     path: '/backoffice/users',
-    icon: icon('ic_user'),
+    icon: icon('flaticon/usuario'),
   }, 
   {
     title: 'Clientes',
     path: '/backoffice/clientes',
-    icon: icon('ic_user'),
+    icon: icon('flaticon/usuarios-alt'),
   },
   {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
+    title: 'Documentos',
+    path: '/backoffice',
+    icon: icon('flaticon/documento'),
   },
 ];
 

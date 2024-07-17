@@ -27,20 +27,13 @@ export default function InmuebleTableHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
-        </TableCell>
 
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth }}
+            sx={{ width: headCell.width, minWidth: headCell.minWidth, border: '1px solid #ccc' }}
           >
             <TableSortLabel
               hideSortIcon
@@ -57,6 +50,7 @@ export default function InmuebleTableHead({
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell sx={{border: '1px solid #ccc', width: '5%'}}></TableCell>
       </TableRow>
     </TableHead>
   );

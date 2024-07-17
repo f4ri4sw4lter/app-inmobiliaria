@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getClienteById = async( id ) => {
-
+export const getListaUsuarios = async () => {
     try{
-        const response = await axios.get(`/api/cliente/${id}`, {
+        const response = await axios.get('/api/auth/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token
@@ -18,4 +17,5 @@ export const getClienteById = async( id ) => {
     catch(e){
         console.error(e)
     };
+
 }

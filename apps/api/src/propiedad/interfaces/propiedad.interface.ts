@@ -19,7 +19,7 @@ export type equipamiento = {
  * TODO: Acomodar contrato.
  */
 export interface Propiedad extends Document {
-	readonly propietario: number;
+	propietario: string;
     titulo: string;
 	descripcion: string;
 	readonly tipo: string;
@@ -27,6 +27,7 @@ export interface Propiedad extends Document {
 	cant_ba: number;
 	cant_hab: number;
 	precio: number;
+	precioUSD: number;
 	ubicacion: ubicacion;
 	equipamientos?: equipamiento[];
 	estado: string;

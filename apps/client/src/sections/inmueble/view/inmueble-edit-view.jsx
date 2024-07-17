@@ -14,6 +14,7 @@ import { useFetchListaImages } from '../../../hooks/useFetchListaImages';
 import { EditImgGrid } from '../edit-img-grid';
 import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
 import { useFetchProvincias } from '../../../hooks/useFetchProvincias';
+import { useFetchListaClientes } from '../../../hooks/useFetchListaClientes';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,9 @@ export default function InmuebleEditView() {
 
   const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
+  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
+
+  const [cliente, setCliente] = useState('');
 
   const [titulo, setTitulo] = useState('');
 
@@ -61,6 +65,9 @@ export default function InmuebleEditView() {
   const [descripcion, setDescripcion] = useState('');
 
 
+  const handleChangeCliente = (event) => {
+    setCliente(event.target.value);
+  };
   const handleChangeTitulo = (event) => {
     setTitulo(event.target.value);
   };
@@ -108,11 +115,12 @@ export default function InmuebleEditView() {
   const handleSubmit = (event) => {
     updateInmueble({
       id: id,
-      propietario: 1111,
+      propietario: cliente,
       titulo: titulo,
       contrato: contrato,
       estado: estado,
       precio: precio,
+      precioUSD: precioUSD,
       calle: calle,
       altura: altura,
       municipio: municipio,
@@ -144,6 +152,7 @@ export default function InmuebleEditView() {
       setProvincia(inmueble.ubicacion['provincia']);
       setDescripcion(inmueble.descripcion);
       setMapa(inmueble.ubicacion['mapa']);
+      setCliente(inmueble.propietario);
       fetchMunicipios(inmueble.ubicacion['provincia']);
     }
   }, [isLoading])
@@ -176,7 +185,7 @@ export default function InmuebleEditView() {
           </Button>
           <Button type="submit" variant="contained" color="inherit"
             onClick={() => navigate(`/backoffice/inmuebles/ver/${id}`)}
-            startIcon={<Iconify icon="eva:cancel-fill" />}>
+            startIcon={<Iconify icon="eva:close-fill" />}>
             Cancelar
           </Button>
         </Stack>
@@ -186,9 +195,32 @@ export default function InmuebleEditView() {
           <Grid container>
             <EditImgGrid id={id} />
 
+            <Grid item xs={12} style={{ marginTop: 30 }}>
+              {listaClientesIsLoading == false &&
+                <FormControl>
+                  <NativeSelect
+                    id="cliente"
+                    aria-describedby="cliente-helper"
+                    onChange={handleChangeCliente}
+                  >
+                    {
+                      cliente == null &&
+                      <option value="">Seleccione un propietario</option>
+                    } 
+                    {
+                      listaClientes.map(cliente => (
+                        <option key={cliente._id} value={cliente._id}>{cliente.apellido +' ' + cliente.nombre} ({cliente.dni})</option>
+                      ))
+                    }
+                  </NativeSelect>
+                  <FormHelperText id="cliente-label"> Propietario </FormHelperText>
+                </FormControl>
+              }
+            </Grid>
+
             <Grid item xs={12}>
               <br />
-              <FormControl>
+              <FormControl sx={{ width: '50%' }}>
                 <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo} />
                 <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>
               </FormControl>
@@ -238,42 +270,42 @@ export default function InmuebleEditView() {
             </Grid>
 
             {/* Ambientes */}
-            <Grid item xs={3} style={{ marginTop: 30 }}>
-              <FormControl>
+            <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormControl sx={{ width: '60%' }}>
                 <Input value={ambientes} type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes} />
                 <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={3} style={{ marginTop: 30 }}>
-              <FormControl>
+            <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormControl sx={{ width: '60%' }}>
                 <Input value={habitaciones} type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones} />
                 <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={3} style={{ marginTop: 30 }}>
-              <FormControl>
+            <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormControl sx={{ width: '60%' }}>
                 <Input value={banios} type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios} />
                 <FormHelperText id="banios-helper"> Baños </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={3} style={{ marginTop: 30 }}></Grid>
+            <Grid item xs={6} style={{ marginTop: 30 }}></Grid>
 
             {/* Ubicacion */}
-            <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
-              <FormControl>
+            <Grid item xs={4} style={{ marginTop: 30 }}>
+              <FormControl sx={{ width: '90%' }}>
                 <Input id="calle" aria-describedby="calle-helper" multiline value={calle} onChange={handleChangeCalle} />
                 <FormHelperText id="calle-helper"> Calle </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
-              <FormControl>
+            <Grid item xs={2} style={{ marginTop: 30}}>
+              <FormControl sx={{ width: '90%' }}>
                 <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura} />
                 <FormHelperText id="altura-helper"> Altura </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={2} style={{ marginTop: 30, marginRight: 20 }}>
+            <Grid item xs={3} style={{ marginTop: 30 }}>
               {provinciasIsLoading == false &&
-                <FormControl>
+                <FormControl sx={{ width: '90%' }}>
                   <NativeSelect
                     id="provincia"
                     aria-describedby="provincia-helper"
@@ -290,9 +322,9 @@ export default function InmuebleEditView() {
                 </FormControl>
               }
             </Grid>
-            <Grid item xs={2} style={{ marginTop: 30 }}>
+            <Grid item xs={3} style={{ marginTop: 30 }}>
               {municipiosIsLoading == false &&
-                <FormControl>
+                <FormControl sx={{ width: '90%' }}>
                   <NativeSelect
                     id="municipio"
                     aria-describedby="municipio-helper"

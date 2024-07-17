@@ -2,7 +2,6 @@ import axios from 'axios';
 import { User } from '../utils/user';
 
 export const deleteImageById = async( reference, id ) => {
-    console.log({reference:reference, id:id})
     try{
         const response = await axios.delete(`/api/images/${reference}/${id}`, {
             headers: {

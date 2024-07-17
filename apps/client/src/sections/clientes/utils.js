@@ -36,6 +36,7 @@ export function getComparator(order, orderBy) {
 }
 
 export function applyFilter({ inputData, comparator, filterName }) {
+
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
@@ -48,7 +49,7 @@ export function applyFilter({ inputData, comparator, filterName }) {
 
   if (filterName) {
     inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (cliente) => cliente.nombre.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || cliente.apellido.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || cliente.correo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || cliente.dni.toString().indexOf(filterName.toString().toLowerCase()) !== -1
     );
   }
 

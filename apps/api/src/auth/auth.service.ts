@@ -48,4 +48,14 @@ export class AuthService {
             token,
         }
     }
+
+    async deleteUsuario(usuarioId: string): Promise<Usuario>{
+        const deletedUsuario = await this.usuarioModel.findByIdAndDelete(usuarioId);
+        return deletedUsuario;
+    }
+
+    async getUsuarios(): Promise<Usuario[]>{
+        const usuarios = await this.usuarioModel.find();
+        return usuarios;
+    }
 }

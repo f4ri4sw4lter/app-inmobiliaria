@@ -36,6 +36,7 @@ export function getComparator(order, orderBy) {
 }
 
 export function applyFilter({ inputData, comparator, filterName }) {
+  console.log({ inputData, comparator, filterName })
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
@@ -45,8 +46,9 @@ export function applyFilter({ inputData, comparator, filterName }) {
   });
 
   inputData = stabilizedThis.map((el) => el[0]);
-
+  
   if (filterName) {
+    
     inputData = inputData.filter(
       (inmueble) => inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );

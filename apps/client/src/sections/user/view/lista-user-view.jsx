@@ -21,10 +21,11 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { useFetchListaUsuarios } from '../../../hooks/useFetchListaUsuarios';
 
 // ----------------------------------------------------------------------
 
-export default function UserView() {
+export default function ListaUserView() {
 
   const [page, setPage] = useState(0);
 
@@ -38,6 +39,8 @@ export default function UserView() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const { listaUsuarios, isLoading } = useFetchListaUsuarios();
+
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -48,7 +51,7 @@ export default function UserView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.titulo);
+      const newSelecteds = listaUsuarios.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -88,7 +91,7 @@ export default function UserView() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: listaUsuarios,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -123,12 +126,9 @@ export default function UserView() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'titulo', label: 'Titulo' },
-                  { id: 'description', label: 'Descripcion' },
-                  { id: 'tipo', label: 'Tipo' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
-                  { id: '' },
+                  { id: 'name', label: 'Nombre' },
+                  { id: 'lastname', label: 'Apellido' },
+                  { id: 'email', label: 'Correo' },
                 ]}
               />
               <TableBody>
@@ -136,13 +136,10 @@ export default function UserView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <UserTableRow
-                      key={row.id}
-                      titulo={row.titulo}
-                      role={row.role}
-                      status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
+                      key={row._id}
+                      name={row.name}
+                      lastname={row.lastname}
+                      email={row.email}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
@@ -167,6 +164,7 @@ export default function UserView() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina:"
         />
       </Card>
     </Container>

@@ -23,10 +23,10 @@ import { deleteInmuebleById } from '../../helpers/deleteInmuebleById';
 // ----------------------------------------------------------------------
 
 export default function InmuebleTableRow({
+  selected,
   id,
   titulo,
   contrato,
-  selected,
   estado,
   ambientes,
   habitaciones,
@@ -64,22 +64,18 @@ export default function InmuebleTableRow({
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell>
+      <TableRow hover tabIndex={-1} role="checkbox" selected={selected} >
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography variant="subtitle2" noWrap>
-              {titulo}
-            </Typography>
-          </Stack>
+        <TableCell component="th" sx={{ border: '1px solid #ccc' }}>
+          <Typography variant="subtitle2" noWrap>
+            {titulo}
+          </Typography>
         </TableCell>
 
         <TableCell sx={{
           minWidth: '90px',
-          textAlign: 'left'
+          textAlign: 'left',
+          border: '1px solid #ccc'
         }}>{contrato}</TableCell>
 
         {estado == 'Alquilado' || estado == 'Vendido'
@@ -87,32 +83,37 @@ export default function InmuebleTableRow({
             <TableCell sx={{
               minWidth: '90px',
               textAlign: 'left',
-              color: 'red'
+              color: 'red',
+              border: '1px solid #ccc'
             }}>{estado}</TableCell>
           ) : (
             <TableCell sx={{
               minWidth: '90px',
               textAlign: 'left',
-              color: 'green'
+              color: 'green',
+              border: '1px solid #ccc'
             }}>{estado}</TableCell>
           )}
 
         <TableCell sx={{
           minWidth: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          border: '1px solid #ccc'
         }}>{ambientes}</TableCell>
 
         <TableCell sx={{
           minWidth: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          border: '1px solid #ccc'
         }}>{habitaciones}</TableCell>
 
         <TableCell sx={{
           minWidth: '100px',
-          textAlign: 'center'
+          textAlign: 'center',
+          border: '1px solid #ccc'
         }}>{banios}</TableCell>
 
-        <TableCell align="right">
+        <TableCell align="right" sx={{ border: '1px solid #ccc' }}>
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
@@ -126,29 +127,34 @@ export default function InmuebleTableRow({
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
-          sx: { width: 140 },
+          sx: { width: 140, border: '1px solid #ccc' },
         }}
       >
-        <MenuItem>
-          <NavLink to={`/backoffice/inmuebles/ver/${id}`} className='nav-item nav-link' key="ver">
-            <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
-            Ver
-          </NavLink>
-        </MenuItem>
+        <NavLink to={`/backoffice/inmuebles/ver/${id}`} className='nav-item nav-link' key="ver">
+          <MenuItem>
+            <Button>
+              <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+              Ver
+            </Button>
+          </MenuItem>
+        </NavLink>
 
-        <MenuItem>
-          <NavLink to={`/backoffice/inmuebles/editar/${id}`} className='nav-item nav-link' key="editar">
-            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-            Editar
-          </NavLink>
-        </MenuItem>
+        <NavLink to={`/backoffice/inmuebles/editar/${id}`} className='nav-item nav-link' key="editar">
+          <MenuItem sx={{ border: '1px solid #ccc' }}>
+            <Button>
+              <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+              Editar
+            </Button>
+          </MenuItem >
+        </NavLink>
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+        <MenuItem sx={{ color: 'error.main', border: '1px solid #ccc' }}>
           <Button onClick={handleClickOpenDialog}>
+            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
             Borrar
           </Button>
         </MenuItem>
+
         <Dialog open={openDialog} onClose={handleCloseDialog}>
           <DialogTitle>Confirmación</DialogTitle>
           <DialogContent>

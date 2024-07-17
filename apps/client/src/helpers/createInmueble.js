@@ -18,6 +18,7 @@ export const createInmueble = async( data ) => {
         "cant_ba": data.cant_ba,
         "cant_hab": data.cant_hab,
         "precio": data.precio,
+        "precioUSD": data.precioUSD,
         "imagenes": null,
         "ubicacion":{
             "provincia": data.provincia,

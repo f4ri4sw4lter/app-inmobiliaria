@@ -144,7 +144,7 @@ export default function ListaInmuebleView() {
                       contrato    ={row.contrato}
                       estado      ={row.estado}
                       ambientes   ={row.cant_amb}
-                      selected    ={selected.indexOf(row.titulo) !== -1}
+                      selected    ={selected.indexOf(row.name) !== -1}
                       banios      ={row.cant_ba}
                       habitaciones={row.cant_hab}
                       handleClick ={(event) => handleClick(event, row.name)}
@@ -170,6 +170,7 @@ export default function ListaInmuebleView() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina:"
         />
       </Card>
     </Container>

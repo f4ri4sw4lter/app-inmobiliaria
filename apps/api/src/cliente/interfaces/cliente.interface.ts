@@ -5,7 +5,7 @@ import { Document } from "mongoose";
 
 export type ubicacion = {
 	provincia: string;
-	ciudad: string;
+	municipio: string;
 	calle: string;
 	altura: number;
 }
@@ -15,8 +15,8 @@ export interface Cliente extends Document {
     nombre: string;
 	apellido: string;
 	correo: string;
-	celular: number;
-	telefono: number;
+	celular: string;
+	telefono: string;
 	ubicacion: ubicacion;
     readonly createdAt?: Date;
 }

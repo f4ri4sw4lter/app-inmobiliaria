@@ -12,6 +12,7 @@ import Iconify from '../../components/iconify';
 // ----------------------------------------------------------------------
 
 export default function ClienteTableToolbar({ numSelected, filterName, onFilterName }) {
+
   return (
     <Toolbar
       sx={{
@@ -33,7 +34,7 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
         <OutlinedInput
           value={filterName}
           onChange={onFilterName}
-          placeholder="Buscar Usuario..."
+          placeholder="Buscar cliente..."
           startAdornment={
             <InputAdornment position="start">
               <Iconify

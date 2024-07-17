@@ -37,8 +37,8 @@ export const HorizontalImageList = ({ id }) => {
 
         <>
             <Stack>
-                <Card>
-                    <CardMedia component="img" height="340" width="100%" image={urlBanner} />
+                <Card width="100%">
+                    <CardMedia component="img" height="480" image={urlBanner} />
                     <CardContent>
                     </CardContent>
                 </Card>

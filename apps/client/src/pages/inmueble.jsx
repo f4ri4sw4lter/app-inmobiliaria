@@ -12,12 +12,6 @@ export default function InmueblePage() {
 
   const { accion, id } = useParams();
 
-  if(typeof id !== 'undefined'){
-    
-  }
-
-  const [view, setView] = useState();
-
   function SeleccionarVista (){
     if(typeof accion == 'undefined'){
       return(<ListaInmuebleView />)
@@ -25,16 +19,13 @@ export default function InmueblePage() {
       if(accion == 'crear'){
         return(<InmuebleCreateView />)
       }
-      const { inmueble, isLoading } = useFetchInmuebleById({ id });
       if (accion == 'ver'){
         return(
-          isLoading == false &&
           <InmuebleView />
         )
       }
       else if (accion == 'editar'){
         return(
-          isLoading == false &&
           <InmuebleEditView />
         )
       }

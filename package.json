@@ -17,6 +17,7 @@
     "apps/*"
   ],
   "dependencies": {
+    "@json2csv/plainjs": "^7.0.6",
     "@nestjs/config": "^2.3.1",
     "@nestjs/passport": "^10.0.0",
     "bcrypt": "^5.1.0",

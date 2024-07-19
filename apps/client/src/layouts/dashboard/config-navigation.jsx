@@ -33,6 +33,11 @@ const navConfig = [
     icon: icon('flaticon/usuarios-alt'),
   },
   {
+    title: 'Mensajes',
+    path: '/backoffice',
+    icon: icon('flaticon/sobre'),
+  },
+  {
     title: 'Documentos',
     path: '/backoffice',
     icon: icon('flaticon/documento'),

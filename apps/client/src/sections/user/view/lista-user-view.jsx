@@ -103,7 +103,7 @@ export default function ListaUserView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista de Usuarios</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/backoffice/users/crear">
           Agregar Usuario
         </Button>
       </Stack>
@@ -137,11 +137,11 @@ export default function ListaUserView() {
                   .map((row) => (
                     <UserTableRow
                       key={row._id}
+                      id={row._id}
                       name={row.name}
                       lastname={row.lastname}
                       email={row.email}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      roleName={row.role.name}
                     />
                   ))}
 

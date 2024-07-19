@@ -9,23 +9,28 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { NavLink } from 'react-router-dom';
 
 import Iconify from '../../components/iconify';
+import { deleteUserById } from '../../helpers/deleteUserById';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
-  selected,
+  id,
   name,
   lastname,
   email,
-  role,
-  isVerified,
-  status,
-  handleClick,
+  roleName,
 }) {
+
   const [open, setOpen] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -34,10 +39,25 @@ export default function UserTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    handleCloseMenu();
+  };
+
+  const handleConfirmDialog = () => {
+    deleteUserById(id);
+    setOpenDialog(false);
+    setOpen(null);
+    window.location.reload();
+  };
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow hover tabIndex={-1} role="checkbox" >
 
         <TableCell sx={{ border: '1px solid #ccc', width: '5%' }}><Avatar alt={name} src="" /></TableCell>
 
@@ -50,6 +70,8 @@ export default function UserTableRow({
         <TableCell sx={{ border: '1px solid #ccc' }}>{lastname}</TableCell>
 
         <TableCell sx={{ border: '1px solid #ccc' }}>{email}</TableCell>
+
+        <TableCell sx={{ border: '1px solid #ccc' }}>{roleName}</TableCell>
 
         <TableCell align="right" sx={{ border: '1px solid #ccc' }}>
           <IconButton onClick={handleOpenMenu}>
@@ -77,7 +99,7 @@ export default function UserTableRow({
           </MenuItem>
         </NavLink>
 
-        <NavLink to={`/backoffice/users/`} className='nav-item nav-link' key="editar">
+        <NavLink to={`/backoffice/users/editar/${id}`} className='nav-item nav-link' key="editar">
           <MenuItem sx={{ border: '1px solid #ccc' }}>
             <Button>
               <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
@@ -88,11 +110,28 @@ export default function UserTableRow({
 
 
         <MenuItem sx={{ color: 'error.main', border: '1px solid #ccc' }}>
-          <Button>
+          <Button onClick={handleClickOpenDialog}>
             <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
             Borrar
           </Button>
         </MenuItem>
+
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Confirmación</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Estás seguro de que deseas borrar este usuario?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmDialog} color="primary">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
 
       </Popover>
     </>

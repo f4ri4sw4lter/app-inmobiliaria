@@ -10,6 +10,7 @@ import { Model } from 'mongoose';
  */
 import { Cliente } from './interfaces/cliente.interface';
 import { CreateClienteDTO } from './dto/cliente.dto';
+import { UpdateUsuarioDTO } from 'src/auth/dto/update-usuario.dto';
 
 
 @Injectable()
@@ -34,10 +35,10 @@ export class ClienteService{
         return newCliente;
     }
 
-    async updateCliente(clienteId: string, createClienteDTO: CreateClienteDTO): Promise<Cliente>{
+    async updateCliente(clienteId: string, UpdateUsuarioDTO: UpdateUsuarioDTO): Promise<Cliente>{
         const updatedCliente = await this.clienteModel.findByIdAndUpdate(
             clienteId, 
-            createClienteDTO,
+            UpdateUsuarioDTO,
             { new: true });
         return updatedCliente;
     }

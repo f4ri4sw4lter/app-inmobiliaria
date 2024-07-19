@@ -5,6 +5,7 @@ import { RegisterUsuarioDTO } from './dto/register-usuario.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PayloadToken } from './interfaces/token.interface';
 import { AuthGuard } from './guards/auth.guard';
+import { UpdateUsuarioDTO } from './dto/update-usuario.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -80,6 +81,17 @@ export class AuthController {
         });
     }
 
+    @Get('/userById/:usuarioId')
+    @UseGuards(AuthGuard)
+    async getUsuarioById(@Res() res, @Param('usuarioId') usuarioId: string){
+        this.logger.log('GET - usuario por id.');
+        const usuario = await this.authService.getUsuarioById(usuarioId);
+        return res.status(HttpStatus.OK).json({
+            message: 'Usuario',
+            user: usuario
+        });
+    }
+
     @Post('/login')
     async login(@Req() req, @Res() res, @Body() LoginUsuarioDTO: LoginUsuarioDTO) {
         this.logger.log('GET - Logeando usuario.');
@@ -93,13 +105,14 @@ export class AuthController {
                 const payload: PayloadToken = { email: user.email };
 
                 const token = await this.jwt.signAsync(payload)
+                console.log(user)
 
                 return res.status(HttpStatus.OK).json({
                     message: 'Login exitoso',
                     token: token,
                     email: user.email,
                     name: user.name,
-                    lastname: user.lastname
+                    lastname: user.lastname,
                 });
             }
         }
@@ -129,5 +142,25 @@ export class AuthController {
         }
     }
 
+    @Put('/update/:userId')
+    @UseGuards(AuthGuard)
+    async updateUser(@Res() res, @Body() updateUserDTO: UpdateUsuarioDTO, @Param('userId') userId){
+        this.logger.log('PUT - Actualizando user.');
+        try{
+            const updatedUser = await this.authService.updateUsuario(userId, updateUserDTO);
+            if(updatedUser === null){
+                return res.status(HttpStatus.CONFLICT).json({
+                    message: 'user inexistente'
+                }); 
+            }else{
+                return res.status(HttpStatus.OK).json({
+                    message: 'user actualizado',
+                    user: updatedUser
+                }); 
+            }
+        }catch(err){
+            throw err;
+        }
+    }
 
 }

@@ -28,7 +28,7 @@ export default function Router({isLogged, setIsLogged}) {
       children: [
         { element: <IndexPage />, index: true },
         { path: 'inmuebles/:accion?/:id?', element: <InmueblePage />},
-        { path: 'users', element: <UserPage /> },
+        { path: 'users/:accion?/:id?', element: <UserPage /> },
         { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
       ],
     },

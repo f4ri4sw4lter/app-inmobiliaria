@@ -53,6 +53,7 @@ export default function UserTableHead({
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell sx={{ border: '1px solid #ccc' }}>Rol</TableCell>
         <TableCell sx={{border: '1px solid #ccc', width: '5%'}}></TableCell>
       </TableRow>
     </TableHead>

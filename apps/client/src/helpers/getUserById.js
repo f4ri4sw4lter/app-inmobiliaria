@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getInmueblesByCliente = async( id ) => {
+export const getUserById = async( id ) => {
 
     try{
-        const response = await axios.get(`/api/propiedad/cliente/${id}`, {
+        const response = await axios.get(`/api/auth/userById/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { User } from '../utils/user';
 
 export const updateCliente = async( data ) => {
-    console.log(data)
+
     data.ubicacion = {
         calle: data.calle,
         altura: data.altura,

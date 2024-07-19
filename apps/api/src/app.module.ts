@@ -15,6 +15,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { ClienteModule } from './cliente/cliente.module';
 import { ImagesModule } from './images/images.module';
+import { MensajeModule } from './mensaje/mensaje.module';
 import config from './config';
 
 
@@ -24,6 +25,8 @@ import config from './config';
     PropiedadModule,
     ClienteModule,
     AuthModule,
+    ImagesModule,
+    MensajeModule,
 
     //Modulo de configuracion del proyecto.
     ConfigModule.forRoot({
@@ -73,8 +76,8 @@ import config from './config';
         }
       }
     }),
-
     ImagesModule,
+    MensajeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

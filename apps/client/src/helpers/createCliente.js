@@ -2,7 +2,6 @@ import axios from 'axios';
 import { User } from '../utils/user';
 
 export const createCliente = async( data ) => {
-    console.log(data)
 
     const apiUrl = '/api/cliente/create';
 
@@ -32,7 +31,7 @@ export const createCliente = async( data ) => {
 
     fetch(apiUrl, requestConfig)
     .then(response => {
-        console.log(response)
+        console.log('OK')
     })
     .catch(error => {
         console.error('Error al realizar la solicitud:', error);

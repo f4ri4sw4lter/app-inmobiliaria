@@ -11,6 +11,6 @@ export interface Usuario extends Document {
     name: string;
     lastname: string;
     email: string;
-    password: string;
+    password?: string;
     role: role;
 }

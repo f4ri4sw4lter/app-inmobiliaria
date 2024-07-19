@@ -36,7 +36,7 @@ export function getComparator(order, orderBy) {
 }
 
 export function applyFilter({ inputData, comparator, filterName }) {
-  console.log({ inputData, comparator, filterName })
+
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {

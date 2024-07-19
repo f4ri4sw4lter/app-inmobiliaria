@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getInmueblesByCliente = async( id ) => {
+export const deleteUserById = async( id ) => {
 
     try{
-        const response = await axios.get(`/api/propiedad/cliente/${id}`, {
+        const response = await axios.delete(`/api/auth/delete/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

@@ -5,6 +5,7 @@ import { RegisterUsuarioDTO } from './dto/register-usuario.dto';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { PayloadToken } from './interfaces/token.interface';
+import { UpdateUsuarioDTO } from './dto/update-usuario.dto';
 
 @Injectable()
 export class AuthService {
@@ -57,5 +58,18 @@ export class AuthService {
     async getUsuarios(): Promise<Usuario[]>{
         const usuarios = await this.usuarioModel.find();
         return usuarios;
+    }
+
+    async getUsuarioById(usuarioId: string): Promise<Usuario>{
+        const usuario = await this.usuarioModel.findById(usuarioId);
+        return usuario;
+    }
+
+    async updateUsuario(usuarioId: string, updateUsuarioDTO: UpdateUsuarioDTO): Promise<Usuario>{
+        const updatedUsuario = await this.usuarioModel.findByIdAndUpdate(
+            usuarioId, 
+            updateUsuarioDTO,
+            { new: false });
+        return updatedUsuario;
     }
 }

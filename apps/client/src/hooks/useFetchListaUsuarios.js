@@ -9,7 +9,6 @@ export const useFetchListaUsuarios = () => {
     useEffect(() => {
         getListaUsuarios()
             .then(({ usuarios }) => {
-                console.log(usuarios);
                 setListaUsuarios(usuarios);
                 setIsLoading(false);
             })

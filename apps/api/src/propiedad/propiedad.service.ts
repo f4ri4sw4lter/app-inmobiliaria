@@ -40,7 +40,6 @@ export class PropiedadService{
     }
 
     async updatePropiedad(propiedadId: string, updatePropiedadDTO: UpdatePropiedadDTO): Promise<Propiedad>{
-        console.log('Actualizando propiedad', updatePropiedadDTO);
         const updatedPropiedad = await this.propiedadModel.findByIdAndUpdate(
             propiedadId, 
             updatePropiedadDTO,

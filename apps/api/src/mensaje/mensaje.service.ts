@@ -1,4 +1,4 @@
-import { Injectable, Logger} from '@nestjs/common';
+import { Injectable, Logger, NotFoundException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -10,13 +10,29 @@ export class MensajeService {
 
     constructor(@InjectModel('Mensaje') private mensajeModel: Model<Mensaje>){}
 
-    async getMensajes(): Promise<Mensaje[]>{
-        const mensajes = await this.mensajeModel.find();
+    async getMensajes(isNoLeido): Promise<Mensaje[]>{
+        const mensajes = await this.mensajeModel.find(isNoLeido);
         return mensajes;
     }
 
     async createMensaje(createMensajeDTO: CreateMensajeDTO): Promise<Mensaje>{
         const newMensaje = new this.mensajeModel(createMensajeDTO);
         return newMensaje.save();
+    }
+
+    async deleteMensaje(mensajeId: string){
+        const deleted = await this.mensajeModel.findByIdAndDelete(mensajeId);
+        if(!deleted){
+            throw new NotFoundException('El mensaje no existe');
+        }
+        return deleted;
+    }
+
+    async updateMensaje(mensajeId: string, updateMensajeDTO: CreateMensajeDTO){
+        const updated = await this.mensajeModel.findByIdAndUpdate(mensajeId,updateMensajeDTO,{new:true});
+        if(!updated){
+            throw new NotFoundException('El mensaje no existe');
+        }
+        return updated;
     }
 }

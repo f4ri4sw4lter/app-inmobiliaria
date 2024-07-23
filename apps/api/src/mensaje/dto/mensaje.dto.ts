@@ -7,4 +7,6 @@ export interface CreateMensajeDTO {
     asunto?: string;
     mensaje?: string;
     propiedad?: string;
+    noLeido?: string;
+    lector?: string;
 }

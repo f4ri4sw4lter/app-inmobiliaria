@@ -9,4 +9,6 @@ export interface Mensaje extends Document {
     asunto: string;
     mensaje: string;
     propiedad: string;
+    noLeido: string;
+    lector: string;
 }

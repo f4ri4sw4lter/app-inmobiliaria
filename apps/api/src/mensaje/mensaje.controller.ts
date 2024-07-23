@@ -11,8 +11,7 @@ export class MensajeController {
 
     @Post('/')
     async createMensaje(@Res() res, @Body() createMensajeDTO:CreateMensajeDTO){
-        this.logger.log('POST - Creando mensaje.');
-        console.log(createMensajeDTO);
+        this.logger.log('POST - Creando mensaje.'); 
         const newMensaje = await this.mensajeService.createMensaje(createMensajeDTO);
         return res.status(HttpStatus.OK).json({
             message: 'Mensaje creado',
@@ -20,14 +19,36 @@ export class MensajeController {
         });
     }
 
-    @Get('/')
+    @Get('/:noLeido')
     @UseGuards(AuthGuard)
-    async getMensajes(@Res() res){
+    async getMensajes(@Res() res, @Param() noLeido){
         this.logger.log('GET - lista de mensajes.');
-        const mensajes = await this.mensajeService.getMensajes();
+        console.log(noLeido)
+        const mensajes = await this.mensajeService.getMensajes(noLeido);
         return res.status(HttpStatus.OK).json({
             message: 'Lista de mensajes',
             mensajes: mensajes
+        });
+    }
+
+    @Delete('/:mensajeId')
+    @UseGuards(AuthGuard)
+    async deleteMensaje(@Res() res, @Param('mensajeId') mensajeId: string){
+        this.logger.log('DELETE - mensaje.');
+        await this.mensajeService.deleteMensaje(mensajeId);
+        return res.status(HttpStatus.OK).json({
+            message: 'Mensaje eliminado',
+        });
+    }
+
+    @Put('/:mensajeId')
+    @UseGuards(AuthGuard)
+    async updateMensaje(@Res() res, @Param('mensajeId') mensajeId: string, @Body() updateMensajeDTO:CreateMensajeDTO){
+        console.log(updateMensajeDTO)
+        this.logger.log('UPDATE - mensaje.');
+        await this.mensajeService.updateMensaje(mensajeId, updateMensajeDTO);
+        return res.status(HttpStatus.OK).json({
+            message: 'Mensaje actualizado',
         });
     }
 

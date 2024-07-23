@@ -32,5 +32,15 @@ export const MensajeSchema = new Schema({
     propiedad: {
         type: String,
         required: false
+    },
+    noLeido: {
+        type: String,
+        required: true,
+        default: true
+    },
+    lector: {
+        type: String,
+        required: false,
+        default: ''
     }
 });

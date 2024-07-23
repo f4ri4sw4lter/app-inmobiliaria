@@ -15,12 +15,12 @@ export const FrontPage = lazy(() => import('../pages/front'));
 
 // ----------------------------------------------------------------------
 
-export default function Router({isLogged, setIsLogged}) {
+export default function Router({User}) {
   const routes = useRoutes([
     {
       path: 'backoffice',
       element: (
-        <DashboardLayout>
+        <DashboardLayout User={User}>
           <Suspense>
             <Outlet />
           </Suspense>
@@ -40,10 +40,6 @@ export default function Router({isLogged, setIsLogged}) {
       children: [
         {path: '/propiedad/:propiedadId', element: <FrontPage/>}
       ]
-    },
-    {
-      path: 'login',
-      element: <LoginPage isLogged={isLogged} setIsLogged={setIsLogged}/>,
     },
     {
       path: '404',

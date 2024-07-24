@@ -45,7 +45,7 @@ const navConfig = [
   },
   {
     title: 'Documentos',
-    path: '/backoffice',
+    path: '/backoffice/documentos',
     icon: icon('flaticon/documento'),
     roleLevel: 3
   },

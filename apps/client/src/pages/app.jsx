@@ -8,7 +8,7 @@ export default function AppPage() {
   return (
     <>
       <Helmet>
-        <title> Inicio | Ferreyra </title>
+        <title> Ferreyra | Inicio </title>
       </Helmet>
 
       <AppView />

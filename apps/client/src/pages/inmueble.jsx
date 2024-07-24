@@ -38,7 +38,7 @@ export default function InmueblePage() {
   return (
     <>
       <Helmet>
-        <title> Inmuebles </title>
+        <title> Ferreyra | Inmuebles </title>
       </Helmet>
 
       <SeleccionarVista/>

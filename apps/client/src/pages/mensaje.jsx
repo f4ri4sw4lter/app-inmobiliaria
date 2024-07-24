@@ -48,7 +48,7 @@ export default function MensajePage() {
     return (
         <>
             <Helmet>
-                <title> Mensajes </title>
+                <title> Ferreyra | Mensajes </title>
             </Helmet>
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                 <Typography variant="h4">Lista Mensajes</Typography>

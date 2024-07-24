@@ -31,7 +31,7 @@ export default function ClientePage() {
     return (
         <>
             <Helmet>
-                <title> Clientes </title>
+                <title> Ferreyra | Clientes </title>
             </Helmet>
 
             <SeleccionarVista />

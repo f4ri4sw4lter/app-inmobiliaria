@@ -13,7 +13,7 @@ export default function RegistrosPage() {
     return (
         <>
             <Helmet>
-                <title> Registros </title>
+                <title> Ferreyra | Registros </title>
             </Helmet>
 
             <ListaRegistrosView />

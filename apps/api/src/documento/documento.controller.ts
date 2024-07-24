@@ -18,7 +18,7 @@ export class DocumentoController {
 
     constructor(private documentoService: DocumentoService) { }
 
-    @Post('/:referenceId')
+    @Post('/:reference')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
             destination: '../client/public/docs/',
@@ -26,10 +26,10 @@ export class DocumentoController {
         }),
         fileFilter: fileFilter,
     }))
-    async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('referenceId') referenceId) {
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('reference') reference, @Param('ownerId') ownrId) {
 
         this.fileLogger.log(`POST-${file.filename}`);
-        return await this.documentoService.createDoc({ filename: file.filename, referenceId: referenceId })
+        return await this.documentoService.createDoc({ filename: file.filename, reference: reference, ownerId: ownrId })
     }
 
     @Get('/:referenceId')

@@ -5,7 +5,11 @@ export const DocumentoSchema = new Schema({
         type: String,
         required: true
     },
-    referenceId: {
+    reference: {
+        type: String,
+        required: true
+    },
+    ownerId: {
         type: String,
         required: true
     }

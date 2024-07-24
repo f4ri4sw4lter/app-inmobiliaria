@@ -31,7 +31,7 @@ export default function ContratosPage() {
     return (
         <>
             <Helmet>
-                <title> Contratos </title>
+                <title> Ferreyra | Contratos </title>
             </Helmet>
 
             <SeleccionarVista />

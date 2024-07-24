@@ -1,5 +1,6 @@
 export interface Documento extends Document {
 
     filename: string;
-    referenceId: string;
+    reference: string;
+    ownerId: string;
 }

@@ -1,4 +1,5 @@
 export class DocDTO{
     filename: string;
-    referenceId: string;
+    reference: string;
+    ownerId: string;
 }

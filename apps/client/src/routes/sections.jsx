@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from '../layouts/dashboard';
+import MensajePage from '../pages/mensaje';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const ClientePage = lazy(() => import('../pages/cliente'));
@@ -14,12 +15,12 @@ export const FrontPage = lazy(() => import('../pages/front'));
 
 // ----------------------------------------------------------------------
 
-export default function Router({isLogged, setIsLogged}) {
+export default function Router({User}) {
   const routes = useRoutes([
     {
       path: 'backoffice',
       element: (
-        <DashboardLayout>
+        <DashboardLayout User={User}>
           <Suspense>
             <Outlet />
           </Suspense>
@@ -30,6 +31,7 @@ export default function Router({isLogged, setIsLogged}) {
         { path: 'inmuebles/:accion?/:id?', element: <InmueblePage />},
         { path: 'users/:accion?/:id?', element: <UserPage /> },
         { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
+        { path: 'mensajes', element: <MensajePage />},
       ],
     },
     {
@@ -38,10 +40,6 @@ export default function Router({isLogged, setIsLogged}) {
       children: [
         {path: '/propiedad/:propiedadId', element: <FrontPage/>}
       ]
-    },
-    {
-      path: 'login',
-      element: <LoginPage isLogged={isLogged} setIsLogged={setIsLogged}/>,
     },
     {
       path: '404',

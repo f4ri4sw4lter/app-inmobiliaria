@@ -10,23 +10,25 @@ import LoginPage from './pages/login';
 export default function App() {
   
   const [isLogged, setIsLogged] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [User, setUser] = useState();
   
   useScrollToTop();
 
   useEffect(() => {
-    if (sessionStorage.getItem('User')) {
+    if(sessionStorage.getItem('User')){
       setIsLogged(true);
+      setUser(JSON.parse(sessionStorage.getItem('User')));
     }
-    setIsLoading(false)
-  },[])
+    if(isLogged){
+      setUser(JSON.parse(sessionStorage.getItem('User')));
+    }
+  },[isLogged])
   
   return (
-    !isLoading &&
       <ThemeProvider>
         {isLogged 
-          ? <Router isLogged={isLogged} setIsLogged={setIsLogged} /> 
-          : <LoginPage isLogged={isLogged} setIsLogged={setIsLogged} />
+          ? <Router User={User}/> 
+          : <LoginPage setIsLogged={setIsLogged} setUser={setUser}/>
         }
       </ThemeProvider>
   );

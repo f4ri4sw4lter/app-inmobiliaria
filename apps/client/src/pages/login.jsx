@@ -5,14 +5,7 @@ import { LoginView } from '../sections/login';
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage({isLogged, setIsLogged}) {
-
-  const router = useRouter();
-    useEffect(() => {
-    if (isLogged) {
-      router.push('/');
-    }
-  },[])
+export default function LoginPage({setIsLogged, setUser}) {
 
   return (
     <>
@@ -20,7 +13,7 @@ export default function LoginPage({isLogged, setIsLogged}) {
         <title> Login | FerreyraApp </title>
       </Helmet>
 
-      <LoginView isLogged={isLogged} setIsLogged={setIsLogged}/>
+      <LoginView setIsLogged={setIsLogged} setUser={setUser}/>
     </>
   );
 }

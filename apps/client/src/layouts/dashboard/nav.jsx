@@ -16,7 +16,7 @@ import { RouterLink } from '../../routes/components';
 import { useResponsive } from '../../hooks/use-responsive';
 
 import { account } from '../../_mock/account';
-import { User } from '../../utils/user';
+//import { User } from '../../utils/user';
 
 import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
@@ -26,7 +26,7 @@ import navConfig from './config-navigation';
 
 // ----------------------------------------------------------------------
 
-export default function Nav({ openNav, onCloseNav }) {
+export default function Nav({ openNav, onCloseNav, User }) {
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
@@ -54,7 +54,11 @@ export default function Nav({ openNav, onCloseNav }) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{User.name} {User.lastname}</Typography>
+        <Typography variant="subtitle2">
+          {User &&
+            <>{User.name} {User.lastname}</>
+          }
+        </Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           {account.role}
@@ -64,11 +68,17 @@ export default function Nav({ openNav, onCloseNav }) {
   );
 
   const renderMenu = (
-    <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
-      ))}
-    </Stack>
+    <>
+      {User &&
+        <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
+          {navConfig
+            .filter((item) => User.role <= item.roleLevel)
+            .map((item) => (
+              <NavItem key={item.title} item={item} />
+            ))}
+        </Stack>
+      }
+    </>
   );
 
   const renderUpgrade = (

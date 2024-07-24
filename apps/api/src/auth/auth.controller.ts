@@ -105,7 +105,6 @@ export class AuthController {
                 const payload: PayloadToken = { email: user.email };
 
                 const token = await this.jwt.signAsync(payload)
-                console.log(user)
 
                 return res.status(HttpStatus.OK).json({
                     message: 'Login exitoso',
@@ -113,6 +112,7 @@ export class AuthController {
                     email: user.email,
                     name: user.name,
                     lastname: user.lastname,
+                    role: user.role.level,
                 });
             }
         }

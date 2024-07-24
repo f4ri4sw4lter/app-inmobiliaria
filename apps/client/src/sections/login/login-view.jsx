@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { User } from '../../utils/user';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -23,7 +23,7 @@ import { login } from '../../helpers/login'
 
 // ----------------------------------------------------------------------
 
-export default function LoginView({isLogged, setIsLogged}) {
+export default function LoginView({ setIsLogged, setUser }) {
 
   const theme = useTheme();
 
@@ -43,16 +43,17 @@ export default function LoginView({isLogged, setIsLogged}) {
       setIsFailLogin(true);
 
     } else {
+      setIsLogged(true);
 
       sessionStorage.setItem(
         'User', JSON.stringify(user)
       );
-      setIsLogged(true);
+
+      setUser(JSON.stringify(user))
+
       router.push('/backoffice');
 
     }
-
-    
   };
   
 

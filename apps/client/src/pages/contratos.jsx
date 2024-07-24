@@ -5,7 +5,7 @@ import { useFetchClienteById } from '../hooks/useFetchClienteById';
 import { useParams } from 'react-router-dom';
 
 
-export default function ClientePage() {
+export default function ContratosPage() {
 
     const { accion, id } = useParams();
 
@@ -31,7 +31,7 @@ export default function ClientePage() {
     return (
         <>
             <Helmet>
-                <title> Ferreyra | Clientes </title>
+                <title> Ferreyra | Contratos </title>
             </Helmet>
 
             <SeleccionarVista />

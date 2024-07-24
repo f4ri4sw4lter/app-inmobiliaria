@@ -10,20 +10,17 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from '../../../_mock/account';
+import { User } from '../../../utils/user';
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
-  },
-  {
-    label: 'Profile',
+    label: 'Perfil',
     icon: 'eva:person-fill',
   },
   {
-    label: 'Settings',
+    label: 'Configuracion',
     icon: 'eva:settings-2-fill',
   },
 ];
@@ -56,11 +53,11 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={'/assets/images/avatars/avatar_25.jpg'}
+          alt={User.lastname + ' ' + User.name}
           sx={{
-            width: 36,
-            height: 36,
+            width: 72,
+            height: 72,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
@@ -85,10 +82,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {User.lastname + ' ' + User.name + ' (' + User.role + ')'}	
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {User.email}
           </Typography>
         </Box>
 
@@ -108,7 +105,7 @@ export default function AccountPopover() {
           onClick={handleClose}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
-          Logout
+          Cerrar sesión
         </MenuItem>
       </Popover>
     </>

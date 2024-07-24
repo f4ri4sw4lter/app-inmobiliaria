@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import NotFoundPage from '../pages/page-not-found';
 import { ListaMensajesView } from '../sections/mensaje/view';
-import { Button, Stack } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 
 // ----------------------------------------------------------------------
@@ -48,8 +48,11 @@ export default function MensajePage() {
     return (
         <>
             <Helmet>
-                <title> Mensajes </title>
+                <title> Ferreyra | Mensajes </title>
             </Helmet>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                <Typography variant="h4">Lista Mensajes</Typography>
+            </Stack>
             <Stack direction="row" alignItems="left" justifyContent="left" mb={5}>
                 <Button
                     variant="contained"

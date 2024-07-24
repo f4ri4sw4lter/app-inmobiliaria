@@ -34,7 +34,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> Usuarios </title>
+        <title> Ferreyra | Usuarios </title>
       </Helmet>
 
       <SeleccionarVista />

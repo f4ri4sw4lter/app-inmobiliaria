@@ -15,8 +15,8 @@ import { RouterLink } from '../../routes/components';
 
 import { useResponsive } from '../../hooks/use-responsive';
 
-import { account } from '../../_mock/account';
-//import { User } from '../../utils/user';
+//import { account } from '../../_mock/account';
+import { User } from '../../utils/user';
 
 import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
@@ -51,7 +51,7 @@ export default function Nav({ openNav, onCloseNav, User }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src="/assets/images/avatars/avatar_25.jpg" alt="photoURL"/>
 
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">
@@ -61,7 +61,7 @@ export default function Nav({ openNav, onCloseNav, User }) {
         </Typography>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+          {'Admin'}
         </Typography>
       </Box>
     </Box>
@@ -104,9 +104,7 @@ export default function Nav({ openNav, onCloseNav, User }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
-
-      {renderAccount}
+      <Logo sx={{ mt: 3, ml: 4, mb: 5 }} />
 
       {renderMenu}
 

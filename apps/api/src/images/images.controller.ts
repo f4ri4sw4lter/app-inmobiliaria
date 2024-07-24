@@ -14,7 +14,7 @@ const unlinkAsync = promisify(fs.unlink);
 @Controller('images')
 export class ImagesController {
 
-    private fileLogger = new FileLogger('./logs/imagenes.log');
+    private fileLogger = new FileLogger('../client/public/logs/imagenes.log');
 
     constructor(private imagesService: ImagesService) { }
 

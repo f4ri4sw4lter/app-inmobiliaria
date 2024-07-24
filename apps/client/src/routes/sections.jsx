@@ -3,15 +3,17 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from '../layouts/dashboard';
 import MensajePage from '../pages/mensaje';
+import RegistrosPage from '../pages/registros';
+import ContratosPage from '../pages/contratos';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const ClientePage = lazy(() => import('../pages/cliente'));
 export const InmueblePage = lazy(() => import('../pages/inmueble'));
 export const UserPage = lazy(() => import('../pages/user'));
 export const LoginPage = lazy(() => import('../pages/login'));
-export const ProductsPage = lazy(() => import('../pages/products'));
 export const Page404 = lazy(() => import('../pages/page-not-found'));
-export const FrontPage = lazy(() => import('../pages/front'));
+export const NotFoundPage = lazy(() => import('../pages/page-not-found'));
+export const DocumentosPage = lazy(() => import('../pages/documentos'));
 
 // ----------------------------------------------------------------------
 
@@ -32,14 +34,10 @@ export default function Router({User}) {
         { path: 'users/:accion?/:id?', element: <UserPage /> },
         { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
         { path: 'mensajes', element: <MensajePage />},
+        { path: 'registros/:vista?', element: <RegistrosPage />},
+        { path: 'contratos/:accion?/:id?', element: <ContratosPage />},
+        { path: 'documentos:accion?/:id?', element: <DocumentosPage />},
       ],
-    },
-    {
-      path: '/',
-      element: <FrontPage/>,
-      children: [
-        {path: '/propiedad/:propiedadId', element: <FrontPage/>}
-      ]
     },
     {
       path: '404',

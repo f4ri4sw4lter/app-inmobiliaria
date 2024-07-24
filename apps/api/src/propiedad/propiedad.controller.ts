@@ -9,7 +9,7 @@ import FileLogger from '../../utils/fileLogger'
 export class PropiedadController {
 
     private readonly logger = new Logger(PropiedadController.name);
-    private fileLogger = new FileLogger('./logs/inmuebles.log');
+    private fileLogger = new FileLogger('../client/public/logs/inmuebles.log');
     
     constructor(private propiedadService: PropiedadService){}
 

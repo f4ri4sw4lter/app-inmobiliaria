@@ -1,3 +1,4 @@
+import { Stack, Typography } from '@mui/material';
 import { useFetchListaMensajes } from '../../../hooks/useFetchListaMensajes';
 import MensajeCard from '../mensaje-card';
 

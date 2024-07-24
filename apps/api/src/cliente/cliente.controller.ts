@@ -8,7 +8,7 @@ import FileLogger from '../../utils/fileLogger'
 export class ClienteController {
 
     private readonly logger = new Logger(ClienteController.name);
-    private fileLogger = new FileLogger('./logs/clientes.log');
+    private fileLogger = new FileLogger('../client/public/logs/clientes.log');
 
     constructor(private clienteService: ClienteService){}
 

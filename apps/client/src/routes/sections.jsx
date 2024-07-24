@@ -3,6 +3,8 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from '../layouts/dashboard';
 import MensajePage from '../pages/mensaje';
+import RegistrosPage from '../pages/registros';
+import ContratosPage from '../pages/contratos';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const ClientePage = lazy(() => import('../pages/cliente'));
@@ -32,6 +34,8 @@ export default function Router({User}) {
         { path: 'users/:accion?/:id?', element: <UserPage /> },
         { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
         { path: 'mensajes', element: <MensajePage />},
+        { path: 'registros/:vista?', element: <RegistrosPage />},
+        { path: 'contratos/:accion?/:id?', element: <ContratosPage />}
       ],
     },
     {

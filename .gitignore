@@ -10,4 +10,5 @@ apps/client/node_modules
 apps/client/.gitignore
 apps/client/public/assets/images/propiedades/
 apps/client/public/assets/images/usuarios/
+apps/client/public/docs/
 *.log

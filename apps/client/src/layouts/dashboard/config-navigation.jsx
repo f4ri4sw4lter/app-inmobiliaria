@@ -21,7 +21,7 @@ const navConfig = [
   },
   {
     title: 'Contratos',
-    path: '/backoffice',
+    path: '/backoffice/contratos/',
     icon: icon('flaticon/monedas'),
     roleLevel: 3
   },
@@ -51,7 +51,7 @@ const navConfig = [
   },
   {
     title: 'Registros',
-    path: '/backoffice',
+    path: '/backoffice/registros',
     icon: icon('flaticon/informacion'),
     roleLevel: 1
   },

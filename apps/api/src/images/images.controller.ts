@@ -7,11 +7,14 @@ import { ImagesService } from './images.service';
 import * as path from 'path';
 import * as fs from 'fs';
 import { promisify } from 'util';
+import FileLogger from '../../utils/fileLogger'
 
 const unlinkAsync = promisify(fs.unlink);
 
 @Controller('images')
 export class ImagesController {
+
+    private fileLogger = new FileLogger('./logs/imagenes.log');
 
     constructor(private imagesService: ImagesService) { }
 
@@ -24,12 +27,16 @@ export class ImagesController {
         fileFilter: fileFilter,
     }))
     async uploadFilePropiedad(@UploadedFile() file: Express.Multer.File, @Param('referenceId') referenceId) {
+
+        this.fileLogger.log(`POST- ${file.filename}`);
         return await this.imagesService.createImage({ filename: file.filename, referenceId: referenceId })
     }
 
     @Get('/propiedad/:referenceId')
     async getImagesPropiedad(@Res() res, @Param('referenceId') referenceId: string) {
         const images = await this.imagesService.getImages(referenceId);
+        this.fileLogger.log(`GET- ${JSON.stringify(images)}`);
+
         return res.status(HttpStatus.OK).json({
             message: 'Lista de imagenes',
             images: images
@@ -46,20 +53,29 @@ export class ImagesController {
 
             await unlinkAsync(filePath)
             .then(()=>{
+                this.fileLogger.log(`DELETE- ${JSON.stringify(deletedImage)}`);
+
                 return res.status(HttpStatus.OK).json({
                     message: 'Imagen eliminada',
                 });
             })
             .catch((err)=>{
+                this.fileLogger.log(`DELETE-Error-Error al eliminar la imagen en el disco`);
+
                 throw new HttpException('Error al eliminar la imagen en el disco', HttpStatus.INTERNAL_SERVER_ERROR);
             })
 
         } catch (err) {
             if (err.code === 'ENOENT') {
+                this.fileLogger.log(`DELETE-Error-Archivo no encontrado en el disco`);
+
                 throw new HttpException('Archivo no encontrado en el disco', HttpStatus.NOT_FOUND);
             } else {
+                this.fileLogger.log(`DELETE-Error-Error al eliminar la imagen en el disco`);
                 throw new HttpException('Error al eliminar la imagen en el disco', HttpStatus.INTERNAL_SERVER_ERROR);
             }
+            this.fileLogger.log(`DELETE-Error-Imagen no existente en la base de datos`);
+
             throw new NotFoundException('Imagen no existente en la base de datos');
         }
     }
@@ -74,12 +90,14 @@ export class ImagesController {
         fileFilter: fileFilter,
     }))
     async uploadFileUsuario(@UploadedFile() file: Express.Multer.File, @Param('referenceId') referenceId) {
+        this.fileLogger.log(`POST-usuario- ${JSON.stringify(file.filename)}`);
         return await this.imagesService.createImage({ filename: file.filename, referenceId: referenceId })
     }
 
     @Get('/usuario/:referenceId')
     async getImagesUsuario(@Res() res, @Param('referenceId') referenceId: string) {
         const images = await this.imagesService.getImages(referenceId);
+        this.fileLogger.log(`GET-usuario- ${JSON.stringify(images)}`);
         return res.status(HttpStatus.OK).json({
             message: 'Lista de imagenes',
             images: images

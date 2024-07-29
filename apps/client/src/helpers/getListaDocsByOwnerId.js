@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getListaDocsById = async ( reference ) => {
+export const getListaDocsByOwnerId = async ( ownerId ) => {
+
     try{
-        const response = await axios.get(`/api/documento/${reference}`, {
+        const response = await axios.get(`/api/documento/${ownerId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

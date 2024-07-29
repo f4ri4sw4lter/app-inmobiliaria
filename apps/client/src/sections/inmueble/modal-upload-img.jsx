@@ -11,6 +11,7 @@ export const ModalUploadImg = ({ id, fetchImages }) => {
     const [open, setOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
         if (isUpload) {
@@ -23,10 +24,12 @@ export const ModalUploadImg = ({ id, fetchImages }) => {
     const handleClose = () => {
         setOpen(false);
         setSelectedFile(null);
+        setDisabled(true);
     }
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
+        setDisabled(false);
     };
 
     const handleButtonClick = () => {
@@ -66,9 +69,10 @@ export const ModalUploadImg = ({ id, fetchImages }) => {
                         transform: 'translate(-50%, -50%)',
                         width: 400,
                         bgcolor: 'background.paper',
-                        border: '2px solid #000',
+                        border: '1px solid black',
                         boxShadow: 24,
                         p: 4,
+                        borderRadius: 2
                     }}
                 >
                     <div>
@@ -102,7 +106,7 @@ export const ModalUploadImg = ({ id, fetchImages }) => {
                             <Button variant="contained" onClick={handleButtonClick}>
                                 Seleccionar Imagen
                             </Button>
-                            <Button variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '10px' }}>
+                            <Button variant="contained" color="primary" disabled={disabled} onClick={handleSubmit} style={{ marginLeft: '10px' }}>
                                 Subir Imagen
                             </Button>
                         </div>

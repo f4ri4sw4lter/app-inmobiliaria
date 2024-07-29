@@ -99,7 +99,7 @@ export default function ListaUserView() {
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista de Usuarios</Typography>
 
@@ -167,6 +167,6 @@ export default function ListaUserView() {
           labelRowsPerPage="Filas por pagina:"
         />
       </Card>
-    </Container>
+    </>
   );
 }

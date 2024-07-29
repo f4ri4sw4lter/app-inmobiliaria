@@ -1,12 +1,12 @@
 import { Stack, Typography, Grid, Button } from "@mui/material";
+import ListaDocs from "../lista-docs";
 
 export default function ListaDocsView() {
 
     return (
         <>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                <Typography variant="h4">Lista Documentos</Typography>
-            </Stack>
+            <Typography variant="h4">Lista de Documentos</Typography>
+            <ListaDocs data={''} />
         </>
     )
 }

@@ -21,7 +21,7 @@ import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }) {
+export default function Header({ onOpenNav, User }) {
   const theme = useTheme();
 
   const lgUp = useResponsive('up', 'lg');
@@ -39,7 +39,7 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        <AccountPopover />
+        <AccountPopover User={User}/>
       </Stack>
     </>
   );

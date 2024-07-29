@@ -14,7 +14,7 @@ export default function DashboardLayout({ children, User }) {
 
   return (
     <>
-      <Header onOpenNav={() => setOpenNav(true)} />
+      <Header onOpenNav={() => setOpenNav(true)} User={User} />
 
       <Box
         sx={{

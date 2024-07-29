@@ -18,7 +18,7 @@ export class DocumentoController {
 
     constructor(private documentoService: DocumentoService) { }
 
-    @Post('/:reference')
+    @Post('/')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
             destination: '../client/public/docs/',
@@ -26,16 +26,27 @@ export class DocumentoController {
         }),
         fileFilter: fileFilter,
     }))
-    async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('reference') reference, @Param('ownerId') ownrId) {
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Body('reference') reference, @Body('ownerId') ownerId, @Body('name') name) {
 
         this.fileLogger.log(`POST-${file.filename}`);
-        return await this.documentoService.createDoc({ filename: file.filename, reference: reference, ownerId: ownrId })
+        return await this.documentoService.createDoc({ filename: file.filename, reference: reference, ownerId: ownerId, name: name })
     }
 
-    @Get('/:referenceId')
-    async getDocumentos(@Res() res, @Param('referenceId') referenceId: string) {
-        const docs = await this.documentoService.getDoc(referenceId);
-        this.fileLogger.log(`GET-${JSON.stringify(docs)}`);
+    @Get('/:ownerId?')
+    async getDocumentos(@Res() res, @Param('ownerId') ownerId: string) {
+        
+        let docs = [];
+        if(ownerId === 'undefined'){
+
+            docs = await this.documentoService.getAllDocs();
+            this.fileLogger.log(`GET-${JSON.stringify(docs)}`);
+
+        } else {
+
+            docs = await this.documentoService.getDoc(ownerId);
+            this.fileLogger.log(`GET-${JSON.stringify(docs)}`);
+
+        }
 
         return res.status(HttpStatus.OK).json({
             message: 'Lista de documentos',

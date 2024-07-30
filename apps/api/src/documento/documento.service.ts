@@ -8,9 +8,14 @@ import { Documento } from './interfaces/documento.interface';
 export class DocumentoService {
     constructor( @InjectModel('Documentos') private documentoModel: Model<Documento> ){}
 
-    async getDoc(referenceId: string): Promise<Documento[]>{
-        const file = await this.documentoModel.find({referenceId});
+    async getDoc(ownerId: string): Promise<Documento[]>{
+        const file = await this.documentoModel.find({ownerId});
         return file;
+    }
+
+    async getAllDocs(): Promise<Documento[]>{
+        const files = await this.documentoModel.find();
+        return files;
     }
 
     async createDoc(docDTO: DocDTO): Promise<Documento>{

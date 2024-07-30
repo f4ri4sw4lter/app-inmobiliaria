@@ -14,6 +14,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { getProvinciaById } from '../../../helpers/getProvinciaById';
 import { getMunicipioById } from '../../../helpers/getMunicipioById';
 import { useFetchClienteById } from '../../../hooks/useFetchClienteById';
+import ListaDocs from '../../documentos/lista-docs';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ export default function InmuebleView() {
   }, [inmueble, isLoading]);
 
   return (
-    <Container>
+    <>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <ArrowBack
           sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'primary.main' }, borderRadius: '50%' }}
@@ -139,6 +140,8 @@ export default function InmuebleView() {
         }
 
       </Grid>
-    </Container>
+      <br />
+      <ListaDocs reference='inmuebles' ownerId={id} />
+    </>
   );
 }

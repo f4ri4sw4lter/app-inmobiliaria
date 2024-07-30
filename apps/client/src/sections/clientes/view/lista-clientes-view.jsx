@@ -108,7 +108,7 @@ export default function ListaClientesView() {
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista de Clientes</Typography>
 
@@ -184,6 +184,6 @@ export default function ListaClientesView() {
           labelRowsPerPage="Filas por pagina:"
         />
       </Card>
-    </Container>
+    </>
   );
 }

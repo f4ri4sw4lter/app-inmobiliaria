@@ -96,7 +96,7 @@ export default function ListaInmuebleView() {
   const notFound = !dataFiltered.length && !!filterName;
 
   return (
-    <Container>
+    <>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista Inmuebles</Typography>
 
@@ -173,6 +173,6 @@ export default function ListaInmuebleView() {
           labelRowsPerPage="Filas por pagina:"
         />
       </Card>
-    </Container>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Stack, Button, Container, Typography, Grid, Divider } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, Divider, Box } from '@mui/material'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Link } from '@mui/material';
 
 import Iconify from '../../../components/iconify';
@@ -10,6 +10,7 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { getProvinciaById } from '../../../helpers/getProvinciaById';
 import { getMunicipioById } from '../../../helpers/getMunicipioById';
 import { useFetchInmueblesByCliente } from '../../../hooks/useFetchInmueblesByCliente';
+import ListaDocs from '../../documentos/lista-docs';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +42,7 @@ export default function ClienteView() {
     return (
         <>
             {!clienteIsLoading &&
-                <Container>
+            <Box>
                     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                         <ArrowBack
                             sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'primary.main' }, borderRadius: '50%' }}
@@ -85,36 +86,39 @@ export default function ClienteView() {
                     </Grid>
 
 
-                    {!isLoading &&
-                        <TableContainer component={Paper}>
-                            <br />
-                            <Typography variant="h4" sx={{ color: 'primary.main' }}>Inmuebles del cliente</Typography>
-                            <Table sx={{ minWidth: 650, border: '1px solid #ccc' }}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{ border: '1px solid #ccc' }}>Titulo</TableCell>
-                                        <TableCell sx={{ border: '1px solid #ccc' }}>Estado</TableCell>
-                                        <TableCell sx={{ border: '1px solid #ccc' }}>Precio ARS</TableCell>
-                                        <TableCell sx={{ border: '1px solid #ccc' }}>Precio USD</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {inmuebles.map((row) => (
-                                        <TableRow key={row._id}>
-                                            <TableCell sx={{ border: '1px solid #ccc' }}>
-                                                <Link href={`/backoffice/inmuebles/ver/${row._id}`}>{row.titulo}</Link>
-                                            </TableCell>
-                                            <TableCell sx={{ border: '1px solid #ccc' }}>{row.estado}</TableCell>
-                                            <TableCell sx={{ border: '1px solid #ccc' }}>{row.precio}</TableCell>
-                                            <TableCell sx={{ border: '1px solid #ccc' }}>{row.precioUSD ? row.precioUSD : 'No especificado'}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    }
-                </Container>
+                <Typography variant="h4" sx={{ color: 'primary.main', mt: 5 }}>Inmuebles del cliente</Typography>
+                {!isLoading &&
+                <TableContainer component={Paper}>
+                    <br />
+                    <Table sx={{ minWidth: 650, border: '1px solid #ccc' }}>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={{ border: '1px solid #ccc' }}>Titulo</TableCell>
+                                <TableCell sx={{ border: '1px solid #ccc' }}>Estado</TableCell>
+                                <TableCell sx={{ border: '1px solid #ccc' }}>Precio ARS</TableCell>
+                                <TableCell sx={{ border: '1px solid #ccc' }}>Precio USD</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {inmuebles.map((row) => (
+                                <TableRow key={row._id}>
+                                    <TableCell sx={{ border: '1px solid #ccc' }}>
+                                        <Link href={`/backoffice/inmuebles/ver/${row._id}`}>{row.titulo}</Link>
+                                    </TableCell>
+                                    <TableCell sx={{ border: '1px solid #ccc' }}>{row.estado}</TableCell>
+                                    <TableCell sx={{ border: '1px solid #ccc' }}>{row.precio}</TableCell>
+                                    <TableCell sx={{ border: '1px solid #ccc' }}>{row.precioUSD ? row.precioUSD : 'No especificado'}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                }
+            </Box>
             }
+            <br />
+
+            <ListaDocs reference='clientes' ownerId={id} />
         </>
     );
 }

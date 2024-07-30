@@ -12,5 +12,9 @@ export const DocumentoSchema = new Schema({
     ownerId: {
         type: String,
         required: true
+    },
+    name: {
+        type: String,
+        required: true
     }
 })

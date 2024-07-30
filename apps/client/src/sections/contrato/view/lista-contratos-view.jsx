@@ -1,27 +1,30 @@
-import { useEffect, useState } from "react";
-import { useFetchListaDocs } from "../../hooks/useFetchListaDocs";
-import { emptyRows, applyFilter, getComparator } from './utils';
+import { useState, useEffect } from 'react';
+
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import Iconify from '../../components/iconify';
-import Scrollbar from '../../components/scrollbar';
 
-import TableNoData from './table-no-data';
-import DocumentosTableRow from './documentos-table-row';
-import DocumentosTableHead from './documentos-table-head';
-import TableEmptyRows from './table-empty-rows';
-import DocumentosTableToolbar from './documentos-table-toolbar';
-import { ModalCreateDocs } from "./modal-create-docs";
-export default function ListaDocs({ reference, ownerId }) {
+import Iconify from '../../../components/iconify';
+import Scrollbar from '../../../components/scrollbar';
 
-    const { listaDocs, isLoadingDocs, fetchDocs } = useFetchListaDocs(ownerId);
+import TableNoData from '../table-no-data';
+import ContratoTableRow from '../contrato-table-row';
+import ContratoTableHead from '../contrato-table-head';
+import TableEmptyRows from '../table-empty-rows';
+import ContratoTableToolbar from '../contrato-table-toolbar';
+import { emptyRows, applyFilter, getComparator } from '../utils';
+import { useFetchListaContratos } from '../../../hooks/useFetchListaContratos';
+
+// ----------------------------------------------------------------------
+
+export default function ListaContratosView() {
+
+    const { listaContratos, isLoading, fetchContratos } = useFetchListaContratos();
 
     const [page, setPage] = useState(0);
 
@@ -35,7 +38,7 @@ export default function ListaDocs({ reference, ownerId }) {
 
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const [dataFiltered, setDataFiltered] = useState(listaDocs);
+    const [dataFiltered, setDataFiltered] = useState(listaContratos);
 
     const handleSort = (event, id) => {
         const isAsc = orderBy === id && order === 'asc';
@@ -47,7 +50,7 @@ export default function ListaDocs({ reference, ownerId }) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = listaDocs.map((n) => n.nombre);
+            const newSelecteds = listaContratos.map((n) => n.nombre);
             setSelected(newSelecteds);
             return;
         }
@@ -87,15 +90,15 @@ export default function ListaDocs({ reference, ownerId }) {
     };
 
     useEffect(() => {
-        if (!isLoadingDocs) {
+        if (!isLoading) {
             let aux = applyFilter({
-                inputData: listaDocs,
+                inputData: listaContratos,
                 comparator: getComparator(order, orderBy),
                 filterName,
             })
             setDataFiltered(aux)
         }
-    }, [listaDocs, isLoadingDocs, filterName]);
+    }, [listaContratos, isLoading, filterName]);
 
 
     const notFound = !dataFiltered.length && !!filterName;
@@ -103,12 +106,15 @@ export default function ListaDocs({ reference, ownerId }) {
     return (
         <>
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                <Typography variant="h4" sx={{ color: 'primary.main' }}>Documentos</Typography>
-                <ModalCreateDocs fetchDocs={fetchDocs} reference={reference} ownerId={ownerId} />
+                <Typography variant="h4">Lista de Contratos</Typography>
+
+                <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/backoffice/contratos/crear">
+                    Agregar Contrato
+                </Button>
             </Stack>
 
             <Card>
-                <DocumentosTableToolbar
+                <ContratoTableToolbar
                     numSelected={selected.length}
                     filterName={filterName}
                     onFilterName={handleFilterByName}
@@ -117,7 +123,7 @@ export default function ListaDocs({ reference, ownerId }) {
                 <Scrollbar>
                     <TableContainer sx={{ overflow: 'unset' }}>
                         <Table sx={{ minWidth: 800 }}>
-                            <DocumentosTableHead
+                            <ContratoTableHead
                                 order={order}
                                 orderBy={orderBy}
                                 rowCount={3}
@@ -125,9 +131,11 @@ export default function ListaDocs({ reference, ownerId }) {
                                 onRequestSort={handleSort}
                                 onSelectAllClick={handleSelectAllClick}
                                 headLabel={[
-                                    { id: 'name', label: 'Codigo' },
-                                    { id: 'filename', label: 'Archivo' },
-                                    { id: 'ownerId', label: 'Owner' },
+                                    { id: 'inmueble', label: 'Inmueble' },
+                                    { id: 'propietario', label: 'Propietario' },
+                                    { id: 'cliente', label: 'Cliente' },
+                                    { id: 'empleado', label: 'Empleado' },
+                                    { id: 'fecha', label: 'Fecha' },
                                 ]}
                             />
                             <TableBody>
@@ -135,16 +143,16 @@ export default function ListaDocs({ reference, ownerId }) {
                                     dataFiltered
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => (
-                                            <DocumentosTableRow
+                                            <ContratoTableRow
                                                 key={row._id}
                                                 id={row._id}
-                                                name={row.name}
-                                                filename={row.filename}
-                                                reference={row.reference}
-                                                ownerId={row.ownerId}
+                                                inmueble={row.inmueble}
+                                                propietario={row.propietario}
+                                                cliente={row.cliente}
+                                                empleado={row.empleado}
+                                                fecha={row.fecha}
                                                 selected={selected.indexOf(row.nombre) !== -1}
                                                 handleClick={(event) => handleClick(event, row.nombre)}
-                                                fetchDocs={fetchDocs}
                                             />
                                         ))}
 
@@ -171,5 +179,5 @@ export default function ListaDocs({ reference, ownerId }) {
                 />
             </Card>
         </>
-    )
+    );
 }

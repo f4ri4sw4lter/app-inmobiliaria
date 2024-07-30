@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const createDoc = async (owner, data, reference, setIsUpload) => {
+export const createDoc = async (reference, ownerId, name, data, setIsUpload) => {
 
-    const urlApi =  `/api/documento/${owner}/${reference}`
+    const urlApi =  `/api/documento`
 
     const form = new FormData();
     form.append("file", data);
+    form.append("reference", reference);
+    form.append("ownerId", ownerId);
+    form.append("name", name);
 
     const options = {
         method: 'POST',

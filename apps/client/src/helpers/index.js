@@ -1,5 +1,6 @@
 export * from './createInmueble';
 export * from './createUser';
+export * from './createDoc';
 export * from './deleteInmuebleById';
 export * from './deleteImageById';
 export * from './deleteClienteById';
@@ -13,6 +14,8 @@ export * from './getListaClientes';
 export * from './getListaUsuarios';
 export * from './getListaImagesById';
 export * from './getListaMensaje';
+export * from './getListaDocsByOwnerId';
+export * from './getListaContratos';
 export * from './getClienteById';
 export * from './getInmueblesByCliente';
 export * from './getUserById';

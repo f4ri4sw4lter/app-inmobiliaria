@@ -19,7 +19,7 @@ import DocumentosTableHead from './documentos-table-head';
 import TableEmptyRows from './table-empty-rows';
 import DocumentosTableToolbar from './documentos-table-toolbar';
 import { ModalCreateDocs } from "./modal-create-docs";
-export default function ListaDocs({ data, reference, ownerId }) {
+export default function ListaDocs({ reference, ownerId }) {
 
     const { listaDocs, isLoadingDocs, fetchDocs } = useFetchListaDocs(ownerId);
 

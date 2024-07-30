@@ -118,7 +118,7 @@ export default function ClienteView() {
             }
             <br />
 
-            <ListaDocs data={''} reference='clientes' ownerId={id} />
+            <ListaDocs reference='clientes' ownerId={id} />
         </>
     );
 }

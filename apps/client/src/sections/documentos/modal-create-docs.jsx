@@ -17,7 +17,7 @@ export const ModalCreateDocs = ({ fetchDocs, reference, ownerId }) => {
 
     useEffect(() => {
         if (isUpload) {
-            fetchDocs();
+            fetchDocs(ownerId);
             setIsUpload(false);
         }
     }, [isUpload])
@@ -46,6 +46,7 @@ export const ModalCreateDocs = ({ fetchDocs, reference, ownerId }) => {
             
             try {
                 await createDoc(reference, ownerId, name, selectedFile, setIsUpload)
+                await fetchDocs(ownerId);
                 handleClose();
 
             } catch (error) {

@@ -1,9 +1,4 @@
-/**
- * Modelamos los datos para la coleccion de MongoDB.
- */
-
 import { Schema } from "mongoose";
-import { ubicacion } from "../interfaces/cliente.interface";
 
 export const ClienteSchema = new Schema({
     dni: {

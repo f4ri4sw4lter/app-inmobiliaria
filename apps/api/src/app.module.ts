@@ -17,6 +17,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { ImagesModule } from './images/images.module';
 import { MensajeModule } from './mensaje/mensaje.module';
 import { DocumentoModule } from './documento/documento.module';
+import { ContratoModule } from './contrato/contrato.module';
 import config from './config';
 
 
@@ -81,6 +82,7 @@ import config from './config';
     ImagesModule,
     MensajeModule,
     DocumentoModule,
+    ContratoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

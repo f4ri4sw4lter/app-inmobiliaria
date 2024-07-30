@@ -1,26 +1,26 @@
 import { Helmet } from 'react-helmet-async';
 
 import { ListaClientesView, ClienteEditView, ClienteView, ClienteCreateView } from '../sections/clientes/view';
-import { useFetchClienteById } from '../hooks/useFetchClienteById';
 import { useParams } from 'react-router-dom';
+import ListaContratosView from '../sections/contrato/view/lista-contratos-view';
 
 
-export default function ContratosPage() {
+export default function ContratoPage() {
 
     const { accion, id } = useParams();
 
     function SeleccionarVista() {
         if (typeof accion == 'undefined') {
-            return (<ListaClientesView />)
+            return (<ListaContratosView />)
         } else {
             if (accion == 'crear') {
-                return (<ClienteCreateView />)
+                return (<ListaContratosView />)
             }
             if (accion == 'ver') {
-                return (<ClienteView />)
+                return (<ListaContratosView />)
             }
             else if (accion == 'editar') {
-                return (<ClienteEditView />)
+                return (<ListaContratosView />)
             }
             else {
                 return (<NotFoundPage />)

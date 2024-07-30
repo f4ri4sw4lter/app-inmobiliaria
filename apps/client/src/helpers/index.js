@@ -15,6 +15,7 @@ export * from './getListaUsuarios';
 export * from './getListaImagesById';
 export * from './getListaMensaje';
 export * from './getListaDocsByOwnerId';
+export * from './getListaContratos';
 export * from './getClienteById';
 export * from './getInmueblesByCliente';
 export * from './getUserById';

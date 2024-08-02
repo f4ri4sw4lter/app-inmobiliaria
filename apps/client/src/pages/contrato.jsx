@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ListaClientesView, ClienteEditView, ClienteView, ClienteCreateView } from '../sections/clientes/view';
 import { useParams } from 'react-router-dom';
 import ListaContratosView from '../sections/contrato/view/lista-contratos-view';
+import ContratoCreateView from '../sections/contrato/view/contrato-create-view';
 
 
 export default function ContratoPage() {
@@ -14,7 +15,7 @@ export default function ContratoPage() {
             return (<ListaContratosView />)
         } else {
             if (accion == 'crear') {
-                return (<ListaContratosView />)
+                return (<ContratoCreateView />)
             }
             if (accion == 'ver') {
                 return (<ListaContratosView />)

@@ -30,8 +30,16 @@ export default function ContratoTableRow({
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
-
   const [openDialog, setOpenDialog] = useState(false);
+  const nuevaFecha = new Date(fecha);
+
+  const opcionesFecha = { 
+    year: 'numeric', 
+    month: 'numeric', 
+    day: 'numeric'
+  };
+
+  const fechaFormateada = nuevaFecha.toLocaleDateString('es-ES', opcionesFecha)
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -63,15 +71,15 @@ export default function ContratoTableRow({
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}>{inmueble}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/inmuebles/ver/${inmueble}`}>{inmueble}</NavLink></TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}>{propietario}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${propietario}`}>{propietario}</NavLink></TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}>{cliente}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${cliente}`}>{cliente}</NavLink></TableCell>
 
         <TableCell sx={{ border: '1px solid #ccc' }}>{empleado}</TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}>{fecha}</TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{fechaFormateada}</TableCell>
 
         <TableCell align="right" sx={{ border: '1px solid #ccc' }}>
           <IconButton onClick={handleOpenMenu}>

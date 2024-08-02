@@ -1,6 +1,7 @@
 export * from './createInmueble';
 export * from './createUser';
 export * from './createDoc';
+export * from './createContrato';
 export * from './deleteInmuebleById';
 export * from './deleteImageById';
 export * from './deleteClienteById';

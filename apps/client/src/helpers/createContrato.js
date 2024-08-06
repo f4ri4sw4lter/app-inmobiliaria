@@ -3,8 +3,6 @@ import { User } from '../utils/user';
 
 export const createContrato = async( data ) => {
 
-    console.log(data)
-
     const apiUrl = '/api/contrato';
 
     const newInmueble = {

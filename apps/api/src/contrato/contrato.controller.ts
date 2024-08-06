@@ -55,6 +55,24 @@ export class ContratoController {
         
     }
 
+    @Get('/byInmueble/:inmueble')
+    @UseGuards(AuthGuard)
+    async getContratoByInmuebleId(@Res() res, @Param('inmueble') inmueble){
+        this.logger.log('GET - contrato por inmueble.');
+        try{
+            const contrato = await this.contratoService.getContratoByInmuebleId(inmueble);
+            this.fileLogger.log(`GET-${JSON.stringify(contrato)}`);
+            return res.status(HttpStatus.OK).json({
+                message: 'contrato',
+                contrato: contrato
+            });
+        }catch(err){
+            throw new NotFoundException('Contrato no existente');
+            this.fileLogger.log(`GET-error`);
+        }
+        
+    }
+
     @Delete('/:contratoId')
     @UseGuards(AuthGuard)
     async deleteContrato(@Res() res, @Param('contratoId') contratoId){

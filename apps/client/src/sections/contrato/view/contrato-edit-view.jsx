@@ -6,12 +6,12 @@ import { Stack, Button, Container, Typography, Grid, FormControl, FormHelperText
 import Iconify from '../../../components/iconify';
 import { useFetchListaClientes } from '../../../hooks/useFetchListaClientes';
 import { useFetchListaInmuebles } from '../../../hooks/useFetchListaInmuebles';
-import { createContrato, updateInmueble } from '../../../helpers';
+import { createContrato } from '../../../helpers';
 import { useFetchClienteById } from '../../../hooks/useFetchClienteById';
 
 // ----------------------------------------------------------------------
 
-export default function ContratoCreateView() {
+export default function ContratoEditView() {
 
     const { listaInmuebles, isLoading } = useFetchListaInmuebles();
     const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
@@ -19,29 +19,24 @@ export default function ContratoCreateView() {
 
     const navigate = useNavigate();
 
-    const [inmuebleContrato, setInmueble] = useState();
-    const [clienteContrato, setCliente] = useState();
-    const [propietarioContrato, setPropietario] = useState('');
-    const [detalle, setDetalle] = useState('');
-    const [contrato, setContrato] = useState('');
-    const [estadoContrato, setEstado] = useState('');
+    const [ inmuebleContrato, setInmueble] = useState();
+    const [ clienteContrato, setCliente] = useState();
+    const [ propietarioContrato, setPropietario] = useState('');
+    const [ detalle, setDetalle] = useState('');
+    const [ contrato, setContrato ] = useState('');
+    const [ estado, setEstado ] = useState('');
 
 
 
     const handleChangeInmueble = (event) => {
         setInmueble(event.target.value);
         const inmuebleFiltrado = listaInmuebles.filter(inmueble => inmueble._id === event.target.value);
-
+        
         setContrato(inmuebleFiltrado[0].contrato)
-
-        if (inmuebleFiltrado[0].contrato == 'Venta') {
-            setEstado('Vendido');
-        } else {
-            setEstado('Alquilado');
-        }
-
+        setEstado(inmuebleFiltrado[0].estado)
+        
         const propietarioFiltrado = inmuebleFiltrado[0].propietario;
-        if (propietarioFiltrado != propietarioContrato) {
+        if(propietarioFiltrado != propietarioContrato){
             fetchCliente(propietarioFiltrado)
         }
     };
@@ -52,32 +47,18 @@ export default function ContratoCreateView() {
         setDetalle(event.target.value);
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-
-        try {
-            // Asumimos que createContrato y updateInmueble son funciones asincrónicas
-            await createContrato({
-                inmueble: inmuebleContrato,
-                propietario: propietarioContrato._id,
-                cliente: clienteContrato,
-                detalle: detalle
-            });
-
-            await updateInmueble({
-                id: inmuebleContrato,
-                estado: estadoContrato
-            });
-
-            navigate('/backoffice/contratos');
-        } catch (error) {
-            console.error("Error al crear el contrato o actualizar el inmueble:", error);
-            // Manejo de errores, como mostrar un mensaje al usuario
-        }
+    const handleSubmit = (event) => {
+        createContrato({
+            inmueble: inmuebleContrato,
+            propietario: propietarioContrato._id,
+            cliente: clienteContrato,
+            detalle: detalle
+        });
+        navigate('/backoffice/contratos');
     }
 
-
     useEffect(() => {
+        console.log(clienteIsLoading)
         if (!clienteIsLoading) {
             setPropietario(cliente)
         }
@@ -111,32 +92,30 @@ export default function ContratoCreateView() {
                                     aria-describedby="inmueble-helper"
                                     value={inmuebleContrato}
                                     onChange={handleChangeInmueble}
-                                    sx={{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2, width: '100%' }}
+                                    sx = {{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2, width: '100%' }}
                                     disableUnderline={true}
                                 >
                                     <option key='' value='' >Seleccione un inmueble</option>
                                     {
-                                        listaInmuebles
-                                            .filter((inmueble) => (inmueble.estado !== 'Alquilado' && inmueble.estado !== 'Vendido'))
-                                            .map((inmueble) => (
-                                                <option key={inmueble._id} value={inmueble._id}>{inmueble.titulo}</option>
-                                            ))
+                                        listaInmuebles.map((inmueble) => (
+                                            <option key={inmueble._id} value={inmueble._id}>{inmueble.titulo}</option>
+                                        ))
                                     }
                                 </NativeSelect>
-
+                                
                             </FormControl>
                         }
                         <Grid item xs={12} >
                             <FormControl style={{ width: '100%', marginTop: 10 }} >
                                 <FormHelperText id="propietario-helper" > Tipo de contrato </FormHelperText>
-                                <Input id="contrato" aria-describedby="contrato-helper" value={contrato} readOnly={true} disableUnderline={true} sx={{ marginLeft: 2 }} />
+                                <Input id="contrato" aria-describedby="contrato-helper" value={contrato} readOnly={true} disableUnderline={true} sx={{ marginLeft: 2 }}/>
                             </FormControl>
                         </Grid>
 
                         <Grid item xs={12} >
                             <FormControl style={{ width: '100%', marginTop: 10 }} >
                                 <FormHelperText id="propietario-helper" > Propietario </FormHelperText>
-                                <Input id="propietario" aria-describedby="propietario-helper" disableUnderline={true} value={(propietarioContrato == '') ? '' : '(' + propietarioContrato.dni + ')' + propietarioContrato.apellido + ' ' + propietarioContrato.nombre} readOnly={true} sx={{ marginLeft: 2 }} />
+                                <Input id="propietario" aria-describedby="propietario-helper" disableUnderline={true} value={(propietarioContrato == '') ? '' : '(' + propietarioContrato.dni + ')' + propietarioContrato.apellido + ' ' + propietarioContrato.nombre} readOnly={true} sx={{ marginLeft: 2 }}/>
                             </FormControl>
                         </Grid>
 
@@ -148,16 +127,14 @@ export default function ContratoCreateView() {
                                     aria-describedby="cliente-helper"
                                     value={clienteContrato}
                                     onChange={handleChangeCliente}
-                                    sx={{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2 }}
+                                    sx = {{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2}}
                                     disableUnderline={true}
                                 >
                                     <option key='' value='' >Seleccione un cliente</option>
                                     {
-                                        listaClientes
-                                            .filter((clientes) => (clientes._id !== propietarioContrato._id))
-                                            .map((clientes) => (
-                                                <option key={clientes.dni} value={clientes._id}>{'(' + clientes.dni + ')' + clientes.apellido + ' ' + clientes.nombre}</option>
-                                            ))
+                                        listaClientes.map((clientes) => (
+                                            <option key={clientes._id} value={clientes._id}>{'(' + clientes.dni + ')' + clientes.apellido + ' ' + clientes.nombre}</option>
+                                        ))
                                     }
                                 </NativeSelect>
                             </FormControl>
@@ -165,7 +142,7 @@ export default function ContratoCreateView() {
                         <Grid item xs={12} style={{ marginTop: 20, width: '100%' }}>
                             <FormControl style={{ width: '100%' }}>
                                 <FormHelperText id="detalle-helper"> Ingrese algun detalle </FormHelperText>
-                                <Input id="detalle" aria-describedby="detalle-helper" multiline fullWidth={true} onChange={handleChangeDetalle} sx={{ marginLeft: 2 }} />
+                                <Input id="detalle" aria-describedby="detalle-helper" multiline fullWidth={true} onChange={handleChangeDetalle} sx={{ marginLeft: 2 }}/>
                             </FormControl>
                         </Grid>
                     </Grid>

@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Res, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards } from '@nestjs/common';
-import { CreatePropiedadDTO } from './dto/propiedad.dto';
+import { CreatePropiedadDTO, UpdatePropiedadDTO } from './dto/propiedad.dto';
 import { PropiedadService } from './propiedad.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import FileLogger from '../../utils/fileLogger'
@@ -97,10 +97,11 @@ export class PropiedadController {
 
     @Put('/update/:propiedadId')
     @UseGuards(AuthGuard)
-    async updatePropiedad(@Res() res, @Body() createPropiedadDTO, @Param('propiedadId') propiedadId){
+    async updatePropiedad(@Res() res, @Body() updatePropiedadDTO:UpdatePropiedadDTO, @Param('propiedadId') propiedadId){
+        console.log(updatePropiedadDTO)
         this.logger.log('PUT - Actualizando propiedad.');
         try{
-            const updatedPropiedad = await this.propiedadService.updatePropiedad(propiedadId, createPropiedadDTO);
+            const updatedPropiedad = await this.propiedadService.updatePropiedad(propiedadId, updatePropiedadDTO);
             if(updatedPropiedad === null){
                 this.fileLogger.log(`PUT-Error-Propiedad no existente`);
                 return res.status(HttpStatus.CONFLICT).json({

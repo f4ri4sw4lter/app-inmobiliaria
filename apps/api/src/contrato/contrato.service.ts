@@ -24,6 +24,11 @@ export class ContratoService {
         return contrato;
     }
 
+    async getContratoByInmuebleId(inmueble: string): Promise<Contrato>{
+        const contrato = await this.contratoModel.findOne({inmueble: inmueble});
+        return contrato;
+    }
+
     async getContratos(): Promise<Contrato[]>{
         const contratos = await this.contratoModel.find();
         return contratos;

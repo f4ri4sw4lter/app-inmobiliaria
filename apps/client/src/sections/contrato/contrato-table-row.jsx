@@ -15,6 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { NavLink } from 'react-router-dom';
 
 import Iconify from '../../components/iconify';
+import { deleteContratoById } from '../../helpers';
 
 
 // ----------------------------------------------------------------------
@@ -51,7 +52,7 @@ export default function ContratoTableRow({
   };
 
   const handleConfirmDialog = () => {
-    deleteClienteById(id);
+    deleteContratoById(id);
     setOpenDialog(false);
     setOpen(null);
     window.location.reload();
@@ -99,22 +100,13 @@ export default function ContratoTableRow({
         }}
       >
         
-        <NavLink to={`/backoffice/clientes/ver/${id}`} className='nav-item nav-link' key="ver">
+        <NavLink to={`/backoffice/contratos/ver/${id}`} className='nav-item nav-link' key="ver">
           <MenuItem sx={{ border: '1px solid #ccc' }}>
             <Button>
               <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
               Ver
             </Button>
           </MenuItem>
-        </NavLink>
-
-        <NavLink to={`/backoffice/clientes/editar/${id}`} className='nav-item nav-link' key="editar">
-          <MenuItem sx={{ border: '1px solid #ccc' }}>
-            <Button>
-              <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-              Editar
-            </Button>
-          </MenuItem >
         </NavLink>
 
         <MenuItem sx={{ color: 'error.main', border: '1px solid #ccc' }}>
@@ -128,7 +120,7 @@ export default function ContratoTableRow({
           <DialogTitle>Confirmación</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              ¿Estás seguro de que deseas borrar este cliente?
+              ¿Estás seguro de que deseas borrar este contrato?
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -8,7 +8,7 @@ import { CreateContratoDTO } from './dto/contrato.dto';
 export class ContratoController {
 
     private readonly logger = new Logger(ContratoController.name);
-    private fileLogger = new FileLogger('../client/public/logs/clientes.log');
+    private fileLogger = new FileLogger('../client/public/logs/contratos.log');
 
     constructor(private contratoService: ContratoService){}
 

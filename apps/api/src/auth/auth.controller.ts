@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PayloadToken } from './interfaces/token.interface';
 import { AuthGuard } from './guards/auth.guard';
 import { UpdateUsuarioDTO } from './dto/update-usuario.dto';
+import FileLogger from '../../utils/fileLogger'
 
 @Controller('auth')
 export class AuthController {
@@ -13,6 +14,7 @@ export class AuthController {
     private bcrypt = require('bcrypt');
 
     private readonly logger = new Logger(AuthController.name);
+    private fileLogger = new FileLogger('../client/public/logs/usuarios.log');
 
     constructor(private authService: AuthService, private jwt: JwtService) { }
 
@@ -64,6 +66,7 @@ export class AuthController {
         //Guardamos el nuevo usuario
         else {
             await this.authService.createUsuario(RegisterUsuarioDTO);
+            this.fileLogger.log(`Registro nuevo User-${JSON.stringify(RegisterUsuarioDTO)}`);
             return res.status(HttpStatus.OK).json({
                 message: 'Usuario creado.'
             });
@@ -105,7 +108,8 @@ export class AuthController {
                 const payload: PayloadToken = { email: user.email };
 
                 const token = await this.jwt.signAsync(payload)
-
+                
+                this.fileLogger.log(`Login User-${JSON.stringify(user)}`);
                 return res.status(HttpStatus.OK).json({
                     message: 'Login exitoso',
                     token: token,
@@ -131,6 +135,7 @@ export class AuthController {
                     message: 'Usuario inexistente'
                 });
             } else {
+                this.fileLogger.log(`Eliminacion User-${JSON.stringify(deletedUsuario)}`);
                 return res.status(HttpStatus.OK).json({
                     message: 'Usuario eliminada correctamente',
                     User: deletedUsuario
@@ -153,6 +158,7 @@ export class AuthController {
                     message: 'user inexistente'
                 }); 
             }else{
+                this.fileLogger.log(`Actualizacion User-${JSON.stringify(updatedUser)}`);
                 return res.status(HttpStatus.OK).json({
                     message: 'user actualizado',
                     user: updatedUser

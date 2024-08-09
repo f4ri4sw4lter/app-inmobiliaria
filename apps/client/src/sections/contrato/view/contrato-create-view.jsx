@@ -29,9 +29,8 @@ export default function ContratoCreateView() {
 
 
     const handleChangeInmueble = (event) => {
-        setInmueble(event.target.value);
         const inmuebleFiltrado = listaInmuebles.filter(inmueble => inmueble._id === event.target.value);
-
+        setInmueble(inmuebleFiltrado[0]);
         setContrato(inmuebleFiltrado[0].contrato)
 
         if (inmuebleFiltrado[0].contrato == 'Venta') {
@@ -46,7 +45,8 @@ export default function ContratoCreateView() {
         }
     };
     const handleChangeCliente = (event) => {
-        setCliente(event.target.value);
+        const clienteFiltrado = listaClientes.filter(cliente => cliente._id === event.target.value);
+        setCliente(clienteFiltrado[0]);
     };
     const handleChangeDetalle = (event) => {
         setDetalle(event.target.value);
@@ -59,13 +59,13 @@ export default function ContratoCreateView() {
             // Asumimos que createContrato y updateInmueble son funciones asincrónicas
             await createContrato({
                 inmueble: inmuebleContrato,
-                propietario: propietarioContrato._id,
+                propietario: propietarioContrato,
                 cliente: clienteContrato,
                 detalle: detalle
             });
 
             await updateInmueble({
-                id: inmuebleContrato,
+                id: inmuebleContrato._id,
                 estado: estadoContrato
             });
 
@@ -109,7 +109,6 @@ export default function ContratoCreateView() {
                                 <NativeSelect
                                     id="inmueble"
                                     aria-describedby="inmueble-helper"
-                                    value={inmuebleContrato}
                                     onChange={handleChangeInmueble}
                                     sx={{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2, width: '100%' }}
                                     disableUnderline={true}
@@ -146,7 +145,6 @@ export default function ContratoCreateView() {
                                 <NativeSelect
                                     id="cliente"
                                     aria-describedby="cliente-helper"
-                                    value={clienteContrato}
                                     onChange={handleChangeCliente}
                                     sx={{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2 }}
                                     disableUnderline={true}

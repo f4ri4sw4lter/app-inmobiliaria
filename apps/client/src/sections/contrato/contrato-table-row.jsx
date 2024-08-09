@@ -15,7 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { NavLink } from 'react-router-dom';
 
 import Iconify from '../../components/iconify';
-import { deleteContratoById } from '../../helpers';
+import { deleteContratoById, updateInmueble } from '../../helpers';
 
 
 // ----------------------------------------------------------------------
@@ -51,8 +51,15 @@ export default function ContratoTableRow({
     handleCloseMenu();
   };
 
-  const handleConfirmDialog = () => {
-    deleteContratoById(id);
+  const handleConfirmDialog = async () => {
+    const resp = deleteContratoById(id)
+    const nuevoEstado = (inmueble.estado == 'Vendido' ? 'En Venta' : 'En Alquiler');
+    if (resp){
+      await updateInmueble({
+        id: inmueble._id,
+        estado: nuevoEstado
+    });
+    }
     setOpenDialog(false);
     setOpen(null);
     window.location.reload();
@@ -72,11 +79,11 @@ export default function ContratoTableRow({
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/inmuebles/ver/${inmueble}`}>{inmueble}</NavLink></TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/inmuebles/ver/${inmueble._id}`}>{inmueble.titulo}</NavLink></TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${propietario}`}>{propietario}</NavLink></TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${propietario._id}`}>{propietario.apellido} {propietario.nombre}</NavLink></TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${cliente}`}>{cliente}</NavLink></TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${cliente._id}`}>{cliente.apellido} {cliente.nombre}</NavLink></TableCell>
 
         <TableCell sx={{ border: '1px solid #ccc' }}>{empleado}</TableCell>
 

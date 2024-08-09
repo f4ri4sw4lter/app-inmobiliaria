@@ -7,7 +7,7 @@ import { ubicacion, equipamiento } from "../interfaces/propiedad.interface";
 
 export const PropiedadSchema = new Schema({
     propietario:{
-        type: String,
+        type: Object,
         required: true
     },
     titulo: {

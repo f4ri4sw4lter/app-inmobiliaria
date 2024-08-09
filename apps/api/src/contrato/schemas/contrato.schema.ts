@@ -2,15 +2,15 @@ import { Schema } from "mongoose";
 
 export const ContratoSchema = new Schema({
     inmueble: {
-        type: String,
+        type: Object,
         required: true
     },
     propietario: {
-        type: String,
+        type: Object,
         required: true
     },
     cliente: {
-        type: String,
+        type: Object,
         required: true
     },
     empleado: {

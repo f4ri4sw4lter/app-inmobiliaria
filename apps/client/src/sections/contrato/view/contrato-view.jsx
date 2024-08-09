@@ -42,17 +42,17 @@ export default function ContratoView() {
                 <Grid container>
                     <Grid item xs={12}>
                         <Typography variant="h4" sx={{ color: 'primary.main' }}>Propietario </Typography>
-                        <Typography variant="h6" >{contrato.propietario}</Typography>
+                        <Typography variant="h6" >{contrato.propietario.apellido} {contrato.propietario.nombre}</Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                         <Typography variant="h4" sx={{ color: 'primary.main', marginTop: 2 }}>Inmueble </Typography>
-                        <Typography variant="h6" >{contrato.inmueble}</Typography>
+                        <Typography variant="h6" >{contrato.inmueble.titulo}</Typography>
                     </Grid>
 
                     <Grid item xs={12}>
                         <Typography variant="h4" sx={{ color: 'primary.main', marginTop: 2 }}>cliente </Typography>
-                        <Typography variant="h6" >{contrato.cliente}</Typography>
+                        <Typography variant="h6" >{contrato.cliente.apellido} {contrato.cliente.nombre}</Typography>
                     </Grid>
 
                     <Grid item xs={12}>

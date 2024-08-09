@@ -14,6 +14,7 @@ export * from './getClienteById';
 export * from './getMunicipios';
 export * from './getContratoById';
 export * from './getContratoByInmuebleId';
+export * from './getContratoByClienteId';
 export * from './getProvincias';
 export * from './getListaClientes';
 export * from './getListaUsuarios';

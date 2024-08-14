@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
@@ -8,8 +9,14 @@ import { alpha } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-
+import Cookies from 'js-cookie';
 import { account } from '../../../_mock/account';
+import { useNavigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 // ----------------------------------------------------------------------
 
@@ -28,13 +35,29 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover({ User }) {
   const [open, setOpen] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
   const handleClose = () => {
-    setOpen(null);
+    setOpen(null)
+  };
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    handleCloseMenu();
+  };
+
+  const handleConfirmDialog = () => {
+    Cookies.remove('User');
+    window.location.reload();
   };
 
   return (
@@ -81,7 +104,7 @@ export default function AccountPopover({ User }) {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {User.lastname + ' ' + User.name + ' (' + User.role + ')'}	
+            {User.lastname + ' ' + User.name + ' (' + User.role + ')'}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {User.email}
@@ -101,11 +124,28 @@ export default function AccountPopover({ User }) {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleClickOpenDialog}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Cerrar sesión
         </MenuItem>
+
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Confirmación</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              ¿Estás seguro de que deseas cerrar sesion?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              Cancelar
+            </Button>
+            <Button onClick={handleConfirmDialog} color="primary">
+              Confirmar
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Popover>
     </>
   );

@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
+import Cookies from 'js-cookie';
 
 import { useRouter } from '../../routes/hooks';
 
@@ -45,9 +46,7 @@ export default function LoginView({ setIsLogged, setUser }) {
     } else {
       setIsLogged(true);
 
-      sessionStorage.setItem(
-        'User', JSON.stringify(user)
-      );
+      Cookies.set('User', JSON.stringify(user), { expires: 1 });
 
       setUser(JSON.stringify(user))
 

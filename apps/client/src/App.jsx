@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useScrollToTop } from './hooks/use-scroll-to-top';
 import Router from './routes/sections';
 import LoginPage from './pages/login';
+import Cookies from 'js-cookie';
 
 // ----------------------------------------------------------------------
 
@@ -15,12 +16,12 @@ export default function App() {
   useScrollToTop();
 
   useEffect(() => {
-    if(sessionStorage.getItem('User')){
+    if(Cookies.get('User')){
       setIsLogged(true);
-      setUser(JSON.parse(sessionStorage.getItem('User')));
+      setUser(JSON.parse(Cookies.get('User')));
     }
     if(isLogged){
-      setUser(JSON.parse(sessionStorage.getItem('User')));
+      setUser(JSON.parse(Cookies.get('User')));
     }
   },[isLogged])
   

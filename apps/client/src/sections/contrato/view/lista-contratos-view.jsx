@@ -109,7 +109,7 @@ export default function ListaContratosView() {
                 <Typography variant="h4">Lista de Contratos</Typography>
 
                 <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/backoffice/contratos/crear">
-                    Agregar Contrato
+                    Crear Contrato
                 </Button>
             </Stack>
 
@@ -118,6 +118,7 @@ export default function ListaContratosView() {
                     numSelected={selected.length}
                     filterName={filterName}
                     onFilterName={handleFilterByName}
+                    data={listaContratos}
                 />
 
                 <Scrollbar>

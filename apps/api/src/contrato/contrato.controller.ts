@@ -8,7 +8,7 @@ import { CreateContratoDTO } from './dto/contrato.dto';
 export class ContratoController {
 
     private readonly logger = new Logger(ContratoController.name);
-    private fileLogger = new FileLogger('../client/public/logs/clientes.log');
+    private fileLogger = new FileLogger('../client/public/logs/contratos.log');
 
     constructor(private contratoService: ContratoService){}
 
@@ -47,6 +47,60 @@ export class ContratoController {
             return res.status(HttpStatus.OK).json({
                 message: 'contrato',
                 contrato: contrato
+            });
+        }catch(err){
+            throw new NotFoundException('Contrato no existente');
+            this.fileLogger.log(`GET-error`);
+        }
+        
+    }
+
+    @Get('/byInmueble/:inmueble')
+    @UseGuards(AuthGuard)
+    async getContratoByInmuebleId(@Res() res, @Param('inmueble') inmueble){
+        this.logger.log('GET - contrato por inmueble.');
+        try{
+            const contrato = await this.contratoService.getContratoByInmuebleId(inmueble);
+            this.fileLogger.log(`GET-${JSON.stringify(contrato)}`);
+            return res.status(HttpStatus.OK).json({
+                message: 'contrato',
+                contrato: contrato
+            });
+        }catch(err){
+            throw new NotFoundException('Contrato no existente');
+            this.fileLogger.log(`GET-error`);
+        }
+        
+    }
+
+    @Get('/byCliente/:cliente')
+    @UseGuards(AuthGuard)
+    async getContratoByClienteId(@Res() res, @Param('cliente') cliente){
+        this.logger.log('GET - contrato por cliente.');
+        try{
+            const contratos = await this.contratoService.getContratoByClienteId(cliente);
+            this.fileLogger.log(`GET-${JSON.stringify(contratos)}`);
+            return res.status(HttpStatus.OK).json({
+                message: 'contratos',
+                contrato: contratos
+            });
+        }catch(err){
+            throw new NotFoundException('Contrato no existente');
+            this.fileLogger.log(`GET-error`);
+        }
+        
+    }
+
+    @Get('/byPropietario/:propietario')
+    @UseGuards(AuthGuard)
+    async getContratoByPropietarioId(@Res() res, @Param('propietario') propietario){
+        this.logger.log('GET - contrato por propietario.');
+        try{
+            const contratos = await this.contratoService.getContratoByPropietarioId(propietario);
+            this.fileLogger.log(`GET-${JSON.stringify(contratos)}`);
+            return res.status(HttpStatus.OK).json({
+                message: 'contratos',
+                contrato: contratos
             });
         }catch(err){
             throw new NotFoundException('Contrato no existente');

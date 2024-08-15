@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, NavLink } from "react-router-dom";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { Stack, Button, Container, Typography, Grid, Box, Paper, Divider, Link } from '@mui/material'
 
@@ -10,6 +10,7 @@ import { HorizontalImageList } from '../img-lista';
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
+import { useFetchContratoByInmueble } from '../../../hooks/useFetchContratoByInmuebleId';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { getProvinciaById } from '../../../helpers/getProvinciaById';
 import { getMunicipioById } from '../../../helpers/getMunicipioById';
@@ -20,10 +21,28 @@ import ListaDocs from '../../documentos/lista-docs';
 
 export default function InmuebleView() {
 
+  const StyledNavLink = styled(NavLink)(({ theme }) => ({
+    textDecoration: 'none',
+    color: 'inherit',
+    padding: theme.spacing(1),
+    transition: 'color 0.3s, background-color 0.3s',
+
+    '&:hover': {
+      color: 'white',
+      backgroundColor: theme.palette.primary.main,
+    },
+
+    '&.active': {
+      fontWeight: 'bold',
+      color: 'blue',
+    },
+  }));
+
   const navigate = useNavigate();
   const { accion, id } = useParams();
   const { inmueble, isLoading } = useFetchInmuebleById({ id });
   const { cliente, clienteIsLoading, fetchCliente } = useFetchClienteById();
+  const { contrato, contratoIsLoading } = useFetchContratoByInmueble(id);
 
   const [selected, setSelected] = useState([]);
   const [municipio, setMunicipio] = useState([]);
@@ -67,7 +86,7 @@ export default function InmuebleView() {
         <Grid item xs={12}>
           <Typography variant="h5" sx={{ color: 'primary.main' }}>Propietario</Typography>
           <Typography variant="h6" >
-            <Link href={`/backoffice/clientes/ver/${cliente._id}`} sx={{color:'black'}}>
+            <Link href={`/backoffice/clientes/ver/${cliente._id}`} sx={{ color: 'black' }}>
               {cliente.apellido} {cliente.nombre} ({cliente.dni})
             </Link>
           </Typography>
@@ -84,13 +103,13 @@ export default function InmuebleView() {
 
         <Grid item xs={2}>
           <Typography variant="h4" sx={{ color: 'primary.main' }}>Precio</Typography>
-          <Typography variant="h6" >{inmueble.precio ? '$'+inmueble.precio+' ARS' : 'No especificado'} 
+          <Typography variant="h6" >{inmueble.precio ? '$' + inmueble.precio + ' ARS' : 'No especificado'}
           </Typography>
         </Grid>
 
         <Grid item xs={10}>
           <Typography variant="h4" sx={{ color: 'primary.main' }}>Precio en USD</Typography>
-          <Typography variant="h6" >{inmueble.precioUSD ? '$'+inmueble.precioUSD+' USD' : 'No especificado'}
+          <Typography variant="h6" >{inmueble.precioUSD ? '$' + inmueble.precioUSD + ' USD' : 'No especificado'}
           </Typography>
         </Grid>
 
@@ -142,6 +161,21 @@ export default function InmuebleView() {
       </Grid>
       <br />
       <ListaDocs reference='inmuebles' ownerId={id} />
+
+      {(!contratoIsLoading && contrato) &&
+          <StyledNavLink to={`/backoffice/contratos/ver/${contrato._id}`} 
+            sx={{ color: 'primary.main', 
+                  borderRadius: '10px', 
+                  padding: '10px', 
+                  alignItems: 'center', 
+                  width: '100%', 
+                  display: 'flex', 
+                  justifyContent: 'center',
+                  border: '1px solid grey',  
+                }}>
+              Ver Contrato
+            </StyledNavLink>
+      }
     </>
   );
 }

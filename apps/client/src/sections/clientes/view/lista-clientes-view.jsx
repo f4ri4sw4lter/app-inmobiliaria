@@ -122,6 +122,7 @@ export default function ListaClientesView() {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          data={listaClientes}
         />
 
         <Scrollbar>

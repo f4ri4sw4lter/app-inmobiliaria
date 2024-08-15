@@ -63,6 +63,11 @@ export default function InmuebleCreateView() {
 
   const handleChangeContrato = (event) => {
     setContrato(event.target.value);
+    if(event.target.value == 'Venta'){
+      setEstado('En Venta');
+    } else {
+      setEstado('En Alquiler');
+    }
   };
   const handleChangeEstado = (event) => {
     setEstado(event.target.value);
@@ -202,7 +207,7 @@ export default function InmuebleCreateView() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={3} style={{ marginTop: 20 }}>
+          <Grid item xs={12} style={{ marginTop: 20 }}>
             <FormControl>
               <NativeSelect
                 id="contrato"
@@ -214,19 +219,6 @@ export default function InmuebleCreateView() {
                 <option value="Venta">Venta</option>
               </NativeSelect>
               <FormHelperText id="contrato-label">Seleccione un tipo de contrato</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={9} style={{ marginTop: 20 }}>
-            <FormControl>
-              <NativeSelect
-                id="estado"
-                aria-describedby="titulo-helper"
-                defaultValue="En Alquiler"
-                onChange={handleChangeEstado}
-              >
-                {estados}
-              </NativeSelect>
-              <FormHelperText id="estado-label">Seleccione el estado del inmueble</FormHelperText>
             </FormControl>
           </Grid>
 

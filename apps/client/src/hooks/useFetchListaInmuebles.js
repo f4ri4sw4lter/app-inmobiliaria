@@ -10,6 +10,7 @@ export const useFetchListaInmuebles = () => {
         getListaInmuebles()
             .then(({ propiedades }) => {
                 setListaInmuebles(propiedades)
+                setIsLoading( false )
             })
     }, []);
     

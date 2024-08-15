@@ -1,9 +1,9 @@
 import { Document } from "mongoose";
 
 export interface Contrato extends Document {
-	inmueble: string;
-    propietario: string;
-	cliente: string;
+	inmueble: any;
+    propietario: any;
+	cliente: any;
 	empleado: string;
 	fecha?: Date;
 	detalle?: string;

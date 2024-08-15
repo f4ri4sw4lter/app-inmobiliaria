@@ -21,6 +21,8 @@ import InmuebleTableToolbar from '../inmueble-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchListaInmuebles } from "../../../hooks/useFetchListaInmuebles";
 
+import SvgColor from '../../../components/svg-color';
+
 // ----------------------------------------------------------------------
 
 export default function ListaInmuebleView() {
@@ -110,6 +112,7 @@ export default function ListaInmuebleView() {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          data = {listaInmuebles}
         />
 
         <Scrollbar>
@@ -124,7 +127,7 @@ export default function ListaInmuebleView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'titulo', label: 'Titulo' },
-                  { id: 'contrato', label: 'Tipo de contrato'},
+                  { id: 'contrato', label: 'Tipo de contrato' },
                   { id: 'estado', label: 'Estado' },
                   //{ id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'ambientes', label: 'Cant. ambientes', align: 'center' },
@@ -137,17 +140,17 @@ export default function ListaInmuebleView() {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <InmuebleTableRow
-                      key         ={row._id}
-                      id          ={row._id}
-                      titulo      ={row.titulo}
-                      descripcion ={row.descripcion}
-                      contrato    ={row.contrato}
-                      estado      ={row.estado}
-                      ambientes   ={row.cant_amb}
-                      selected    ={selected.indexOf(row.name) !== -1}
-                      banios      ={row.cant_ba}
+                      key={row._id}
+                      id={row._id}
+                      titulo={row.titulo}
+                      descripcion={row.descripcion}
+                      contrato={row.contrato}
+                      estado={row.estado}
+                      ambientes={row.cant_amb}
+                      selected={selected.indexOf(row.name) !== -1}
+                      banios={row.cant_ba}
                       habitaciones={row.cant_hab}
-                      handleClick ={(event) => handleClick(event, row.name)}
+                      handleClick={(event) => handleClick(event, row.name)}
                     />
                   ))}
 

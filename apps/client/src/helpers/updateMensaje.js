@@ -8,13 +8,10 @@ export const updateMensaje = async (data) => {
     if(data.noLeido == 'true') {
         data.noLeido = false;
         data.lector = User.lastname + " " + User.name;
-        console.log('1')
     } else {
         data.noLeido = true;
         data.lector = '';
-        console.log('2')
     }
-    console.log(data)
 
     const response = await axios.put(baseUrl, data, {
         headers: {

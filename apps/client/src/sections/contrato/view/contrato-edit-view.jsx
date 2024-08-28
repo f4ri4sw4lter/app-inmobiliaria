@@ -58,7 +58,6 @@ export default function ContratoEditView() {
     }
 
     useEffect(() => {
-        console.log(clienteIsLoading)
         if (!clienteIsLoading) {
             setPropietario(cliente)
         }

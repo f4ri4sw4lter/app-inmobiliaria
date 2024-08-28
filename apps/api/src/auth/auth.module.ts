@@ -6,6 +6,8 @@ import { AuthService } from './auth.service';
 import { jwtConstants } from './constants/jwt.constants';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { ConfModule } from 'src/config/config.module';
+import { ConfigService } from 'src/config/config.service';
 
 @Module({
     imports: [

@@ -27,3 +27,5 @@ export * from './getInmueblesByCliente';
 export * from './updateUser';
 export * from './updateInmueble';
 export * from './login';
+export * from './setNoMensajes';
+export * from './getConfig';

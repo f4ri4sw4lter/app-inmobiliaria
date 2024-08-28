@@ -1,10 +1,21 @@
 import { Stack, Typography } from '@mui/material';
 import { useFetchListaMensajes } from '../../../hooks/useFetchListaMensajes';
 import MensajeCard from '../mensaje-card';
+import { useEffect } from 'react';
+import { setNoMensajes } from '../../../helpers';
+import { Config } from '../../../utils/config';
+import { updateConfig } from '../../../utils/updateConfig';
 
 export default function ListaMensajesView(noLeidos) {
 
     const { listaMensajes, isLoadingMensajes, fetchMensajes } = useFetchListaMensajes(noLeidos);
+
+    useEffect(() => {
+        if((listaMensajes.length == 0) && (Config.unreadMsgs)) {
+            setNoMensajes();
+        }
+        updateConfig();
+    }, [listaMensajes, isLoadingMensajes]);
 
     return (
         <>

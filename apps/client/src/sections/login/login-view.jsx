@@ -21,6 +21,7 @@ import { bgGradient } from '../../theme/css';
 import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
 import { login } from '../../helpers/login'
+import { getConfig } from '../../helpers/getConfig';
 
 // ----------------------------------------------------------------------
 
@@ -44,9 +45,13 @@ export default function LoginView({ setIsLogged, setUser }) {
       setIsFailLogin(true);
 
     } else {
+
       setIsLogged(true);
 
       Cookies.set('User', JSON.stringify(user), { expires: 1 });
+      
+      const config = await getConfig(user);
+      Cookies.set('Config', JSON.stringify(config.config[0]), { expires: 1 });
 
       setUser(JSON.stringify(user))
 

@@ -7,6 +7,7 @@ import { PayloadToken } from './interfaces/token.interface';
 import { AuthGuard } from './guards/auth.guard';
 import { UpdateUsuarioDTO } from './dto/update-usuario.dto';
 import FileLogger from '../../utils/fileLogger'
+import { ConfigService } from 'src/config/config.service';
 
 @Controller('auth')
 export class AuthController {
@@ -107,7 +108,7 @@ export class AuthController {
 
                 const payload: PayloadToken = { email: user.email };
 
-                const token = await this.jwt.signAsync(payload)
+                const token = await this.jwt.signAsync(payload);
                 
                 this.fileLogger.log(`Login User-${JSON.stringify(user)}`);
                 return res.status(HttpStatus.OK).json({
@@ -116,7 +117,7 @@ export class AuthController {
                     email: user.email,
                     name: user.name,
                     lastname: user.lastname,
-                    role: user.role.level,
+                    role: user.role.level
                 });
             }
         }

@@ -19,13 +19,14 @@ export class ConfigService {
 
     async getConfig(): Promise<Config[]>{
         const configs = await this.configModel.find();
+        console.log(configs);
         return configs;
     }
 
     async newMessage(configDTO: ConfigDTO): Promise<Config>{
-        const newConfig = new this.configModel(configDTO);
-        await newConfig.save();
-        return newConfig;
+        const config = await this.configModel.find();
+        const newconfig = this.configModel.findByIdAndUpdate(config[0]._id, configDTO, { new: true });
+        return newconfig;
     }
 
     async noMessage(configDTO: ConfigDTO): Promise<Config>{

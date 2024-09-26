@@ -11,9 +11,6 @@ export default function ListaMensajesView(noLeidos) {
     const { listaMensajes, isLoadingMensajes, fetchMensajes } = useFetchListaMensajes(noLeidos);
 
     useEffect(() => {
-        if((listaMensajes.length == 0) && (Config.unreadMsgs)) {
-            setNoMensajes();
-        }
         updateConfig();
     }, [listaMensajes, isLoadingMensajes]);
 
@@ -36,6 +33,7 @@ export default function ListaMensajesView(noLeidos) {
                         lector={mensaje.lector}
                         id={mensaje._id}
                         fetchMensajes={fetchMensajes}
+                        lista = {listaMensajes}
                     />
                 ))
             }

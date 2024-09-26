@@ -7,7 +7,6 @@ const icon = (name) => (
   <SvgColor src={`/assets/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />
 );
 
-
 const msgIcon = Config.unreadMsgs ? 'flaticon/sobre-mas' : 'flaticon/sobre' 
 
 const navConfig = [

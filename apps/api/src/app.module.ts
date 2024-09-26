@@ -19,6 +19,8 @@ import { MensajeModule } from './mensaje/mensaje.module';
 import { DocumentoModule } from './documento/documento.module';
 import { ContratoModule } from './contrato/contrato.module';
 import { ConfModule } from './config/config.module';
+import { MailModule } from './mail/mail.module';
+import { MetricsModule } from './metrics/metrics.module';
 import config from './config';
 
 
@@ -85,6 +87,8 @@ import config from './config';
     DocumentoModule,
     ContratoModule,
     ConfModule,
+    MailModule,
+    MetricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

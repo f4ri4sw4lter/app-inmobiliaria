@@ -15,30 +15,29 @@ import AppWidgetSummary from '../app-widget-summary';
 import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
+import { useState } from 'react';
+import { useFetchUltimosCincoContratos } from '../../../hooks/useFetchUltimosCincoContratos';
+import { useFetchMetrics } from '../../../hooks/useFetchMetrics';
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+
+  const { ultimosCinco, setUltimosCinco } = useFetchUltimosCincoContratos();
+  const { metrics, metricsIsLoading } = useFetchMetrics();
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Inmobiliaria Ferreyra
       </Typography>
 
+      {! metricsIsLoading &&
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="New Users"
-            total={1352831}
+            title="Total clientes"
+            total={metrics.cant_clientes}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
           />
@@ -46,8 +45,17 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
+            title="Ventas del mes"
+            total={metrics.cant_ventas}
+            color="success"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={3}>
+          <AppWidgetSummary
+            title="Alquileres del mes"
+            total={(metrics.cant_alquileres).toString()}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -55,8 +63,8 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
+            title="Mensajes del mes"
+            total={metrics.cant_mensajes}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
@@ -106,13 +114,11 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Current Visits"
+            title="Contratos"
             chart={{
               series: [
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
+                { label: 'Ventas', value: metrics.cant_ventas },
+                { label: 'Alquileres', value: metrics.cant_alquileres },
               ],
             }}
           />
@@ -155,13 +161,12 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppNewsUpdate
-            title="News Update"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: faker.person.jobTitle(),
-              description: faker.commerce.productDescription(),
-              image: `/assets/images/covers/cover_${index + 1}.jpg`,
-              postedAt: faker.date.recent(),
+            title="Ultimos contratos"
+            list = {ultimosCinco.map((contrato) => ({
+              inmuebleId: contrato.inmueble._id,
+              titulo: contrato.inmueble.titulo,
+              empleado: contrato.empleado,
+              postedAt: contrato.createdAt,
             }))}
           />
         </Grid>
@@ -225,6 +230,7 @@ export default function AppView() {
           />
         </Grid>
       </Grid>
+      }
     </Container>
   );
 }

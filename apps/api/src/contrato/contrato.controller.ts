@@ -37,6 +37,24 @@ export class ContratoController {
         });
     }
 
+    @Get('/ultimosCinco')
+    @UseGuards(AuthGuard)
+    async getUltimosCinco(@Res() res){
+        this.logger.log('GET - Ultimos cinco contratos.');
+        try{
+            const contratos = await this.contratoService.getUltimosCinco();
+            this.fileLogger.log(`GET-${JSON.stringify(contratos)}`);
+            return res.status(HttpStatus.OK).json({
+                message: 'contratos',
+                contratos: contratos
+            });
+        }catch(err){
+            this.fileLogger.log(`GET-error`);
+            throw new NotFoundException('Contratos no encontrados');
+        }
+        
+    }
+
     @Get('/:contratoId')
     @UseGuards(AuthGuard)
     async getContrato(@Res() res, @Param('contratoId') contratoId){

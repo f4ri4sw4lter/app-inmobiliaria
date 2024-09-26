@@ -29,6 +29,26 @@ export class ContratoService {
         return contrato;
     }
 
+    async getAlquileres(){
+        const alquileres = await this.contratoModel.find({
+            $or: [
+                { "inmueble.contrato": "Alquiler" },
+            ]
+        })
+
+        return alquileres;
+    }
+
+    async getVentas(){
+        const ventas = await this.contratoModel.find({
+            $or: [
+                { "inmueble.contrato": "Venta" },
+            ]
+        })
+
+        return ventas;
+    }
+
     async getContratoByClienteId(cliente: string): Promise<Contrato[]> {
         const contratos = await this.contratoModel.find({
             $or: [
@@ -41,6 +61,12 @@ export class ContratoService {
 
     async getContratoByPropietarioId(propietario: string): Promise<Contrato[]> {
         const contratos = await this.contratoModel.find({ "propietario._id": propietario });
+        return contratos;
+    }
+
+    async getUltimosCinco(): Promise<Contrato[]> {
+        const contratos = await this.contratoModel.find().limit(5).exec();
+        console.log('CONTRATOS',contratos)
         return contratos;
     }
 

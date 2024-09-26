@@ -13,6 +13,7 @@ import { ConfModule } from '../config/config.module';
     ])
   ],
   providers: [MensajeService],
-  controllers: [MensajeController]
+  controllers: [MensajeController],
+  exports: [MensajeService]
 })
 export class MensajeModule {}

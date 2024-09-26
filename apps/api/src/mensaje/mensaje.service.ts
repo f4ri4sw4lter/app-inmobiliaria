@@ -14,6 +14,11 @@ export class MensajeService {
         const mensajes = await this.mensajeModel.find(isNoLeido);
         return mensajes;
     }
+    
+    async getAllMensajes(): Promise<Mensaje[]>{
+        const mensajes = await this.mensajeModel.find();
+        return mensajes;
+    }
 
     async createMensaje(createMensajeDTO: CreateMensajeDTO): Promise<Mensaje>{
         const newMensaje = new this.mensajeModel(createMensajeDTO);

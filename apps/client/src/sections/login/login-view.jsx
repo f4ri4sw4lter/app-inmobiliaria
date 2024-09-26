@@ -45,15 +45,14 @@ export default function LoginView({ setIsLogged, setUser }) {
       setIsFailLogin(true);
 
     } else {
-
+      
       setIsLogged(true);
+      setUser(user)
+
+      const config = await getConfig(user);
 
       Cookies.set('User', JSON.stringify(user), { expires: 1 });
-      
-      const config = await getConfig(user);
       Cookies.set('Config', JSON.stringify(config.config[0]), { expires: 1 });
-
-      setUser(JSON.stringify(user))
 
       router.push('/backoffice');
 
@@ -96,7 +95,7 @@ export default function LoginView({ setIsLogged, setUser }) {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
+        <Link variant="subtitle2" underline="hover" href="/login/1">
           Olvidaste tu contraseña?
         </Link>
       </Stack>

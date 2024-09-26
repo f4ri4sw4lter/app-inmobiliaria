@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const createImage = async (reference, data, id, setIsUpload) => {
 
-    const urlApi =  `/api/images/upload/${reference}/${id}`
+    const urlApi =  `http://localhost:3007/api/images/upload/${reference}/${id}`
 
     const form = new FormData();
     form.append("file", data);

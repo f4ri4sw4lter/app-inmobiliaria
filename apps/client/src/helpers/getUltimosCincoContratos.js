@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const getContratoById = async( id ) => {
-
+export const getUltimosCincoContratos = async () => {
     try{
-        const response = await axios.get(`http://localhost:3007/api/contrato/${id}`, {
+        const response = await axios.get('http://localhost:3007/api/contrato/ultimosCinco', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token
@@ -18,4 +17,5 @@ export const getContratoById = async( id ) => {
     catch(e){
         console.error(e)
     };
+
 }

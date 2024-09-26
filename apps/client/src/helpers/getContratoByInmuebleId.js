@@ -4,7 +4,7 @@ import { User } from '../utils/user';
 export const getContratoByInmuebleId = async( id ) => {
 
     try{
-        const response = await axios.get(`/api/contrato/byInmueble/${id}`, {
+        const response = await axios.get(`http://localhost:3007/api/contrato/byInmueble/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

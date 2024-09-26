@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const getListaClientes = async () => {
     try{
-        const response = await axios.get('/api/cliente/', {
+        const response = await axios.get('http://localhost:3007/api/cliente/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

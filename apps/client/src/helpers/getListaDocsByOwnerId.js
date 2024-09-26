@@ -4,7 +4,7 @@ import { User } from '../utils/user';
 export const getListaDocsByOwnerId = async ( ownerId ) => {
 
     try{
-        const response = await axios.get(`/api/documento/${ownerId}`, {
+        const response = await axios.get(`http://localhost:3007/api/documento/${ownerId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

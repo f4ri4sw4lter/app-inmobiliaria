@@ -6,7 +6,7 @@ export const getConfig = async (user) => {
     if(!user || user == undefined) {user = User};
 
     try{
-        const response = await axios.get('/api/config/', {
+        const response = await axios.get('http://localhost:3007/api/config/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + user.token

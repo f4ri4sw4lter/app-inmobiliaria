@@ -19,7 +19,7 @@ export const updateInmueble = async( data ) => {
         }
     }
 
-    const baseUrl = `/api/propiedad/update/${data.id}`;
+    const baseUrl = `http://localhost:3007/api/propiedad/update/${data.id}`;
     const response = await axios.put(baseUrl,data,{
         headers: {
             'Content-Type': 'application/json',

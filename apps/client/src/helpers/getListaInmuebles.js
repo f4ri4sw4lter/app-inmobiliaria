@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const getListaInmuebles = async () => {
     try{
-        const response = await axios.get('/api/propiedad/', {
+        const response = await axios.get('http://localhost:3007/api/propiedad/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

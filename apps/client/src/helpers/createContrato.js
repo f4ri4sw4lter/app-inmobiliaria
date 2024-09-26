@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const createContrato = async( data ) => {
 
-    const apiUrl = '/api/contrato';
+    const apiUrl = 'http://localhost:3007/api/contrato';
 
     const newInmueble = {
         "inmueble": data.inmueble,

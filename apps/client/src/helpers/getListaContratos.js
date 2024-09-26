@@ -3,8 +3,8 @@ import { User } from '../utils/user';
 
 export const getListaContratos = async ( id ) => {
 
-
-    const path = '/api/contrato/' + (id==undefined?'':id);
+    console.log(User)
+    const path = 'http://localhost:3007/api/contrato/' + (id==undefined?'':id);
 
     try{
         const response = await axios.get(path, {

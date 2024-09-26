@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const createInmueble = async( data ) => {
 
-    const apiUrl = '/api/propiedad/create';
+    const apiUrl = 'http://localhost:3007/api/propiedad/create';
     const srcMapa = data.mapa.match(/src="([^"]+)"/);
     if(srcMapa){
         data.mapa = String(srcMapa[1]);

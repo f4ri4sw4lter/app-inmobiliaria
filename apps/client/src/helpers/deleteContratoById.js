@@ -4,7 +4,7 @@ import { User } from '../utils/user';
 export const deleteContratoById = async( id ) => {
 
     try{
-        const response = await axios.delete(`/api/contrato/${id}`, {
+        const response = await axios.delete(`http://localhost:3007/api/contrato/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

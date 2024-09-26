@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const createUser = async (data) => {
 
-    const apiUrl = '/api/auth/register';
+    const apiUrl = 'http://localhost:3007/api/auth/register';
 
     const newUser = {
         "name": data.name,

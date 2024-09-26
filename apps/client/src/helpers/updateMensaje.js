@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const updateMensaje = async (data) => {
 
-    const baseUrl = `/api/mensaje/${data.id}`;
+    const baseUrl = `http://localhost:3007/api/mensaje/${data.id}`;
 
     if(data.noLeido == 'true') {
         data.noLeido = false;

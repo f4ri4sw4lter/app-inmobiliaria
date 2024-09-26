@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '../utils/user';
 
-export const setNoMensajes = async () => {
+export const setNewMensaje = async () => {
 
     const requestConfig = {
         method: 'POST',
@@ -11,7 +11,7 @@ export const setNoMensajes = async () => {
         },
     };
 
-    fetch('http://localhost:3007/api/config/noMessage', requestConfig)
+    fetch('http://localhost:3007/api/config/newMessage', requestConfig)
     .then(response => {
         console.log('OK')
     })

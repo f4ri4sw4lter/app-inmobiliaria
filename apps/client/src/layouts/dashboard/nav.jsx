@@ -27,6 +27,7 @@ import navConfig from './config-navigation';
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav, User }) {
+
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');

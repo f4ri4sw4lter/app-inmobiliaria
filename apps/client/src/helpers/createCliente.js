@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const createCliente = async( data ) => {
 
-    const apiUrl = '/api/cliente/create';
+    const apiUrl = 'http://localhost:3007/api/cliente/create';
 
     const newCliente = {
         "dni": data.dni,

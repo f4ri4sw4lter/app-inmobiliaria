@@ -24,6 +24,10 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
     labels,
     xaxis: {
       type: 'datetime',
+      labels: {
+        datetimeUTC: false, // Evita que se utilice UTC si quieres manejar la hora local
+        format: 'MM/yy', // Formato de fecha en español
+      },
     },
     tooltip: {
       shared: true,
@@ -31,12 +35,19 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
       y: {
         formatter: (value) => {
           if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
+            return `${value.toFixed(0)} transacciones`; // Texto en español
           }
           return value;
         },
       },
+      x: {
+        formatter: (val) => {
+          const date = new Date(val);
+          return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' }); // Solo muestra mes y año
+        },
+      },
     },
+    locale: 'es', // Configuración para idioma español
     ...options,
   });
 

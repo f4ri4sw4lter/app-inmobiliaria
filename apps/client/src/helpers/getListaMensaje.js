@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const getListaMensajes = async ({noLeidos}) => {
     try{
-        const response = await axios.get(`/api/mensaje/${noLeidos}`, {
+        const response = await axios.get(`http://localhost:3007/api/mensaje/${noLeidos}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

@@ -98,7 +98,6 @@ export class PropiedadController {
     @Put('/update/:propiedadId')
     @UseGuards(AuthGuard)
     async updatePropiedad(@Res() res, @Body() updatePropiedadDTO:UpdatePropiedadDTO, @Param('propiedadId') propiedadId){
-        console.log(updatePropiedadDTO)
         this.logger.log('PUT - Actualizando propiedad.');
         try{
             const updatedPropiedad = await this.propiedadService.updatePropiedad(propiedadId, updatePropiedadDTO);

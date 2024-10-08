@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const createDoc = async (reference, ownerId, name, data, setIsUpload) => {
 
-    const urlApi =  `/api/documento`
+    const urlApi =  `http://localhost:3007/api/documento`
 
     const form = new FormData();
     form.append("file", data);

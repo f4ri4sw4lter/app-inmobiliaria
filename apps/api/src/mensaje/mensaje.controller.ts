@@ -3,6 +3,7 @@ import { CreateMensajeDTO } from './dto/mensaje.dto';
 import { MensajeService } from './mensaje.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import FileLogger from '../../utils/fileLogger'
+import { ConfigService } from '../config/config.service';
 @Controller('mensaje')
 export class MensajeController {
 
@@ -49,7 +50,6 @@ export class MensajeController {
     @Put('/:mensajeId')
     @UseGuards(AuthGuard)
     async updateMensaje(@Res() res, @Param('mensajeId') mensajeId: string, @Body() updateMensajeDTO:CreateMensajeDTO){
-        console.log(updateMensajeDTO)
         this.logger.log('UPDATE - mensaje.');
         const mensaje = await this.mensajeService.updateMensaje(mensajeId, updateMensajeDTO);
         this.fileLogger.log(`PUT- ${JSON.stringify(mensaje)}`);

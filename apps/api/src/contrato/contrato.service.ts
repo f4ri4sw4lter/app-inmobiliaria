@@ -29,6 +29,26 @@ export class ContratoService {
         return contrato;
     }
 
+    async getAlquileres() {
+        const alquileres = await this.contratoModel.find({
+            $or: [
+                { "inmueble.contrato": "Alquiler" },
+            ]
+        })
+
+        return alquileres;
+    }
+
+    async getVentas() {
+        const ventas = await this.contratoModel.find({
+            $or: [
+                { "inmueble.contrato": "Venta" },
+            ]
+        })
+
+        return ventas;
+    }
+
     async getContratoByClienteId(cliente: string): Promise<Contrato[]> {
         const contratos = await this.contratoModel.find({
             $or: [
@@ -44,9 +64,77 @@ export class ContratoService {
         return contratos;
     }
 
+    async getUltimosCinco(): Promise<Contrato[]> {
+        const contratos = await this.contratoModel.find().limit(5).exec();
+        return contratos;
+    }
+
     async getContratos(): Promise<Contrato[]> {
         const contratos = await this.contratoModel.find();
         return contratos;
+    }
+
+    async getContratosLastYear() {
+        const lastYear = new Date();
+        lastYear.setFullYear(lastYear.getFullYear() - 1);
+
+        const contratos = await this.contratoModel.find({
+            fecha: { $gte: lastYear }
+        });
+
+        const ventas: { [month: string]: number } = {};
+        const alquileres: { [month: string]: number } = {};
+
+        // Obtener los últimos 10 meses
+        const today = new Date();
+        for (let i = 0; i < 10; i++) {
+            const month = today.toLocaleString('default', { month: 'numeric' });
+            const year = today.getFullYear().toString().slice(-2); // Obtener solo los últimos dos dígitos del año
+            const monthYear = `${month}/${year}`; // Crear la combinación de mes/año con los últimos dos dígitos
+
+            if (!ventas[monthYear]) ventas[monthYear] = 0;
+            if (!alquileres[monthYear]) alquileres[monthYear] = 0;
+
+            today.setMonth(today.getMonth() - 1);
+        }
+
+        // Procesar los contratos
+        contratos.forEach((contrato) => {
+            const contratoDate = new Date(contrato.fecha);
+            const month = contratoDate.toLocaleString('default', { month: 'numeric' });
+            const year = contratoDate.getFullYear().toString().slice(-2); // Últimos dos dígitos del año
+            const monthYear = `${month}/${year}`;
+
+            if (contrato.inmueble.contrato === 'Venta') {
+                if (ventas[monthYear] !== undefined) {
+                    ventas[monthYear]++;
+                }
+            } else if (contrato.inmueble.contrato === 'Alquiler') {
+                if (alquileres[monthYear] !== undefined) {
+                    alquileres[monthYear]++;
+                }
+            }
+        });
+
+        const orderedVentas = Object.keys(ventas).sort((a, b) => {
+            const [monthA, yearA] = a.split('/').map(Number);
+            const [monthB, yearB] = b.split('/').map(Number);
+            return yearA !== yearB ? yearA - yearB : monthA - monthB;
+        });
+
+        // Crear el array en el orden correcto
+        const arrayOfIntsVentas = orderedVentas.map(key => ventas[key]);
+
+        const orderedAlquileres = Object.keys(alquileres).sort((a, b) => {
+            const [monthA, yearA] = a.split('/').map(Number);
+            const [monthB, yearB] = b.split('/').map(Number);
+            return yearA !== yearB ? yearA - yearB : monthA - monthB;
+        });
+
+        // Crear el array en el orden correcto
+        const arrayOfIntsAlquileres = orderedAlquileres.map(key => alquileres[key]);
+
+        return { ventas: arrayOfIntsVentas, alquileres: arrayOfIntsAlquileres };
     }
 
     async createContrato(createContratoDTO: CreateContratoDTO): Promise<Contrato> {

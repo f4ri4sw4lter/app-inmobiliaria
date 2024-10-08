@@ -37,7 +37,8 @@ export class AuthService {
      * @returns usuario
      */
     async findUsuario(email: string): Promise<Usuario>{
-        return await this.usuarioModel.findOne({email});
+        const user = await this.usuarioModel.findOne({email})
+        return user;
     }
 
     generateJWT(usuario: Usuario){

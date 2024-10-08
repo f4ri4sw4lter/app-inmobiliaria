@@ -11,6 +11,7 @@ import { ContratoSchema } from './schemas/contrato.schema';
     ])
   ],
   providers: [ContratoService],
-  controllers: [ContratoController]
+  controllers: [ContratoController],
+  exports: [ContratoService]
 })
 export class ContratoModule { }

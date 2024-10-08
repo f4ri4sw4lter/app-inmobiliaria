@@ -4,7 +4,7 @@ import { User } from '../utils/user';
 export const getClienteById = async( id ) => {
 
     try{
-        const response = await axios.get(`/api/cliente/${id}`, {
+        const response = await axios.get(`http://localhost:3007/api/cliente/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

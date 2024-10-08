@@ -5,6 +5,8 @@ const baseUrl = 'http://localhost:3007/api/auth/login'
 
 export const login = async credentials => {
 
+    console.log(credentials)
+
     try{
         const resp = await axios.post(baseUrl,credentials,{
             headers: {

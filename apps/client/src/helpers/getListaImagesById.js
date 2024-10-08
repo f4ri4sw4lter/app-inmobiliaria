@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const getListaImagesById = async ( reference, id ) => {
     try{
-        const response = await axios.get(`/api/images/${reference}/${id}`, {
+        const response = await axios.get(`http://localhost:3007/api/images/${reference}/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

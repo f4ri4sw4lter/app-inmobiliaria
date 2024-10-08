@@ -11,6 +11,7 @@ import { PropiedadSchema } from './schemas/propiedad.schema';
     ])
   ],
   controllers: [PropiedadController],
-  providers: [PropiedadService]
+  providers: [PropiedadService],
+  exports: [PropiedadService]
 })
 export class PropiedadModule {}

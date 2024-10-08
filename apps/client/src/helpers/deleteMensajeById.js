@@ -3,7 +3,7 @@ import { User } from '../utils/user';
 
 export const deleteMensajeById = async( id ) => {
     try{
-        const response = await axios.delete(`/api/mensaje/${id}`, {
+        const response = await axios.delete(`http://localhost:3007/api/mensaje/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

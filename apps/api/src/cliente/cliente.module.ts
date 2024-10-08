@@ -11,7 +11,8 @@ import { ClienteSchema } from './schemas/cliente.schema';
         ])
     ],
     controllers: [ClienteController],
-    providers: [ClienteService]
+    providers: [ClienteService],
+    exports: [ClienteService]
 })
 export class ClienteModule { }
 

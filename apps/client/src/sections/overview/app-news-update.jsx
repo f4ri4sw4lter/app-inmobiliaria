@@ -24,7 +24,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
+            <NewsItem key={news.inmuebleId} news={news} />
           ))}
         </Stack>
       </Scrollbar>
@@ -33,11 +33,12 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
 
       <Box sx={{ p: 2, textAlign: 'right' }}>
         <Button
+          href="/backoffice/contratos"
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}
         >
-          View all
+          Ver todos
         </Button>
       </Box>
     </Card>
@@ -53,29 +54,32 @@ AppNewsUpdate.propTypes = {
 // ----------------------------------------------------------------------
 
 function NewsItem({ news }) {
-  const { image, title, description, postedAt } = news;
+  const { inmuebleId, titulo, empleado, postedAt } = news;
+
+  const date = new Date(postedAt);
+
+  const formattedDate = date.toLocaleDateString('es-ES', {
+    weekday: 'long', 
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
-      <Box
-        component="img"
-        alt={title}
-        src={image}
-        sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
-      />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
-          {title}
+        <Link color="inherit" variant="subtitle2" underline="hover" noWrap href={`/backoffice/inmuebles/${inmuebleId}`}>
+          {titulo}
         </Link>
 
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-          {description}
+          Encargad@: {empleado}
         </Typography>
       </Box>
 
       <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {fToNow(postedAt)}
+        {formattedDate}
       </Typography>
     </Stack>
   );
@@ -86,6 +90,6 @@ NewsItem.propTypes = {
     image: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
-    postedAt: PropTypes.instanceOf(Date),
+    postedAt: PropTypes.string,
   }),
 };

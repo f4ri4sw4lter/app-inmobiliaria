@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { Stack } from '@mui/material';
 import { updateMensaje } from '../../helpers/updateMensaje';
 import { User } from '../../utils/user';
-import { deleteMensajeById } from '../../helpers';
+import { deleteMensajeById, setNewMensaje, setNoMensajes } from '../../helpers';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,14 +26,15 @@ export default function MensajeCard({
     noLeido,
     lector,
     id,
-    fetchMensajes
+    fetchMensajes,
+    lista
 }) {
 
     const [open, setOpen] = useState(null);
 
     const [openDialog, setOpenDialog] = useState(false);
 
-    const handleChange = () => {
+    const handleChange = (isReaded) => {
         updateMensaje({
             nombre,
             apellido,
@@ -48,6 +49,12 @@ export default function MensajeCard({
             id
         });
         fetchMensajes();
+        console.log(lista.length)
+        if(!isReaded) {
+            setNewMensaje();
+        } else if (isReaded && lista.length <= 1) {
+            setNoMensajes();
+        }
     }
 
     const handleClickOpenDialog = () => {
@@ -96,11 +103,11 @@ export default function MensajeCard({
                 <CardActions>
                     {
                         noLeido == 'true' &&
-                        <Button size="small" onClick={handleChange}>Marcar como Leido</Button>
+                        <Button size="small" onClick={() => handleChange(true)}>Marcar como Leido</Button>
                     }
                     {
                         (noLeido == 'false' && User.role <= 1) &&
-                        <Button size="small" onClick={handleChange}>Marcar como NO Leido</Button>
+                        <Button size="small" onClick={() => handleChange(false)}>Marcar como NO Leido</Button>
                     }
                     {
                         noLeido == 'false' &&

@@ -17,37 +17,57 @@ export const DocumentosPage = lazy(() => import('../pages/documentos'));
 
 // ----------------------------------------------------------------------
 
-export default function Router({User}) {
-  const routes = useRoutes([
-    {
-      path: 'backoffice',
-      element: (
-        <DashboardLayout User={User}>
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      ),
-      children: [
-        { element: <IndexPage />, index: true },
-        { path: 'inmuebles/:accion?/:id?', element: <InmueblePage />},
-        { path: 'users/:accion?/:id?', element: <UserPage /> },
-        { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
-        { path: 'mensajes', element: <MensajePage />},
-        { path: 'registros/:vista?', element: <RegistrosPage />},
-        { path: 'documentos/:accion?/:id?', element: <DocumentosPage />},
-        { path: 'contratos/:accion?/:id?', element: <ContratoPage /> }
-      ],
-    },
-    {
-      path: '404',
-      element: <Page404 />,
-    },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
-  ]);
+export default function Router({ User, setIsLogged, setUser }) {
+
+  let routes = [];
+  if (User == '') {
+
+    routes = useRoutes([
+      { 
+        path: '*', 
+        element: <LoginPage setIsLogged={setIsLogged} setUser={setUser}/> 
+      },
+      { 
+        path: 'login/:paso?', 
+        element: <LoginPage setIsLogged={setIsLogged} setUser={setUser}/> 
+      }
+
+    ])
+
+  } else {
+    routes = useRoutes([
+      {
+        path: 'backoffice',
+        element: (
+          <DashboardLayout User={User}>
+            <Suspense>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        ),
+        children: [
+          { element: <IndexPage />, index: true },
+          { path: 'inmuebles/:accion?/:id?', element: <InmueblePage /> },
+          { path: 'users/:accion?/:id?', element: <UserPage /> },
+          { path: 'clientes/:accion?/:id?', element: <ClientePage /> },
+          { path: 'mensajes', element: <MensajePage /> },
+          { path: 'registros/:vista?', element: <RegistrosPage /> },
+          { path: 'documentos/:accion?/:id?', element: <DocumentosPage /> },
+          { path: 'contratos/:accion?/:id?', element: <ContratoPage /> },
+        ],
+      },
+      {
+        path: '404',
+        element: <Page404 />,
+      },
+      {
+        path: '*',
+        element: <Navigate to="/404" replace />,
+      },
+    ]);
+  }
+
+
 
   return routes;
 }

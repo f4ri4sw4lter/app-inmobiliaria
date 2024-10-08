@@ -13,16 +13,17 @@ import { useNavigate } from 'react-router-dom';
 
 export default function App() {
 
-  const [isLogged, setIsLogged] = useState(false);
   const [User, setUser] = useState('');
+  const [isLogged, setIsLogged] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   useScrollToTop();
 
   useEffect(() => {
     if (Cookies.get('User')) {
       setIsLogged(true);
+      const usr = Cookies.get('User') ? JSON.parse(Cookies.get('User')) : '';
+      setUser(usr);
     }
     setIsLoading(false);
   }, [isLogged])

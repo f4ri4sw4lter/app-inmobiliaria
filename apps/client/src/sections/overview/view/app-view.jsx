@@ -26,6 +26,10 @@ export default function AppView() {
   const { ultimosCinco, setUltimosCinco } = useFetchUltimosCincoContratos();
   const { metrics, metricsIsLoading } = useFetchMetrics();
 
+  if(!metricsIsLoading){
+    console.log(Object.values(metrics.contratos_lastyear.alquileres).map(Number))
+  }
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -55,7 +59,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Alquileres del mes"
-            total={(metrics.cant_alquileres).toString()}
+            total={(metrics.cant_alquileres)}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -70,43 +74,25 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
+        <Grid xs={12} md={12} lg={12}>
           <AppWebsiteVisits
-            title="Website Visits"
-            subheader="(+43%) than last year"
+            title="Transacciones del año"
+            subheader="ventas/alquileres"
             chart={{
-              labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ],
+              labels: ['01/01/24','02/01/24','03/01/24','04/01/24','05/01/24','06/01/24','07/01/24','08/01/24','09/01/24','10/01/24'],
               series: [
                 {
-                  name: 'Team A',
+                  name: 'Ventas',
                   type: 'column',
                   fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                  data: Object.values(metrics.contratos_lastyear.ventas).map(Number)
                 },
                 {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
+                  name: 'Alquileres',
+                  type: 'column',
                   fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
+                  data: Object.values(metrics.contratos_lastyear.alquileres)
+                }
               ],
             }}
           />
@@ -125,27 +111,18 @@ export default function AppView() {
         </Grid>
 
         <Grid xs={12} md={6} lg={8}>
-          <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
-            chart={{
-              series: [
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ],
-            }}
+          <AppNewsUpdate
+            title="Ultimos contratos"
+            list = {ultimosCinco.map((contrato) => ({
+              inmuebleId: contrato.inmueble._id,
+              titulo: contrato.inmueble.titulo,
+              empleado: contrato.empleado,
+              postedAt: contrato.createdAt,
+            }))}
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
+        <Grid xs={12} md={6} lg={6}>
           <AppCurrentSubject
             title="Current Subject"
             chart={{
@@ -159,42 +136,12 @@ export default function AppView() {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppNewsUpdate
-            title="Ultimos contratos"
-            list = {ultimosCinco.map((contrato) => ({
-              inmuebleId: contrato.inmueble._id,
-              titulo: contrato.inmueble.titulo,
-              empleado: contrato.empleado,
-              postedAt: contrato.createdAt,
-            }))}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
-            title="Order Timeline"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
-              ][index],
-              type: `order${index + 1}`,
-              time: faker.date.past(),
-            }))}
-          />
-        </Grid>
-
         <Grid xs={12} md={6} lg={4}>
           <AppTrafficBySite
-            title="Traffic by Site"
+            title="Trafico en tus Redes"
             list={[
               {
-                name: 'FaceBook',
+                name: 'Facebook',
                 value: 323234,
                 icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
               },
@@ -213,19 +160,6 @@ export default function AppView() {
                 value: 443232,
                 icon: <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={32} />,
               },
-            ]}
-          />
-        </Grid>
-
-        <Grid xs={12} md={6} lg={8}>
-          <AppTasks
-            title="Tasks"
-            list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
             ]}
           />
         </Grid>

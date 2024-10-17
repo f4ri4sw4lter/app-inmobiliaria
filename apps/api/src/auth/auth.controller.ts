@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Res, Req, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Patch, Delete, Res, Req, HttpStatus, Body, Param, NotFoundException, Logger, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { LoginUsuarioDTO } from './dto/login-usuario.dto';
 import { AuthService } from './auth.service';
 import { RegisterUsuarioDTO } from './dto/register-usuario.dto';
@@ -7,7 +7,9 @@ import { PayloadToken } from './interfaces/token.interface';
 import { AuthGuard } from './guards/auth.guard';
 import { UpdateUsuarioDTO } from './dto/update-usuario.dto';
 import FileLogger from '../../utils/fileLogger'
-import { ConfigService } from 'src/config/config.service';
+import { RequestResetPassDto } from './dto/request-reset-pass.dto';
+import { v4 } from 'uuid';
+import { MailService } from 'src/mail/mail.service';
 
 @Controller('auth')
 export class AuthController {
@@ -17,7 +19,7 @@ export class AuthController {
     private readonly logger = new Logger(AuthController.name);
     private fileLogger = new FileLogger('../client/public/logs/usuarios.log');
 
-    constructor(private authService: AuthService, private jwt: JwtService) { }
+    constructor(private authService: AuthService, private jwt: JwtService, private readonly mailService: MailService) { }
 
     /**
      * Retorna la contraseña cifrada
@@ -170,4 +172,59 @@ export class AuthController {
         }
     }
 
+    @Patch('/initReset')
+    async resetPass(@Res() res, @Body() requestResetPassDto: RequestResetPassDto): Promise<void>{
+        
+        const { mail } = requestResetPassDto;
+        const user = await this.authService.findUsuario(mail);
+        
+        const resetPassToken = v4();
+        user.resetPassToken = resetPassToken;
+
+        user.save()
+        if (!user) {
+            
+            return res.status(HttpStatus.CONFLICT).json({
+                message: 'reset pass fail'
+            })
+
+        } else {
+
+            await this.mailService.recuperarPassword(user.email, resetPassToken)
+
+            return res.status(HttpStatus.OK).json({
+                message: 'reset pass',
+            })
+
+        }
+    }
+
+    @Patch('/validateReset')
+    async validateResetPass(@Res() res, @Body() body){
+
+        const {nuevaPass, validate, codigo, email} = body;
+
+        const nuevaPassEncrypt = await this.encryptPassword(nuevaPass)
+
+        if (nuevaPass === validate) {
+            const isReseted = await this.authService.resetPass(nuevaPassEncrypt, codigo, email);
+
+            if(isReseted){
+                return res.status(HttpStatus.OK).json({
+                    message: 'Contraseña actualizada',
+                })
+            } else {
+                return res.status(HttpStatus.BAD_REQUEST).json({
+                    message: 'Error en el codigo',
+                    code: 8
+                })
+            }
+        }
+
+        return res.status(HttpStatus.BAD_REQUEST).json({
+            message: 'Contraseñas diferentes',
+            code: 9
+        })
+
+    }
 }

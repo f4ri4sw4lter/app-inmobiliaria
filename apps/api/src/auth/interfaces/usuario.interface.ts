@@ -13,4 +13,5 @@ export interface Usuario extends Document {
     email: string;
     password?: string;
     role: role;
+    resetPassToken: string;
 }

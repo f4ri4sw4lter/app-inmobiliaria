@@ -33,6 +33,13 @@ import config from './config';
     ImagesModule,
     MensajeModule,
     DocumentoModule,
+    ImagesModule,
+    MensajeModule,
+    DocumentoModule,
+    ContratoModule,
+    ConfModule,
+    MailModule,
+    MetricsModule,
 
     //Modulo de configuracion del proyecto.
     ConfigModule.forRoot({
@@ -82,13 +89,6 @@ import config from './config';
         }
       }
     }),
-    ImagesModule,
-    MensajeModule,
-    DocumentoModule,
-    ContratoModule,
-    ConfModule,
-    MailModule,
-    MetricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

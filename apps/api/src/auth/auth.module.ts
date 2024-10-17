@@ -6,21 +6,11 @@ import { AuthService } from './auth.service';
 import { jwtConstants } from './constants/jwt.constants';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { ConfModule } from 'src/config/config.module';
-import { ConfigService } from 'src/config/config.service';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
     imports: [
-        /*JwtModule.registerAsync({
-            useFactory: () => {
-                return{
-                    secret: 'THE123!@#',
-                    signOptions: {
-                        expiresIn: '10d',
-                    }
-                }
-            }
-        }),*/
+        MailModule,
         JwtModule.register({
             global: true,
             secret: jwtConstants.secret,
@@ -29,7 +19,7 @@ import { ConfigService } from 'src/config/config.service';
         PassportModule,
         MongooseModule.forFeature([
             {name: 'Usuario', schema: UsuarioSchema}
-        ])
+        ]),
     ],
     controllers: [AuthController],
     providers: [AuthService],

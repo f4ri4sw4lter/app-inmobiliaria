@@ -10,33 +10,15 @@ export class MailService {
     constructor(private readonly authService: AuthService) {
 
         this.transporter = nodemailer.createTransport({
-            service: 'outlook',
+            service: 'gmail',
             auth: {
-                user: process.env.MAIL_USR,
-                pass: process.env.MAIL_PSS,
-            },
+                user: process.env.MAIL_USER, // tu dirección de Gmail
+                pass: process.env.MAIL_PASSWORD, // contraseña de aplicación generada
+              },
         });
     }
 
-    async sendMail(to: string, subject: string, text: string, html?: string) {
-        const mailOptions = {
-            from: process.env.MAIL_USR, // Cambia esto al correo desde el cual enviarás los correos
-            to,
-            subject,
-            text,
-            html, // Opcional si deseas enviar correos en formato HTML
-        };
-
-        try {
-            const result = await this.transporter.sendMail(mailOptions);
-            return result;
-        } catch (error) {
-            console.error('Error al enviar correo:', error);
-            throw new Error('No se pudo enviar el correo');
-        }
-    }
-
-    async recuperarPassword(email?: string) {
+    async recuperarPassword(email: string, codigo: string) {
 
         const userExist = await this.authService.findUsuario(email);
         if (!userExist) {
@@ -44,15 +26,15 @@ export class MailService {
         }
         
         const subject = 'Restablecimiento de contraseña - FerreyraApp';
-        const codigo = this.generarCodigoRecuperacion();
+    
         const html = "<h1>Código para restablecer contraseña</h1>\n<p>Este es el codigo de recuperacion: <b>" + codigo + "</b></p><br><h3>Por favor no responda este correo</h3>";
 
         const mailOptions = {
-            from: process.env.MAIL_USR,
+            from: process.env.MAIL_USER, // Cambia esto al correo desde el cual enviarás los correos
             to: email,
             subject,
             text: '',
-            html,
+            html, // Opcional si deseas enviar correos en formato HTML
         };
 
         try {

@@ -19,35 +19,30 @@ import { useRouter } from '../../routes/hooks';
 import { bgGradient } from '../../theme/css';
 
 import Logo from '../../components/logo';
-import Iconify from '../../components/iconify';
-import { login } from '../../helpers/login'
-import { getConfig } from '../../helpers/getConfig';
-import { recuperarPassword } from '../../helpers/recuperarPassword';
+import { useFetchResetPass } from '../../hooks/useFetchResetPass';
 
 // ----------------------------------------------------------------------
 
-export default function RecuperatePaso1View({ setIsLogged, setUser }) {
+export default function RecuperatePaso1View({ setIsLogged, setUser, setEmailToReset }) {
 
     const theme = useTheme();
     const router = useRouter();
 
+    const { respMail, isLoadingMail, recuperarPass } = useFetchResetPass();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isFailLogin, setIsFailLogin] = useState(false);
-    const [resp, setResp] = useState(200);
 
     const handleSubmit = async (event) => {
-        setResp(await recuperarPassword({mail: email}))
+        recuperarPass({mail: email})
     };
 
     useEffect(() => {
-        console.log(resp)
-        if (resp == 200 || resp == 201){
-            setIsFailLogin(false);
-        } else {
-            setIsFailLogin(true);
+        if(!isLoadingMail){
+            if(respMail.status == 200){
+                setEmailToReset(email);
+                router.push('/login/2');
+            }
         }
-    }, [resp])
+    }, [respMail, isLoadingMail])
 
 
     const renderForm = (
@@ -111,7 +106,7 @@ export default function RecuperatePaso1View({ setIsLogged, setUser }) {
                     <Typography variant="h9" style={{ fontSize: '14px' }}>Ingrese el correo electronico con el que se registro. Se le enviara un codigo para restablecer la contraseña.</Typography>
                     <br />
                     <br />
-                    {isFailLogin && <Typography variant="h9" style={{ fontSize: '14px', color: 'red' }}>El correo no existe</Typography>}
+                    {isLoadingMail && <Typography variant="h9" style={{ fontSize: '14px', color: 'red' }}>El correo no existe</Typography>}
                     {renderForm}
                 </Card>
             </Stack>

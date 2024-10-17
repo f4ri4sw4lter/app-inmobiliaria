@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Usuario } from './interfaces/usuario.interface';
 import { RegisterUsuarioDTO } from './dto/register-usuario.dto';
@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { PayloadToken } from './interfaces/token.interface';
 import { UpdateUsuarioDTO } from './dto/update-usuario.dto';
+import { RequestResetPassDto } from './dto/request-reset-pass.dto';
 
 @Injectable()
 export class AuthService {
@@ -38,6 +39,9 @@ export class AuthService {
      */
     async findUsuario(email: string): Promise<Usuario>{
         const user = await this.usuarioModel.findOne({email})
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
+        }
         return user;
     }
 
@@ -66,11 +70,30 @@ export class AuthService {
         return usuario;
     }
 
-    async updateUsuario(usuarioId: string, updateUsuarioDTO: UpdateUsuarioDTO): Promise<Usuario>{
+    async updateUsuario(usuarioId: string, updateUsuarioDTO: UpdateUsuarioDTO): Promise<Usuario> {
         const updatedUsuario = await this.usuarioModel.findByIdAndUpdate(
             usuarioId, 
             updateUsuarioDTO,
             { new: false });
         return updatedUsuario;
     }
+
+    async getTokenResetPass(token){
+
+    }
+
+    async resetPass(nuevaPass: string, codigo: string, email: string): Promise<boolean>{
+        const user = await this.findUsuario(email);
+
+        
+        if(user.resetPassToken === codigo){
+            console.log({user, codigo})
+            user.password = nuevaPass;
+            user.save()
+            return true;
+        }
+
+        return false;
+    }
+
 }

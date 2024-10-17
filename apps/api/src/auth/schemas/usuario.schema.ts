@@ -2,6 +2,7 @@
  * Modelamos los datos para la coleccion de MongoDB.
  */
 
+import { required } from "joi";
 import { Schema } from "mongoose";
 //import { RolSchema } from "./rol.schema";
 
@@ -36,5 +37,10 @@ export const UsuarioSchema = new Schema({
             type: Number,
             required: true
         }
+    },
+    resetPassToken:{
+        type: String,
+        required: false,
+        default: null
     }
 });

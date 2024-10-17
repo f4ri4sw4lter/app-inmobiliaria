@@ -34,6 +34,8 @@ export * from './updateUser';
 export * from './updateInmueble';
 
 export * from './login';
+export * from './recuperarPassword';
+export * from './resetPassword';
 
 export * from './setNoMensajes';
 export * from './setNewMensaje';

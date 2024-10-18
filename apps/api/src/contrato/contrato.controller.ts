@@ -38,7 +38,6 @@ export class ContratoController {
     }
 
     @Get('/ultimosCinco')
-    @UseGuards(AuthGuard)
     async getUltimosCinco(@Res() res){
         this.logger.log('GET - Ultimos cinco contratos.');
         try{

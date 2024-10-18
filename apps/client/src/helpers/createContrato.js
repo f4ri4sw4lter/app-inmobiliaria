@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const createContrato = async( data ) => {
+
+    const User = getUser();
 
     const apiUrl = 'http://localhost:3007/api/contrato';
 

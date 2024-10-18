@@ -5,6 +5,7 @@ import DashboardLayout from '../layouts/dashboard';
 import MensajePage from '../pages/mensaje';
 import RegistrosPage from '../pages/registros';
 import ContratoPage from '../pages/contrato';
+import { getUser } from '../utils/user';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const ClientePage = lazy(() => import('../pages/cliente'));
@@ -17,19 +18,21 @@ export const DocumentosPage = lazy(() => import('../pages/documentos'));
 
 // ----------------------------------------------------------------------
 
-export default function Router({ User, setIsLogged, setUser }) {
+export default function Router({ setIsLogged}) {
 
   let routes = [];
+  const User = getUser();
+
   if (User == '') {
 
     routes = useRoutes([
       { 
         path: '*', 
-        element: <LoginPage setIsLogged={setIsLogged} setUser={setUser}/> 
+        element: <LoginPage setIsLogged={setIsLogged} /> 
       },
       { 
         path: 'login/:paso?', 
-        element: <LoginPage setIsLogged={setIsLogged} setUser={setUser}/> 
+        element: <LoginPage setIsLogged={setIsLogged} /> 
       }
 
     ])
@@ -39,7 +42,7 @@ export default function Router({ User, setIsLogged, setUser }) {
       {
         path: 'backoffice',
         element: (
-          <DashboardLayout User={User}>
+          <DashboardLayout >
             <Suspense>
               <Outlet />
             </Suspense>

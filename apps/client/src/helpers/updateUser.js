@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const updateUser = async (data) => {
+
+    const User = getUser();
 
     data.role = {
         "name": data.roleName,

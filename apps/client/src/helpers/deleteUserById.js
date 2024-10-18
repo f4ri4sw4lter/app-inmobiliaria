@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const deleteUserById = async( id ) => {
+
+    const User = getUser();
 
     try{
         const response = await axios.delete(`http://localhost:3007/api/auth/delete/${id}`, {

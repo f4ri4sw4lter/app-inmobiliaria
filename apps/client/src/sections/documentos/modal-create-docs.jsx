@@ -4,10 +4,12 @@ import Iconify from '../../components/iconify';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { createDoc } from '../../helpers';
-import { User } from '../../utils/user'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { getUser } from '../../utils/user';
 
 export const ModalCreateDocs = ({ fetchDocs, reference, ownerId }) => {
+
+    const User = getUser();
 
     const [open, setOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);

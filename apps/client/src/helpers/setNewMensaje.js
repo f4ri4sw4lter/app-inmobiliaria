@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const setNewMensaje = async () => {
+
+    const User = getUser();
 
     const requestConfig = {
         method: 'POST',

@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const getConfig = async (user) => {
 
-    if(!user || user == undefined) {user = User};
+    const User = getUser();
 
     try{
         const response = await axios.get('http://localhost:3007/api/config/', {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + user.token
+                Authorization: 'Bearer ' + User.token
             }
         })
         if (response.status === 200 || response.status === 201) {

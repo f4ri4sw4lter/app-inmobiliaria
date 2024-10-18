@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const getMetrics = async (user) => {
+
+    const User = getUser();
 
     if(!user || user == undefined) {user = User};
 

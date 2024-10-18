@@ -6,13 +6,13 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { Stack } from '@mui/material';
 import { updateMensaje } from '../../helpers/updateMensaje';
-import { User } from '../../utils/user';
 import { deleteMensajeById, setNewMensaje, setNoMensajes } from '../../helpers';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { getUser } from '../../utils/user';
 
 export default function MensajeCard({
     nombre,
@@ -29,6 +29,8 @@ export default function MensajeCard({
     fetchMensajes,
     lista
 }) {
+
+    const User = getUser();
 
     const [open, setOpen] = useState(null);
 

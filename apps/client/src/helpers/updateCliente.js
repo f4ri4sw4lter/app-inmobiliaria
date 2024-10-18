@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const updateCliente = async( data ) => {
+
+    const User = getUser();
 
     data.ubicacion = {
         calle: data.calle,

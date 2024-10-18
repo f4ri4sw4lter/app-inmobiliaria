@@ -25,7 +25,10 @@ export class AuthService {
      * @returns Usuario
      */
     async createUsuario(RegisterUsuarioDTO: RegisterUsuarioDTO): Promise<Usuario>{
+
+        console.log(RegisterUsuarioDTO)
         const newUsuario = new this.usuarioModel(RegisterUsuarioDTO);
+        console.log(newUsuario)
         return await newUsuario.save(); 
     }
 

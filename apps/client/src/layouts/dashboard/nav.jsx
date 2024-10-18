@@ -52,7 +52,7 @@ export default function Nav({ openNav, onCloseNav}) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src="/assets/images/avatars/avatar_25.jpg" alt="photoURL"/>
+      <Avatar src="/assets/images/avatars/avatar_0.png" alt="photoURL"/>
 
       <Box sx={{ ml: 2 }}>
         <Typography variant="subtitle2">
@@ -73,7 +73,7 @@ export default function Nav({ openNav, onCloseNav}) {
       {User &&
         <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
           {navConfig
-            .filter((item) => User.role <= item.roleLevel)
+            .filter((item) => item.roleLevel.includes(User.role))
             .map((item) => (
               <NavItem key={item.title} item={item} />
             ))}

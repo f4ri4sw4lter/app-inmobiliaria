@@ -19,7 +19,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getUser } from '../../../utils/user';
 
-// ----------------------------------------------------------------------
+/* ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
@@ -32,8 +32,8 @@ const MENU_OPTIONS = [
   },
 ];
 
-// ----------------------------------------------------------------------
-
+/ ----------------------------------------------------------------------*/
+const MENU_OPTIONS = [];
 export default function AccountPopover() {
   
   const User = getUser();
@@ -79,7 +79,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={'/assets/images/avatars/avatar_25.jpg'}
+          src={'/assets/images/avatars/avatar_0.png'}
           alt={User.lastname + ' ' + User.name}
           sx={{
             width: 72,
@@ -117,7 +117,8 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {MENU_OPTIONS.map((option) => (
+        {MENU_OPTIONS &&
+          MENU_OPTIONS.map((option) => (
           <MenuItem key={option.label} onClick={handleClose}>
             {option.label}
           </MenuItem>

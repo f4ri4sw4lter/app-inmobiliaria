@@ -47,8 +47,8 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
             setOpen(true);
             setTimeout(() => {
                 setOpen(false);
-                router.push(/login/)
             }, 5000);
+            router.push('/login')
 
         } catch (err) {
 

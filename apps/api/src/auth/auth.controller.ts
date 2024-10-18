@@ -38,41 +38,51 @@ export class AuthController {
      * @param receivedPassword 
      */
     async alreadyExistUsuario(LoginUsuarioDTO: LoginUsuarioDTO): Promise<boolean> {
-        const usuario = await this.authService.findUsuario(LoginUsuarioDTO.email);
-        if (usuario) {
-            const isValidPass = this.bcrypt.compare(LoginUsuarioDTO.password, usuario.password);
-            if (isValidPass) {
-                return true;
+
+        try{
+            const usuario = await this.authService.findUsuario(LoginUsuarioDTO.email);
+            if (usuario) {
+                const isValidPass = this.bcrypt.compare(LoginUsuarioDTO.password, usuario.password);
+                if (isValidPass) {
+                    return true;
+                }
             }
+
+            return false;
+        } catch(err) {
+
+            return false;
+
         }
-        return false;
     }
 
     /*ENDPOINTS*/
     @Post('/register')
-    async register(@Res() res, @Body() RegisterUsuarioDTO: RegisterUsuarioDTO) {
+    async register(@Res() res, @Body() registerUsuarioDTO: RegisterUsuarioDTO) {
+        
         this.logger.log('POST - Creando usuario.');
 
-        const { email, password } = RegisterUsuarioDTO
+        const { email, password } = registerUsuarioDTO
 
-        RegisterUsuarioDTO.password = await this.encryptPassword(RegisterUsuarioDTO.password);
+        registerUsuarioDTO.password = await this.encryptPassword(registerUsuarioDTO.password);
 
         const already_exist = await this.alreadyExistUsuario({ email, password });
 
         if (already_exist) {
+
             this.logger.log('ERROR: Usuario ya existente');
             return res.status(HttpStatus.BAD_REQUEST).json({
                 message: 'Usuario ya existente.'
             });
-        }
 
-        //Guardamos el nuevo usuario
-        else {
-            await this.authService.createUsuario(RegisterUsuarioDTO);
-            this.fileLogger.log(`Registro nuevo User-${JSON.stringify(RegisterUsuarioDTO)}`);
+        } else {
+            
+            await this.authService.createUsuario(registerUsuarioDTO);
+            this.fileLogger.log(`Registro nuevo User-${JSON.stringify(registerUsuarioDTO)}`);
             return res.status(HttpStatus.OK).json({
                 message: 'Usuario creado.'
             });
+
         }
     }
 

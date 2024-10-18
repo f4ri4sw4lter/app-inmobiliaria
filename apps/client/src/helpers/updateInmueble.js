@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const updateInmueble = async( data ) => {
+
+    const User = getUser();
 
     if(data.mapa){
         const srcMapa = data.mapa.match(/src="([^"]+)"/);

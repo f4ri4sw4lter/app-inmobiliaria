@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const updateMensaje = async (data) => {
+
+    const User = getUser();
 
     const baseUrl = `http://localhost:3007/api/mensaje/${data.id}`;
 

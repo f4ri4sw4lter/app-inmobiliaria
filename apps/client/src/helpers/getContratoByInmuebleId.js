@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { User } from '../utils/user';
+import { getUser } from '../utils/user';
 
 export const getContratoByInmuebleId = async( id ) => {
+
+    const User = getUser();
 
     try{
         const response = await axios.get(`http://localhost:3007/api/contrato/byInmueble/${id}`, {

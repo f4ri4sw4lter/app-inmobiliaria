@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { getUser } from '../../../utils/user';
 
 // ----------------------------------------------------------------------
 
@@ -33,7 +34,9 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover({ User }) {
+export default function AccountPopover() {
+  
+  const User = getUser();
   const [open, setOpen] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const navigate = useNavigate();
@@ -57,6 +60,7 @@ export default function AccountPopover({ User }) {
 
   const handleConfirmDialog = () => {
     Cookies.remove('User');
+    Cookies.remove('Config');
     window.location.reload();
   };
 

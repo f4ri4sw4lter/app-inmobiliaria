@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { User } from '../../utils/user';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -23,7 +22,7 @@ import { useFetchResetPass } from '../../hooks/useFetchResetPass';
 
 // ----------------------------------------------------------------------
 
-export default function RecuperatePaso1View({ setIsLogged, setUser, setEmailToReset }) {
+export default function RecuperatePaso1View({ setIsLogged, setEmailToReset }) {
 
     const theme = useTheme();
     const router = useRouter();
@@ -106,7 +105,7 @@ export default function RecuperatePaso1View({ setIsLogged, setUser, setEmailToRe
                     <Typography variant="h9" style={{ fontSize: '14px' }}>Ingrese el correo electronico con el que se registro. Se le enviara un codigo para restablecer la contraseña.</Typography>
                     <br />
                     <br />
-                    {isLoadingMail && <Typography variant="h9" style={{ fontSize: '14px', color: 'red' }}>El correo no existe</Typography>}
+                    {(!isLoadingMail && respMail.status != 200) && <Typography variant="h9" style={{ fontSize: '14px', color: 'red' }}>El correo no existe</Typography>}
                     {renderForm}
                 </Card>
             </Stack>

@@ -8,13 +8,13 @@ import RecuperatePaso2View from '../sections/login/recuperate-paso2-view';
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage({setIsLogged, setUser}) {
+export default function LoginPage({setIsLogged}) {
 
   const { paso } = useParams();
   const [ emailToReset, setEmailToReset ] = useState('');
 
   function SeleccionarVista (){
-    if (typeof paso == 'undefined') { return(<LoginView setIsLogged={setIsLogged} setUser={setUser}/>) }
+    if (typeof paso == 'undefined') { return(<LoginView setIsLogged={setIsLogged} />) }
     else if (paso == '1') { return(<RecuperatePaso1View setEmailToReset={setEmailToReset} />) }
     else if (paso == '2') { return(<RecuperatePaso2View emailToReset={emailToReset} />) }
   }

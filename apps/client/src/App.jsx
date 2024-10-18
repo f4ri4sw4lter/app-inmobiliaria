@@ -8,25 +8,28 @@ import Cookies from 'js-cookie';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from './utils/user';
 
 // ----------------------------------------------------------------------
 
 export default function App() {
 
-  const [User, setUser] = useState('');
   const [isLogged, setIsLogged] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useScrollToTop();
 
   useEffect(() => {
-    if (Cookies.get('User')) {
+
+    const User = getUser();
+
+    if (User != '') {
       setIsLogged(true);
-      const usr = Cookies.get('User') ? JSON.parse(Cookies.get('User')) : '';
-      setUser(usr);
     }
-    setIsLoading(false);
-  }, [isLogged])
+
+    setIsLoading(false)
+    
+  }, [])
 
   return (
     <ThemeProvider>
@@ -35,7 +38,7 @@ export default function App() {
             <CircularProgress color="primary"/>
           </Box>
 
-        : <Router User={User} setIsLogged={setIsLogged} setUser={setUser}/>
+        : <Router setIsLogged={setIsLogged} />
       }
     </ThemeProvider>
   );

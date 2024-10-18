@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react';
-import { User } from '../../utils/user';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Button } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
-import Cookies from 'js-cookie';
-import { Snackbar, Alert } from '@mui/material';
-
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { useRouter } from '../../routes/hooks';
 
 import { bgGradient } from '../../theme/css';
@@ -24,29 +18,50 @@ import { resetPassword } from '../../helpers';
 
 // ----------------------------------------------------------------------
 
-export default function RecuperatePaso2View({ setIsLogged, setUser, emailToReset }) {
-
+export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
     const theme = useTheme();
     const router = useRouter();
 
     const [nuevaPass, setNuevaPass] = useState('');
     const [validate, setValidate] = useState('');
     const [codigo, setCodigo] = useState('');
+    const [severity, setSeverity] = useState('success');
+    const [alertTitle, setAlertTitle] = useState('OK');
+    const [alertMessage, setAlertMessage] = useState('Contraseña actualizada');
+    const [open, setOpen] = useState(false)
 
     const handleSubmit = async (event) => {
 
-        const resp = await resetPassword({
-            nuevaPass: nuevaPass,
-            validate: validate,
-            codigo: codigo,
-            email: emailToReset
-        });
+        try{
 
-        console.log(resp)
+            const resp = await resetPassword({
+                nuevaPass: nuevaPass,
+                validate: validate,
+                codigo: codigo,
+                email: emailToReset
+            });
+
+            setSeverity('success');
+            setAlertTitle('OK');
+            setAlertMessage('Contraseña actualizada');
+            setOpen(true);
+            setTimeout(() => {
+                setOpen(false);
+                router.push(/login/)
+            }, 5000);
+
+        } catch (err) {
+
+            setSeverity('error');
+            setAlertTitle('ERROR');
+            setAlertMessage('Error con el codigo');
+            setOpen(true);
+            setTimeout(() => {
+                setOpen(false);
+            }, 5000);
+        }
 
     };
-
-
 
     const renderForm = (
         <>
@@ -102,6 +117,29 @@ export default function RecuperatePaso2View({ setIsLogged, setUser, emailToReset
             >
                 Enviar
             </LoadingButton>
+
+            <Button
+                fullWidth
+                size="large"
+                type="button"
+                variant="contained"
+                color="error"
+                sx={{ marginTop: 1 }}
+                href='/'
+                onClick={() => {router.push(/login/)}}
+            >
+                Cancelar
+            </Button>
+
+            <br />
+            {open &&
+                <Stack sx={{ width: '100%', alignItems: 'center', marginTop: 5 }} spacing={2}>       
+                    <Alert severity={severity}>
+                        <AlertTitle>{alertTitle}</AlertTitle>
+                        {alertMessage}
+                    </Alert>
+                </Stack>
+            }
         </>
     );
 
@@ -123,7 +161,8 @@ export default function RecuperatePaso2View({ setIsLogged, setUser, emailToReset
                 }}
             />
 
-            <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+            <Stack alignItems="center" justifyContent="center" sx={{ height: 1, position: 'relative' }}>
+                
                 <Card
                     sx={{
                         p: 5,
@@ -131,26 +170,13 @@ export default function RecuperatePaso2View({ setIsLogged, setUser, emailToReset
                         maxWidth: 420,
                     }}
                 >
-                    <Typography variant="h4">Reinicio de constraseña</Typography><br/>
-                    <Typography variant="h9" style={{ fontSize: '16px', color: 'red' }}>Se envio un correo con el codigo de reinicio de contraseña (si no encuentra el correo, revise la bandeja de spam).</Typography><br/>
+                    <Typography variant="h4">Reinicio de constraseña</Typography><br />
+                    <Typography variant="h9" style={{ fontSize: '16px', color: 'red' }}>Se envio un correo con el codigo de reinicio de contraseña (si no encuentra el correo, revise la bandeja de spam).</Typography><br />
                     <br />
                     <br />
                     {renderForm}
                 </Card>
             </Stack>
-             
-            <Snackbar open={open} autoHideDuration={6000} 
-                //</Box>onClose={handleClose}
-            >
-            <Alert
-            //onClose={handleClose}
-            severity="error"
-            variant="filled"
-            sx={{ width: '100%' }}
-            >
-            This is a success Alert inside a Snackbar!
-            </Alert>
-            </Snackbar>
         </Box>
 
     );

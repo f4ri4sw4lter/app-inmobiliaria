@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { User } from '../../utils/user';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
@@ -22,44 +21,59 @@ import Logo from '../../components/logo';
 import Iconify from '../../components/iconify';
 import { login } from '../../helpers/login'
 import { getConfig } from '../../helpers/getConfig';
+import { setConfig } from '../../utils';
 
 // ----------------------------------------------------------------------
 
-export default function LoginView({ setIsLogged, setUser }) {
+export default function LoginView({ setIsLogged }) {
 
   const theme = useTheme();
 
   const router = useRouter();
 
+  const [userIsLoading, setUserIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isFailLogin, setIsFailLogin] = useState(false);
 
   const handleSubmit = async (event) => {
-    
-    const user = await login({email, password})
 
-    if(user.status === 401){
+    try{
+      const user = await login({email, password})
+      setUserIsLoading(true);
 
+      if(user.status === 401){
+
+        setIsFailLogin(true);
+        return;
+  
+      } 
+
+      if(user){
+
+        setIsLogged(true);
+        Cookies.set('User', JSON.stringify(user), { expires: 1 });
+  
+        const config = await getConfig();
+
+        if (config) {
+
+          setConfig(config)
+          router.push('/backoffice');
+        
+        }  
+
+      }
+
+    } catch (err) {
+
+      console.log(err)
       setIsFailLogin(true);
-
-    } else {
-      
-      setIsLogged(true);
-      setUser(user)
-
-      const config = await getConfig(user);
-
-      Cookies.set('User', JSON.stringify(user), { expires: 1 });
-      Cookies.set('Config', JSON.stringify(config.config[0]), { expires: 1 });
-
-      router.push('/backoffice');
 
     }
   };
   
-
   const renderForm = (
     <>
       <Stack spacing={3}>

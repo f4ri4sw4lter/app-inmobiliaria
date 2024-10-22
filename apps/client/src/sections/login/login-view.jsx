@@ -114,17 +114,17 @@ export default function LoginView({ setIsLogged }) {
         </Link>
       </Stack>
 
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleSubmit}
-      >
-        Login
-      </LoadingButton>
-    </>
+        <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          color="inherit"
+          onClick={handleSubmit}
+        >
+          Login
+        </LoadingButton>
+      </>
   );
 
   return (

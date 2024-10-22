@@ -83,6 +83,14 @@ export const PropiedadSchema = new Schema({
     createdAt: {
         type:Date,
         default: Date.now
+    },
+    activo: {
+        type:Boolean,
+        default: false
+    },
+	destacado: {
+        type:Boolean,
+        default: false
     }
 });
 

@@ -37,7 +37,7 @@ export default function ListaUserView() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
 
   const { listaUsuarios, isLoading } = useFetchListaUsuarios();
 

@@ -54,6 +54,7 @@ export default function InmuebleView() {
 
   useEffect(() => {
     if (!isLoading) {
+      console.log(inmueble)
       getProvinciaById(inmueble.ubicacion.provincia)
         .then(({ provincias }) => setProvincia(provincias[0].nombre))
 
@@ -158,23 +159,34 @@ export default function InmuebleView() {
           </Grid>
         }
 
+        <Grid item xs={6}>
+          <Typography variant="h4" sx={{ color: 'primary.main' }}>Activo</Typography>
+          <Typography variant="h6" sx={{ whiteSpace: 'pre-line' }}>{inmueble.activo ? 'SI' : 'NO'}</Typography>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Typography variant="h4" sx={{ color: 'primary.main' }}>Destacado</Typography>
+          <Typography variant="h6" sx={{ whiteSpace: 'pre-line' }}>{inmueble.destacado ? 'SI' : 'NO'}</Typography>
+        </Grid>
+
       </Grid>
       <br />
       <ListaDocs reference='inmuebles' ownerId={id} />
 
       {(!contratoIsLoading && contrato) &&
-          <StyledNavLink to={`/backoffice/contratos/ver/${contrato._id}`} 
-            sx={{ color: 'primary.main', 
-                  borderRadius: '10px', 
-                  padding: '10px', 
-                  alignItems: 'center', 
-                  width: '100%', 
-                  display: 'flex', 
-                  justifyContent: 'center',
-                  border: '1px solid grey',  
-                }}>
-              Ver Contrato
-            </StyledNavLink>
+        <StyledNavLink to={`/backoffice/contratos/ver/${contrato._id}`}
+          sx={{
+            color: 'primary.main',
+            borderRadius: '10px',
+            padding: '10px',
+            alignItems: 'center',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            border: '1px solid grey',
+          }}>
+          Ver Contrato
+        </StyledNavLink>
       }
     </>
   );

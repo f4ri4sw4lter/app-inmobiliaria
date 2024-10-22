@@ -28,10 +28,11 @@ export default function RecuperatePaso1View({ setIsLogged, setEmailToReset }) {
     const router = useRouter();
 
     const { respMail, isLoadingMail, recuperarPass } = useFetchResetPass();
-    const [email, setEmail] = useState('');
+    const [ email, setEmail] = useState('');
+    const [ error, setError] = useState(false);
 
     const handleSubmit = async (event) => {
-        recuperarPass({mail: email})
+        await recuperarPass({mail: email})
     };
 
     useEffect(() => {
@@ -39,6 +40,8 @@ export default function RecuperatePaso1View({ setIsLogged, setEmailToReset }) {
             if(respMail.status == 200){
                 setEmailToReset(email);
                 router.push('/login/2');
+            } else {
+                setError(true)
             }
         }
     }, [respMail, isLoadingMail])
@@ -105,7 +108,7 @@ export default function RecuperatePaso1View({ setIsLogged, setEmailToReset }) {
                     <Typography variant="h9" style={{ fontSize: '14px' }}>Ingrese el correo electronico con el que se registro. Se le enviara un codigo para restablecer la contraseña.</Typography>
                     <br />
                     <br />
-                    {(!isLoadingMail && respMail.status != 200) && <Typography variant="h9" style={{ fontSize: '14px', color: 'red' }}>El correo no existe</Typography>}
+                    {( !isLoadingMail && error) && <Typography variant="h9" style={{ fontSize: '14px', color: 'red' }}>El correo no existe</Typography>}
                     {renderForm}
                 </Card>
             </Stack>

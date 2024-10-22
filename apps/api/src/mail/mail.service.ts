@@ -49,4 +49,32 @@ export class MailService {
     private generarCodigoRecuperacion = () => {
         return Math.floor(100000 + Math.random() * 900000);
     }
+
+    async avisoUsuarioCreado(email: string) {
+
+        const userExist = await this.authService.findUsuario(email);
+        if (!userExist) {
+            return {error: 'El usuario no existe'};
+        }
+        
+        const subject = 'Creacion de usuario - FerreyraApp';
+    
+        const html = "<h1>Se creó su usuario de FerreyrApp</h1>\n<p>Usuario: <b>" + email + "</b></p><br><h3><b>Por favor no responda este correo</b></h3>";
+
+        const mailOptions = {
+            from: process.env.MAIL_USER, // Cambia esto al correo desde el cual enviarás los correos
+            to: email,
+            subject,
+            text: '',
+            html, // Opcional si deseas enviar correos en formato HTML
+        };
+
+        try {
+            const result = await this.transporter.sendMail(mailOptions);
+            return result;
+        } catch (error) {
+            console.error('Error al enviar correo:', error);
+            throw new Error('No se pudo enviar el correo');
+        }
+    }
 }

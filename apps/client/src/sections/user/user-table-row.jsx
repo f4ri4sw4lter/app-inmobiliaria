@@ -59,8 +59,6 @@ export default function UserTableRow({
     <>
       <TableRow hover tabIndex={-1} role="checkbox" >
 
-        <TableCell sx={{ border: '1px solid #ccc', width: '5%' }}><Avatar alt={name} src="" /></TableCell>
-
         <TableCell component="th" sx={{ border: '1px solid #ccc' }}>
           <Typography variant="subtitle2" noWrap>
             {name}

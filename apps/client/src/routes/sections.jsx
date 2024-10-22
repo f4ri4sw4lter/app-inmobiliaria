@@ -40,6 +40,10 @@ export default function Router({ setIsLogged}) {
   } else {
     routes = useRoutes([
       {
+        path: '/',
+        element: <Navigate to="/backoffice" replace />,
+      },
+      {
         path: 'backoffice',
         element: (
           <DashboardLayout >
@@ -49,7 +53,7 @@ export default function Router({ setIsLogged}) {
           </DashboardLayout>
         ),
         children: [
-          { element: <IndexPage />, index: true },
+          { element: ((User.role <= 2) ? <IndexPage /> : <InmueblePage />), index: true },
           { path: 'inmuebles/:accion?/:id?', element: <InmueblePage /> },
           { path: 'users/:accion?/:id?', element: <UserPage /> },
           { path: 'clientes/:accion?/:id?', element: <ClientePage /> },

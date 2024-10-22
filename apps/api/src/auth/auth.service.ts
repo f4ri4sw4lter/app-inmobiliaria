@@ -25,7 +25,10 @@ export class AuthService {
      * @returns Usuario
      */
     async createUsuario(RegisterUsuarioDTO: RegisterUsuarioDTO): Promise<Usuario>{
+
+        console.log(RegisterUsuarioDTO)
         const newUsuario = new this.usuarioModel(RegisterUsuarioDTO);
+        console.log(newUsuario)
         return await newUsuario.save(); 
     }
 
@@ -78,16 +81,11 @@ export class AuthService {
         return updatedUsuario;
     }
 
-    async getTokenResetPass(token){
-
-    }
-
     async resetPass(nuevaPass: string, codigo: string, email: string): Promise<boolean>{
         const user = await this.findUsuario(email);
 
         
         if(user.resetPassToken === codigo){
-            console.log({user, codigo})
             user.password = nuevaPass;
             user.save()
             return true;

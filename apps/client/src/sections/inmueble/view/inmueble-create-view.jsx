@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 import { HorizontalImageList } from '../img-lista';
-
+import { styled } from '@mui/material/styles';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { createInmueble } from '../../../helpers/createInmueble';
 import { useFetchProvincias } from '../../../hooks/useFetchProvincias';
 import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
@@ -56,6 +57,10 @@ export default function InmuebleCreateView() {
 
   const [municipio, setMunicipio] = useState('');
 
+  const [activo, setActivo] = useState(false);
+
+  const [destacado, setDestacado] = useState(false);
+
 
   const handleChangeTitulo = (event) => {
     setTitulo(event.target.value);
@@ -63,7 +68,7 @@ export default function InmuebleCreateView() {
 
   const handleChangeContrato = (event) => {
     setContrato(event.target.value);
-    if(event.target.value == 'Venta'){
+    if (event.target.value == 'Venta') {
       setEstado('En Venta');
     } else {
       setEstado('En Alquiler');
@@ -122,6 +127,14 @@ export default function InmuebleCreateView() {
     setCliente(event.target.value);
   };
 
+  const handleChangeActivo = () => {
+    setActivo(!activo);
+  };
+
+  const handleChangeDestacado = () => {
+    setDestacado(!destacado);
+  };
+
   const handleSubmit = (event) => {
     createInmueble({
       propietario: cliente,
@@ -141,6 +154,8 @@ export default function InmuebleCreateView() {
       municipio: municipio,
       mapa: mapa,
       equipamiento: '',
+      activo: activo,
+      destacado: destacado
     });
     navigate('/backoffice/inmuebles');
   }
@@ -159,7 +174,52 @@ export default function InmuebleCreateView() {
     }
   }, [contrato])
 
-
+  const AntSwitch = styled(Switch)(({ theme }) => ({
+    width: 28,
+    height: 16,
+    padding: 0,
+    display: 'flex',
+    '&:active': {
+      '& .MuiSwitch-thumb': {
+        width: 15,
+      },
+      '& .MuiSwitch-switchBase.Mui-checked': {
+        transform: 'translateX(9px)',
+      },
+    },
+    '& .MuiSwitch-switchBase': {
+      padding: 2,
+      '&.Mui-checked': {
+        transform: 'translateX(12px)',
+        color: '#fff',
+        '& + .MuiSwitch-track': {
+          opacity: 1,
+          backgroundColor: '#1890ff',
+          ...theme.applyStyles('dark', {
+            backgroundColor: '#177ddc',
+          }),
+        },
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+      width: 12,
+      height: 12,
+      borderRadius: 6,
+      transition: theme.transitions.create(['width'], {
+        duration: 200,
+      }),
+    },
+    '& .MuiSwitch-track': {
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor: 'rgba(0,0,0,.25)',
+      boxSizing: 'border-box',
+      ...theme.applyStyles('dark', {
+        backgroundColor: 'rgba(255,255,255,.35)',
+      }),
+    },
+  }));
 
   return (
     <Container>
@@ -191,7 +251,7 @@ export default function InmuebleCreateView() {
                   <option value="" key="0">Seleccione un propietario</option>
                   {
                     listaClientes.map(cliente => (
-                      <option key="{cliente._id}" value="{cliente._id}" >{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
+                      <option key={cliente._id} value={cliente._id} >{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
                     ))
                   }
                 </NativeSelect>
@@ -226,7 +286,7 @@ export default function InmuebleCreateView() {
           <Grid item xs={3} style={{ marginTop: 20 }}>
             $
             <FormControl>
-              <Input id="precio" aria-describedby="precio-helper" onChange={handleChangePrecio} />
+              <Input type="number" id="precio" aria-describedby="precio-helper" onChange={handleChangePrecio} />
               <FormHelperText id="precio-helper"> Ingrese el precio en ARS</FormHelperText>
             </FormControl>
           </Grid>
@@ -241,19 +301,19 @@ export default function InmuebleCreateView() {
           {/* Ambientes */}
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormControl sx={{ width: '60%' }}>
-              <Input type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes} />
+              <Input type="number" id="ambientes" aria-describedby="ambientes-helper" onChange={handleChangeAmbientes} />
               <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormControl sx={{ width: '60%' }}>
-              <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones} />
+              <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" onChange={handleChangeHabitaciones} />
               <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormControl sx={{ width: '60%' }}>
-              <Input type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios} />
+              <Input type="number" id="banios" aria-describedby="banios-helper" onChange={handleChangeBanios} />
               <FormHelperText id="banios-helper"> Baños </FormHelperText>
             </FormControl>
           </Grid>
@@ -324,6 +384,25 @@ export default function InmuebleCreateView() {
             </FormControl>
           </Grid>
 
+          <Grid item xs={6} style={{ marginTop: 20, width: '100%' }}>
+            <Typography>Activo</Typography><br />
+            <FormControlLabel
+              control={
+                <Switch checked={activo} onChange={handleChangeActivo} name="activo" id="activo" />
+              }
+              label="Activo"
+            />
+          </Grid>
+
+          <Grid item xs={6} style={{ marginTop: 20, width: '100%' }}>
+            <Typography>Destacado</Typography><br />
+            <FormControlLabel
+              control={
+                <Switch checked={destacado} onChange={handleChangeDestacado} name="destacado" id="destacado" />
+              }
+              label="Destacado"
+            />
+          </Grid>
 
         </Grid>
       </form>

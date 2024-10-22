@@ -122,7 +122,7 @@ export default function ClienteCreateView() {
                 <Grid container>
                     <Grid item xs={12}>
                         <FormControl>
-                            <Input id="dni" aria-describedby="dni-helper" onChange={handleChangeDni} />
+                            <Input type="number" id="dni" aria-describedby="dni-helper" onChange={handleChangeDni} />
                             <FormHelperText id="dni-helper"> Ingrese el dni </FormHelperText>
                         </FormControl>
                     </Grid>

@@ -12,12 +12,19 @@ export const useFetchResetPass = ( ) => {
 
             const resp = await recuperarPassword(mail)
             if(resp.status == 200) {
+
                 setMail(resp)
                 setIsLoading(false)
+
+            } else {
+
+                setMail({error: 400})
+
             }
 
         } catch (err) {
-            console.error(err)
+            setMail({error: 400})
+            setIsLoading(false)
         }
     }
     

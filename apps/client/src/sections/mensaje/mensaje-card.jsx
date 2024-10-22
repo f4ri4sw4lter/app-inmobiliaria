@@ -50,13 +50,19 @@ export default function MensajeCard({
             lector,
             id
         });
-        fetchMensajes();
-        console.log(lista.length)
+
         if(!isReaded) {
+
             setNewMensaje();
+
         } else if (isReaded && lista.length <= 1) {
+
             setNoMensajes();
+
         }
+
+        fetchMensajes();
+
     }
 
     const handleClickOpenDialog = () => {
@@ -106,10 +112,6 @@ export default function MensajeCard({
                     {
                         noLeido == 'true' &&
                         <Button size="small" onClick={() => handleChange(true)}>Marcar como Leido</Button>
-                    }
-                    {
-                        (noLeido == 'false' && User.role <= 1) &&
-                        <Button size="small" onClick={() => handleChange(false)}>Marcar como NO Leido</Button>
                     }
                     {
                         noLeido == 'false' &&

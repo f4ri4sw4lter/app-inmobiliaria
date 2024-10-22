@@ -3,6 +3,8 @@ import { getUser } from '../utils/user';
 
 export const createInmueble = async( data ) => {
 
+    console.log(data)
+
     const User = getUser();
 
     const apiUrl = 'http://localhost:3007/api/propiedad/create';
@@ -32,7 +34,9 @@ export const createInmueble = async( data ) => {
         "equipamientos": "",
         "estado": data.estado,
         "cliente": 0,
-        "contrato": data.contrato
+        "contrato": data.contrato,
+        "activo": data.activo,
+        "destacado": data.destacado
     }
 
     const requestConfig = {

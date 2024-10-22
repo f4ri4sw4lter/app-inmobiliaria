@@ -66,4 +66,15 @@ export class ConfigController {
         });
     }
 
+    @Post('/createBackup')
+    async createBackup(@Res() res) {
+        this.logger.log('POST - create back up.');
+
+        await this.configService.createBackup();
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Backup OK',
+        });
+    }
+
 }

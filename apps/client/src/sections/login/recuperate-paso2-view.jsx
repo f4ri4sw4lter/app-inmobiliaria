@@ -5,6 +5,9 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Iconify from '../../components/iconify';
+import IconButton from '@mui/material/IconButton';
 import { Button } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
@@ -25,6 +28,8 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
     const [nuevaPass, setNuevaPass] = useState('');
     const [validate, setValidate] = useState('');
     const [codigo, setCodigo] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showValidatePassword, setValidateShowPassword] = useState(false);
     const [severity, setSeverity] = useState('success');
     const [alertTitle, setAlertTitle] = useState('OK');
     const [alertMessage, setAlertMessage] = useState('Contraseña actualizada');
@@ -32,7 +37,7 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
 
     const handleSubmit = async (event) => {
 
-        try{
+        try {
 
             const resp = await resetPassword({
                 nuevaPass: nuevaPass,
@@ -47,8 +52,8 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
             setOpen(true);
             setTimeout(() => {
                 setOpen(false);
+                router.push('/login')
             }, 5000);
-            router.push('/login')
 
         } catch (err) {
 
@@ -67,30 +72,36 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
         <>
             <Stack spacing={3}>
                 <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="nuevaPass"
-                    label="Nueva contraseña"
                     name="nuevaPass"
-                    autoComplete="nuevaPass"
+                    id="nuevaPass"
+                    label="Contraseña"
                     autoFocus
-                    value={nuevaPass}
+                    type={showPassword ? 'text' : 'password'}
                     onChange={(e) => setNuevaPass(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="validate"
+                    name="validate-password"
                     label="Validacion de nueva contraseña"
-                    name="validate"
-                    autoComplete="validate"
-                    autoFocus
-                    value={validate}
+                    type={showValidatePassword ? 'text' : 'password'}
                     onChange={(e) => setValidate(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setValidateShowPassword(!showValidatePassword)} edge="end">
+                                    <Iconify icon={showValidatePassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
                 <TextField
                     variant="outlined"
@@ -126,14 +137,14 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
                 color="error"
                 sx={{ marginTop: 1 }}
                 href='/'
-                onClick={() => {router.push(/login/)}}
+                onClick={() => { router.push(/login/) }}
             >
                 Cancelar
             </Button>
 
             <br />
             {open &&
-                <Stack sx={{ width: '100%', alignItems: 'center', marginTop: 5 }} spacing={2}>       
+                <Stack sx={{ width: '100%', alignItems: 'center', marginTop: 5 }} spacing={2}>
                     <Alert severity={severity}>
                         <AlertTitle>{alertTitle}</AlertTitle>
                         {alertMessage}
@@ -162,7 +173,7 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
             />
 
             <Stack alignItems="center" justifyContent="center" sx={{ height: 1, position: 'relative' }}>
-                
+
                 <Card
                     sx={{
                         p: 5,

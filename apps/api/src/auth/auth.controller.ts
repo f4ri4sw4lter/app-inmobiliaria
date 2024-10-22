@@ -78,6 +78,7 @@ export class AuthController {
         } else {
             
             await this.authService.createUsuario(registerUsuarioDTO);
+            await this.mailService.avisoUsuarioCreado(email)
             this.fileLogger.log(`Registro nuevo User-${JSON.stringify(registerUsuarioDTO)}`);
             return res.status(HttpStatus.OK).json({
                 message: 'Usuario creado.'

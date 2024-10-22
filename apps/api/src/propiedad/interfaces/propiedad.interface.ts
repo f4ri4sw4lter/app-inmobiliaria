@@ -33,5 +33,7 @@ export interface Propiedad extends Document {
 	estado: string;
 	cliente?: number;
 	contrato?: any;
+	activo?: boolean;
+	destacado?: boolean;
     readonly createdAt?: Date;
 }

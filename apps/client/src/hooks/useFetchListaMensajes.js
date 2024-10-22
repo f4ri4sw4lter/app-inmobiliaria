@@ -17,6 +17,7 @@ export const useFetchListaMensajes = (noLeidos) => {
             })
         } catch (err) {
             console.error(err)
+            setIsLoading(false)
         }
     }
 

@@ -23,6 +23,8 @@ export interface CreatePropiedadDTO {
 	estado: string;
 	cliente?: number;
 	contrato?: any;
+	activo?: boolean;
+	destacado?: boolean;
     readonly createdAt?: Date;
 }
 
@@ -41,4 +43,6 @@ export interface UpdatePropiedadDTO {
 	estado?: string;
 	cliente?: number;
 	contrato?: any;
+	activo?: boolean;
+	destacado?: boolean;
 }

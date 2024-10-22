@@ -27,9 +27,6 @@ export default function UserTableHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={{border: '1px solid #ccc'}}>
-          Avatar
-        </TableCell>
 
         {headLabel.map((headCell) => (
           <TableCell

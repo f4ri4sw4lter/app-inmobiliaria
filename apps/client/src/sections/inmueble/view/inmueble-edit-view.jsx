@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { ModalUploadImg } from '../modal-upload-img';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -64,6 +65,10 @@ export default function InmuebleEditView() {
 
   const [descripcion, setDescripcion] = useState('');
 
+  const [activo, setActivo] = useState();
+
+  const [destacado, setDestacado] = useState();
+
 
   const handleChangeCliente = (event) => {
     setCliente(event.target.value);
@@ -112,6 +117,14 @@ export default function InmuebleEditView() {
     setBanios(event.target.value);
   };
 
+  const handleChangeActivo = () => {
+    setActivo(!activo);
+  };
+
+  const handleChangeDestacado = () => {
+    setDestacado(!destacado);
+  };
+
   const handleSubmit = (event) => {
     updateInmueble({
       id: id,
@@ -132,6 +145,8 @@ export default function InmuebleEditView() {
       cant_hab: habitaciones,
       equipamiento: '',
       cliente: 0,
+      activo: activo,
+      destacado: destacado
     });
     navigate(`/backoffice/inmuebles/ver/${id}`);
   }
@@ -154,6 +169,8 @@ export default function InmuebleEditView() {
       setMapa(inmueble.ubicacion['mapa']);
       setCliente(inmueble.propietario);
       fetchMunicipios(inmueble.ubicacion['provincia']);
+      setActivo(inmueble.activo);
+      setDestacado(inmueble.destacado);
     }
   }, [isLoading])
 
@@ -206,10 +223,10 @@ export default function InmuebleEditView() {
                     {
                       cliente == null &&
                       <option value="">Seleccione un propietario</option>
-                    } 
+                    }
                     {
                       listaClientes.map(cliente => (
-                        <option key={cliente._id} value={cliente._id}>{cliente.apellido +' ' + cliente.nombre} ({cliente.dni})</option>
+                        <option key={cliente._id} value={cliente._id}>{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
                       ))
                     }
                   </NativeSelect>
@@ -297,7 +314,7 @@ export default function InmuebleEditView() {
                 <FormHelperText id="calle-helper"> Calle </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={2} style={{ marginTop: 30}}>
+            <Grid item xs={2} style={{ marginTop: 30 }}>
               <FormControl sx={{ width: '90%' }}>
                 <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura} />
                 <FormHelperText id="altura-helper"> Altura </FormHelperText>
@@ -356,6 +373,25 @@ export default function InmuebleEditView() {
               </FormControl>
             </Grid>
 
+            <Grid item xs={6} style={{ marginTop: 20, width: '100%' }}>
+              <Typography>Activo</Typography><br />
+              <FormControlLabel
+                control={
+                  <Switch checked={activo} onChange={handleChangeActivo} name="activo" id="activo" />
+                }
+                label="Activo"
+              />
+            </Grid>
+
+            <Grid item xs={6} style={{ marginTop: 20, width: '100%' }}>
+              <Typography>Destacado</Typography><br />
+              <FormControlLabel
+                control={
+                  <Switch checked={destacado} onChange={handleChangeDestacado} name="destacado" id="destacado" />
+                }
+                label="Destacado"
+              />
+            </Grid>
 
           </Grid>
         }

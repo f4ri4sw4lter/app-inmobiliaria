@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { getConfig } from '../../../utils/';
+import { set } from "lodash";
+import { recuperateBackup } from "../../../helpers/recuperateBackup";
 
 const Config = getConfig();
 
@@ -12,11 +14,19 @@ export default function BackupView() {
 
     const [ creatingBackup, setCreatingBackup ] = useState(false);
     const [ backupCreated, setBackupCreated ] = useState({status: 'none'});
+    const [ recuperatingBackup, setRecuperatingBackup ] = useState(false);
+    const [ backupRecuperated, setBackupRecuperated ] = useState({status: 'none'});
 
     const fetchCreateBackup = async () => {
         setCreatingBackup(true);
         setBackupCreated({status: 'waiting'});
         await createBackup(setCreatingBackup, setBackupCreated)
+    }
+
+    const fetchRecuperateBackup = async () => {
+        setRecuperatingBackup(true);
+        setBackupRecuperated({status: 'waiting'});
+        await recuperateBackup(setRecuperatingBackup, setBackupRecuperated)
     }
 
     return (
@@ -74,9 +84,34 @@ export default function BackupView() {
                         color="primary"
                         sx={{ border: '1px solid grey' }}
                         startIcon={<Iconify icon="eva:upload-fill" />}
+                        onClick={fetchRecuperateBackup}
+                        disabled={recuperatingBackup}
                     >
-                        Cargar ultimo Backup
+                        Reestablecer ultimo Backup
                     </Button>
+                </Grid>
+                <Grid item xs={1}>
+                    {recuperatingBackup &&
+                    <Box sx={{ display: 'flex' }}>
+                        <CircularProgress />
+                    </Box>
+                    }
+                    {backupRecuperated && backupRecuperated.status === 'recuperated' &&
+                    <Box sx={{ display: 'flex' }}>
+                        <Typography variant="body2" sx={{ color: 'green' }}>
+                            Recuperacion exitosa
+                        </Typography>
+                        <Iconify icon="eva:checkmark-fill" sx={{ color: 'green', width: 33, height: 33 }}/>
+                    </Box>
+                    }
+                    {backupRecuperated && backupRecuperated.status === 'error' &&
+                    <Box sx={{ display: 'flex' }}>
+                        <Iconify icon="eva:alert-triangle-fill" sx={{ color: 'red', width: '66px', height: '66px' }}/>
+                        <Typography variant="body2" sx={{ color: 'red' }}>
+                            Error al recuperar el backup
+                        </Typography>
+                    </Box>
+                    }
                 </Grid>
             </Grid>
 

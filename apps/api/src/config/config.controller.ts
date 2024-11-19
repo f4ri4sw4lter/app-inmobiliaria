@@ -67,7 +67,6 @@ export class ConfigController {
     }
 
     @Post('/createBackup')
-    @UseGuards(AuthGuard)
     async createBackup(@Res() res) {
         this.logger.log('POST - create back up.');
 
@@ -79,7 +78,6 @@ export class ConfigController {
     }
 
     @Post('/recuperateBackup')
-    @UseGuards(AuthGuard)
     async recuperateBackup(@Res() res) {
         this.logger.log('POST - recuperate back up.');
 

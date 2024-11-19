@@ -6,6 +6,7 @@ import MensajePage from '../pages/mensaje';
 import RegistrosPage from '../pages/registros';
 import ContratoPage from '../pages/contrato';
 import { getUser } from '../utils/user';
+import BackupPage from '../pages/backup';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const ClientePage = lazy(() => import('../pages/cliente'));
@@ -61,6 +62,7 @@ export default function Router({ setIsLogged}) {
           { path: 'registros/:vista?', element: <RegistrosPage /> },
           { path: 'documentos/:accion?/:id?', element: <DocumentosPage /> },
           { path: 'contratos/:accion?/:id?', element: <ContratoPage /> },
+          { path: 'backup', element: <BackupPage /> },
         ],
       },
       {

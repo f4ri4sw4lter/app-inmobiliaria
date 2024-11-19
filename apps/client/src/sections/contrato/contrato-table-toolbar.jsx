@@ -77,19 +77,6 @@ export default function ContratoTableToolbar({ numSelected, filterName, onFilter
 
       <BotoneraExport filename={'lista_contratos'} dataCSV={data} dataPDF={dataPDF} fields={fields} columns={columns} />
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <Iconify icon="eva:trash-2-fill" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <Iconify icon="ic:round-filter-list" />
-          </IconButton>
-        </Tooltip>
-      )}
     </Toolbar>
   );
 }

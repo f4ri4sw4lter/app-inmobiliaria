@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 
 import NotFoundPage from '../pages/page-not-found';
 import { ListaMensajesView } from '../sections/mensaje/view';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Icon, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
+import Iconify from '../components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -59,12 +60,14 @@ export default function MensajePage() {
                     color={isNoLeidos ? "primary" : "grey"}
                     sx={{ width: '10%', mr: '10px', border: '1px solid #ccc' }}
                     onClick={handleNoLeidos}
-                >No leidos</Button>
+                    startIcon={<Iconify icon="eva:eye-off-fill"/>}
+                > No leidos</Button>
                 <Button
                     variant="contained"
                     color={!isNoLeidos ? "primary" : "grey"}
                     sx={{ width: '10%', border: '1px solid #ccc' }}
                     onClick={handleLeidos}
+                    startIcon={<Iconify icon="eva:eye-fill"/>}
                 >Leidos</Button>
             </Stack>
 

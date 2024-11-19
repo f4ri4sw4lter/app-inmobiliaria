@@ -67,6 +67,7 @@ export class ConfigController {
     }
 
     @Post('/createBackup')
+    @UseGuards(AuthGuard)
     async createBackup(@Res() res) {
         this.logger.log('POST - create back up.');
 
@@ -74,6 +75,18 @@ export class ConfigController {
 
         return res.status(HttpStatus.OK).json({
             message: 'Backup OK',
+        });
+    }
+
+    @Post('/recuperateBackup')
+    @UseGuards(AuthGuard)
+    async recuperateBackup(@Res() res) {
+        this.logger.log('POST - recuperate back up.');
+
+        await this.configService.recuperateBackup();
+
+        return res.status(HttpStatus.OK).json({
+            message: 'Recuperate OK',
         });
     }
 

@@ -1,3 +1,4 @@
 export interface ConfigDTO {
-	unreadMsgs: boolean;
+	unreadMsgs?: boolean;
+	lastBackup?: string;
 }

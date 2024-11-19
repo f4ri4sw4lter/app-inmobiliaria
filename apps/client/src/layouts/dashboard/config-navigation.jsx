@@ -65,6 +65,12 @@ const navConfig = [
     icon: icon('flaticon/informacion'),
     roleLevel: [1]
   },
+  {
+    title: 'Backup',
+    path: '/backoffice/backup',
+    icon: icon('flaticon/backup'),
+    roleLevel: [1]
+  },
 ];
 
 export default navConfig;

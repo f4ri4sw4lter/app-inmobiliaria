@@ -38,7 +38,7 @@ export default function ListaInmuebleView() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -112,10 +112,21 @@ export default function ListaInmuebleView() {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
-          data = {listaInmuebles}
+          data={dataFiltered}
         />
 
-        <Scrollbar>
+        <TablePagination
+          page={page}
+          component="div"
+          count={listaInmuebles.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[10, 50, 100]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina:"
+        />
+
+        <Scrollbar sx={{ maxHeight: 400 }}>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
               <InmuebleTableHead
@@ -130,9 +141,9 @@ export default function ListaInmuebleView() {
                   { id: 'contrato', label: 'Tipo de contrato' },
                   { id: 'estado', label: 'Estado' },
                   //{ id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'ambientes', label: 'Cant. ambientes', align: 'center' },
-                  { id: 'habitaciones', label: 'Cant. habitaciones', align: 'center' },
-                  { id: 'banios', label: 'Cant. baños', align: 'center' }
+                  { id: 'cant_amb', label: 'Cant. ambientes', align: 'center' },
+                  { id: 'cant_hab', label: 'Cant. habitaciones', align: 'center' },
+                  { id: 'cant_ba', label: 'Cant. baños', align: 'center' }
                 ]}
               />
               <TableBody>
@@ -165,16 +176,6 @@ export default function ListaInmuebleView() {
           </TableContainer>
         </Scrollbar>
 
-        <TablePagination
-          page={page}
-          component="div"
-          count={listaInmuebles.length}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Filas por pagina:"
-        />
       </Card>
     </>
   );

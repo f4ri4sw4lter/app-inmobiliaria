@@ -1,4 +1,5 @@
 import { Stack, Typography, Grid, Button } from "@mui/material";
+import Iconify from "../../../components/iconify";
 
 export default function ListaRegistrosView() {
 
@@ -20,9 +21,11 @@ export default function ListaRegistrosView() {
 
             <Grid container spacing={2}>
                 {files.map((f) => (
-                    <Grid item xs={2} key={f.name}>
+                    <Grid item xs={4} key={f.name}>
                         <a href={"../../../../public/logs/"+f.file} download={f.file} style={{ textDecoration: 'none' }}>
-                            <Button variant="contained" color="primary" sx={{ border: '1px solid grey', width: '100%' }}>
+                            <Button variant="contained" color="primary" sx={{ border: '1px solid grey', width: '100%' }}
+                                startIcon={<Iconify icon="eva:download-fill" />}
+                            >
                                 {f.name}
                             </Button>
                         </a>

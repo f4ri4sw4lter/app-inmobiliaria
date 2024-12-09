@@ -32,11 +32,11 @@ export default function ListaContratosView() {
 
     const [selected, setSelected] = useState([]);
 
-    const [orderBy, setOrderBy] = useState('nombre');
+    const [orderBy, setOrderBy] = useState('fecha');
 
     const [filterName, setFilterName] = useState('');
 
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const [dataFiltered, setDataFiltered] = useState(listaContratos);
 
@@ -98,7 +98,7 @@ export default function ListaContratosView() {
             })
             setDataFiltered(aux)
         }
-    }, [listaContratos, isLoading, filterName]);
+    }, [listaContratos, isLoading, filterName, order, orderBy]);
 
 
     const notFound = !dataFiltered.length && !!filterName;
@@ -118,10 +118,21 @@ export default function ListaContratosView() {
                     numSelected={selected.length}
                     filterName={filterName}
                     onFilterName={handleFilterByName}
-                    data={listaContratos}
+                    data={dataFiltered}
                 />
 
-                <Scrollbar>
+                <TablePagination
+                    page={page}
+                    component="div"
+                    count={3}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handleChangePage}
+                    rowsPerPageOptions={[10, 50, 100]}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelRowsPerPage="Filas por pagina:"
+                />
+
+                <Scrollbar sx={{ maxHeight: 400 }}>
                     <TableContainer sx={{ overflow: 'unset' }}>
                         <Table sx={{ minWidth: 800 }}>
                             <ContratoTableHead
@@ -168,16 +179,6 @@ export default function ListaContratosView() {
                     </TableContainer>
                 </Scrollbar>
 
-                <TablePagination
-                    page={page}
-                    component="div"
-                    count={3}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={handleChangePage}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage="Filas por pagina:"
-                />
             </Card>
         </>
     );

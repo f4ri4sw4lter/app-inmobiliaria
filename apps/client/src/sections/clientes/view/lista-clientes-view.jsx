@@ -27,34 +27,25 @@ import { useFetchListaClientes } from "../../../hooks/useFetchListaClientes";
 // ----------------------------------------------------------------------
 
 export default function ListaClientesView() {
-
   const { listaClientes, isLoading } = useFetchListaClientes();
 
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('nombre');
-
   const [filterName, setFilterName] = useState('');
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [dataFiltered, setDataFiltered] = useState(listaClientes);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(id);
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = listaClientes.map((n) => n.nombre);
+      const newSelecteds = dataFiltered.map((n) => n.nombre);
       setSelected(newSelecteds);
       return;
     }
@@ -93,17 +84,24 @@ export default function ListaClientesView() {
     setFilterName(event.target.value);
   };
 
+  const goToPreviousPage = () => {
+    if (page > 0) setPage(page - 1);
+  };
+
+  const goToNextPage = () => {
+    if ((page + 1) * rowsPerPage < dataFiltered.length) setPage(page + 1);
+  };
+
   useEffect(() => {
     if (!isLoading) {
-      let aux = applyFilter({
+      const aux = applyFilter({
         inputData: listaClientes,
         comparator: getComparator(order, orderBy),
         filterName,
-      })
-      setDataFiltered(aux)
+      });
+      setDataFiltered(aux);
     }
-  }, [listaClientes, isLoading, filterName]);
-  
+  }, [listaClientes, isLoading, filterName, order, orderBy]);
 
   const notFound = !dataFiltered.length && !!filterName;
 
@@ -111,8 +109,12 @@ export default function ListaClientesView() {
     <>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Lista de Clientes</Typography>
-
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} href="/backoffice/clientes/crear">
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          href="/backoffice/clientes/crear"
+        >
           Agregar Cliente
         </Button>
       </Stack>
@@ -122,31 +124,43 @@ export default function ListaClientesView() {
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
-          data={listaClientes}
+          data={dataFiltered}
         />
 
-        <Scrollbar>
+        <TablePagination
+          page={page}
+          component="div"
+          count={dataFiltered.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[10, 50, 100]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por página:"
+        />
+
+        <Scrollbar sx={{ maxHeight: 400 }}>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
+
               <ClienteTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={3}
+                rowCount={dataFiltered.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'dni', label: 'DNI' },
                   { id: 'apellido', label: 'Apellido' },
-                  { id: 'name', label: 'Nombre' },
+                  { id: 'nombre', label: 'Nombre' },
                   { id: 'correo', label: 'Correo' },
-                  { id: 'telefono', label: 'Telefono' },
-                  { id: 'celuluar', label: 'Celular' },
+                  { id: 'telefono', label: 'Teléfono' },
+                  { id: 'celular', label: 'Celular' },
                 ]}
               />
+
               <TableBody>
-                {dataFiltered &&
-                  dataFiltered
+                {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <ClienteTableRow
@@ -162,28 +176,16 @@ export default function ListaClientesView() {
                       handleClick={(event) => handleClick(event, row.nombre)}
                     />
                   ))}
-
-                <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, 3)}
-                />
-
+                <TableEmptyRows height={77} emptyRows={emptyRows(page, rowsPerPage, dataFiltered.length)} />
                 {notFound && <TableNoData query={filterName} />}
               </TableBody>
+
             </Table>
           </TableContainer>
         </Scrollbar>
 
-        <TablePagination
-          page={page}
-          component="div"
-          count={3}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Filas por pagina:"
-        />
+
+
       </Card>
     </>
   );

@@ -3,6 +3,7 @@ node_modules
 
 apps/api/dist
 apps/api/.turbo
+apps/api/backups/*
 
 apps/client/dist
 apps/client/.turbo

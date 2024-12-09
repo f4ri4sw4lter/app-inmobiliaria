@@ -103,7 +103,7 @@ export default function ListaDocs({ reference, ownerId }) {
     return (
         <>
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                <Typography variant="h4" sx={{ color: 'primary.main' }}>Documentos</Typography>
+                <Typography variant="h4" sx={{ color: 'primary.main' }}></Typography>
                 <ModalCreateDocs fetchDocs={fetchDocs} reference={reference} ownerId={ownerId} />
             </Stack>
 

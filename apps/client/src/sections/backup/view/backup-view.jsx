@@ -6,6 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { getConfig } from '../../../utils/';
 import { set } from "lodash";
+import Cookies from 'js-cookie';
 import { recuperateBackup } from "../../../helpers/recuperateBackup";
 
 const Config = getConfig();
@@ -21,7 +22,18 @@ export default function BackupView() {
         setCreatingBackup(true);
         setBackupCreated({status: 'waiting'});
         await createBackup(setCreatingBackup, setBackupCreated)
+        let newConfig = Config;
+        newConfig.lastBackup = obtenerFechaActual();
+        Cookies.set('Config', JSON.stringify(newConfig), { expires: 1 });
     }
+
+    const obtenerFechaActual = () => {
+        const hoy = new Date();
+        const dia = String(hoy.getDate()).padStart(2, '0'); // Asegura dos dígitos
+        const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Mes (0-11) + 1
+        const año = hoy.getFullYear();
+        return `${dia}-${mes}-${año}`;
+      };
 
     const fetchRecuperateBackup = async () => {
         setRecuperatingBackup(true);

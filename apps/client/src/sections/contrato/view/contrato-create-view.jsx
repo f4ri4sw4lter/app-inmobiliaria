@@ -13,8 +13,8 @@ import { useFetchClienteById } from '../../../hooks/useFetchClienteById';
 
 export default function ContratoCreateView() {
 
-    const { listaInmuebles, isLoading } = useFetchListaInmuebles();
-    const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
+    const { listaInmuebles, isLoading } = useFetchListaInmuebles('titulo');
+    const { listaClientes, listaClientesIsLoading } = useFetchListaClientes('apellido');
     const { cliente, clienteIsLoading, fetchCliente } = useFetchClienteById();
 
     const navigate = useNavigate();
@@ -154,7 +154,7 @@ export default function ContratoCreateView() {
                                         listaClientes
                                             .filter((clientes) => (clientes._id !== propietarioContrato._id))
                                             .map((clientes) => (
-                                                <option key={clientes.dni} value={clientes._id}>{'(' + clientes.dni + ')' + clientes.apellido + ' ' + clientes.nombre}</option>
+                                                <option key={clientes.dni} value={clientes._id}>{clientes.apellido + ' ' + clientes.nombre + ' (' + clientes.dni + ')'}</option>
                                             ))
                                     }
                                 </NativeSelect>

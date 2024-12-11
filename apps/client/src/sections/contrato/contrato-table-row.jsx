@@ -30,6 +30,7 @@ export default function ContratoTableRow({
   fecha,
   handleClick,
 }) {
+
   const [open, setOpen] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const nuevaFecha = new Date(fecha);

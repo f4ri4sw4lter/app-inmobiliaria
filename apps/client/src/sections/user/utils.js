@@ -15,6 +15,7 @@ export function emptyRows(page, rowsPerPage, arrayLength) {
 }
 
 function descendingComparator(a, b, orderBy) {
+
   if (a[orderBy] === null) {
     return 1;
   }
@@ -49,7 +50,7 @@ export function applyFilter({ inputData, comparator, filterName }) {
 
   if (filterName) {
     inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || user.lastname.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || user.email.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || user.lastname.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || user.email.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || user.role.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

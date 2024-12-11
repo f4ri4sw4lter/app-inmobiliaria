@@ -21,7 +21,7 @@ export default function InmuebleCreateView() {
 
   const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
-  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
+  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes('apellido');
 
   const navigate = useNavigate();
 

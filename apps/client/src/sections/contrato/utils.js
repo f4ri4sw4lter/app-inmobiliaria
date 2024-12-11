@@ -49,7 +49,7 @@ export function applyFilter({ inputData, comparator, filterName }) {
 
   if (filterName) {
     inputData = inputData.filter(
-      (contrato) => contrato.inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 
+      (contrato) => contrato.inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || contrato.propietario.nombre.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || contrato.propietario.apellido.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || contrato.cliente.nombre.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || contrato.cliente.apellido.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

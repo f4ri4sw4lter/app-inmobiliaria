@@ -28,7 +28,7 @@ export default function ListaContratosView() {
 
     const [page, setPage] = useState(0);
 
-    const [order, setOrder] = useState('asc');
+    const [order, setOrder] = useState('desc');
 
     const [selected, setSelected] = useState([]);
 
@@ -124,7 +124,7 @@ export default function ListaContratosView() {
                 <TablePagination
                     page={page}
                     component="div"
-                    count={3}
+                    count={dataFiltered.length}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handleChangePage}
                     rowsPerPageOptions={[10, 50, 100]}
@@ -138,7 +138,7 @@ export default function ListaContratosView() {
                             <ContratoTableHead
                                 order={order}
                                 orderBy={orderBy}
-                                rowCount={3}
+                                rowCount={dataFiltered.length}
                                 numSelected={selected.length}
                                 onRequestSort={handleSort}
                                 onSelectAllClick={handleSelectAllClick}

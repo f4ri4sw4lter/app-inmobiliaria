@@ -29,7 +29,7 @@ export default function ListaUserView() {
 
   const [page, setPage] = useState(0);
 
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
 
   const [selected, setSelected] = useState([]);
 
@@ -37,7 +37,7 @@ export default function ListaUserView() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const { listaUsuarios, isLoading } = useFetchListaUsuarios();
 
@@ -109,19 +109,31 @@ export default function ListaUserView() {
       </Stack>
 
       <Card>
+
         <UserTableToolbar
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
         />
 
-        <Scrollbar>
+        <TablePagination
+          page={page}
+          component="div"
+          count={dataFiltered.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[10, 50, 100]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Filas por pagina:"
+        />
+
+        <Scrollbar sx={{ maxHeight: 400 }}>
           <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
+            <Table>
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={3}
+                rowCount={dataFiltered.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -129,6 +141,7 @@ export default function ListaUserView() {
                   { id: 'name', label: 'Nombre' },
                   { id: 'lastname', label: 'Apellido' },
                   { id: 'email', label: 'Correo' },
+                  { id: 'roleName', label: 'Rol' },
                 ]}
               />
               <TableBody>
@@ -156,16 +169,6 @@ export default function ListaUserView() {
           </TableContainer>
         </Scrollbar>
 
-        <TablePagination
-          page={page}
-          component="div"
-          count={3}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="Filas por pagina:"
-        />
       </Card>
     </>
   );

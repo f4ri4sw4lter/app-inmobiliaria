@@ -31,7 +31,7 @@ export default function InmuebleEditView() {
 
   const { municipios, municipiosIsLoading, fetchMunicipios } = useFetchMunicipios(2);
 
-  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
+  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes('apellido');
 
   const [cliente, setCliente] = useState('');
 

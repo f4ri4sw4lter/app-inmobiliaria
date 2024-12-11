@@ -61,7 +61,7 @@ export default function AppView() {
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title="Ventas del mes"
+              title="Ventas"
               total={metrics.cant_ventas}
               color="success"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -70,7 +70,7 @@ export default function AppView() {
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title="Alquileres del mes"
+              title="Alquileres"
               total={(metrics.cant_alquileres)}
               color="warning"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}

@@ -39,21 +39,36 @@ export default function RecuperatePaso2View({ setIsLogged, emailToReset }) {
 
         try {
 
-            const resp = await resetPassword({
-                nuevaPass: nuevaPass,
-                validate: validate,
-                codigo: codigo,
-                email: emailToReset
-            });
+            if(nuevaPass !== validate){
 
-            setSeverity('success');
-            setAlertTitle('OK');
-            setAlertMessage('Contraseña actualizada');
-            setOpen(true);
-            setTimeout(() => {
-                setOpen(false);
-                router.push('/login')
-            }, 5000);
+                setSeverity('error');
+                setAlertTitle('ERROR');
+                setAlertMessage('Las contraseñas no coinciden');
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 5000);
+                return;
+
+            } else {
+
+                const resp = await resetPassword({
+                    nuevaPass: nuevaPass,
+                    validate: validate,
+                    codigo: codigo,
+                    email: emailToReset
+                });
+
+                setSeverity('success');
+                setAlertTitle('OK');
+                setAlertMessage('Contraseña actualizada');
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                    router.push('/login')
+                }, 5000);
+
+            }
 
         } catch (err) {
 

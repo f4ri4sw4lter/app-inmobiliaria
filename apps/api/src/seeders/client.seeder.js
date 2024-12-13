@@ -11,7 +11,7 @@ mongoose
 const seedClient = async () => {
     try {
 
-        // Genera 100 usuarios falsos
+        // Genera 50 usuarios falsos
         const clients = Array.from({ length: 50 }).map(() => ({
             dni: faker.number.int({ min: 10000000, max: 99999999 }),
             nombre: faker.person.firstName(),

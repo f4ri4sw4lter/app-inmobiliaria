@@ -122,7 +122,7 @@ export default function LoginView({ setIsLogged }) {
           color="inherit"
           onClick={handleSubmit}
         >
-          Login
+          Entrar
         </LoadingButton>
       </>
   );

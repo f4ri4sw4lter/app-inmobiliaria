@@ -50,7 +50,7 @@ export function applyFilter({ inputData, comparator, filterName }) {
   if (filterName) {
     
     inputData = inputData.filter(
-      (inmueble) => inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (inmueble) => inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || inmueble.contrato.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || inmueble.estado.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

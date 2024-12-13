@@ -21,7 +21,7 @@ const navConfig = [
     title: 'Metricas',
     path: '/backoffice',
     icon: icon('flaticon/grafico'),
-    roleLevel: [1, 2]
+    roleLevel: [2]
   },
   {
     title: 'Inmuebles',

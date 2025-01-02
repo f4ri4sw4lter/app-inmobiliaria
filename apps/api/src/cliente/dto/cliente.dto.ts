@@ -13,5 +13,7 @@ export interface CreateClienteDTO {
 	celular?: string;
 	telefono?: string;
 	ubicacion: ubicacion;
+	fechaNacimiento: Date;
+	genero: string;
     readonly createdAt?: Date;
 }

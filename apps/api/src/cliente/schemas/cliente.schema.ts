@@ -43,6 +43,14 @@ export const ClienteSchema = new Schema({
             required: true
         }
     },
+    fechaNacimiento: {
+        type: Date,
+        required: true
+    },
+	genero: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type:Date,
         default: Date.now

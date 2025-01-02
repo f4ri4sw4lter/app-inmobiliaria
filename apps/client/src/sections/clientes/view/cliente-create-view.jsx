@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 import { Stack, Button, Container, Typography, Grid, FormControl, FormHelperText, Input, NativeSelect } from '@mui/material'
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateField } from '@mui/x-date-pickers/DateField';
+
 import Iconify from '../../../components/iconify';
 
 import { createCliente } from '../../../helpers/createCliente';
 import { useFetchProvincias } from '../../../hooks/useFetchProvincias';
 import { useFetchMunicipios } from '../../../hooks/useFetchMunicipios';
-
-// ----------------------------------------------------------------------
-
+import generos from '../../../utils/generos';
 export default function ClienteCreateView() {
 
     const { provincias, provinciasIsLoading } = useFetchProvincias();
@@ -39,18 +41,24 @@ export default function ClienteCreateView() {
 
     const [municipio, setMunicipio] = useState('');
 
+    const [fechaNacimiento, setFechaNacimiento] = useState('');
+
+    const [genero, setGenero] = useState('');
+
 
     const handleChangeDni = (event) => {
-        setDni(event.target.value);
+        if(event.target.value.length <= 8){
+            setDni(event.target.value);
+        } else {
+            return;
+        }
     };
-
     const handleChangeNombre = (event) => {
         setNombre(event.target.value);
     };
     const handleChangeApellido = (event) => {
         setApellido(event.target.value);
     };
-
     const handleChangeCorreo = (event) => {
         setCorreo(event.target.value);
     };
@@ -74,16 +82,17 @@ export default function ClienteCreateView() {
         setProvincia(event.target.value);
         fetchMunicipios(event.target.value);
     };
-
     const handleChangeMunicipio = (event) => {
         setMunicipio(event.target.value);
     };
-
-    const handleChangeDescripcion = (event) => {
-        setDescripcion(event.target.value);
-    };
     const handleChangeCalle = (event) => {
         setCalle(event.target.value);
+    };
+    const handleChangeFechaNacimiento = (date) => {
+        setFechaNacimiento(date);
+    }
+    const handleChangeGenero = (event) => {
+        setGenero(event.target.value);
     };
 
     const handleSubmit = (event) => {
@@ -98,6 +107,8 @@ export default function ClienteCreateView() {
             altura: Number(altura),
             provincia: provincia,
             municipio: municipio,
+            genero: genero,
+            fechaNacimiento: fechaNacimiento
         });
         navigate('/backoffice/clientes');
     }
@@ -122,40 +133,79 @@ export default function ClienteCreateView() {
                 <Grid container>
                     <Grid item xs={12}>
                         <FormControl>
-                            <Input type="number" id="dni" aria-describedby="dni-helper" onChange={handleChangeDni} />
-                            <FormHelperText id="dni-helper"> Ingrese el dni </FormHelperText>
+                            <Input 
+                                type="number" 
+                                id="dni" 
+                                aria-describedby="dni-helper" 
+                                onChange={handleChangeDni}
+                                inputProps={{
+                                    maxLength: 8,
+                                    max: 99999999,
+                                }}
+                                value={dni}
+                            />
+                            <FormHelperText id="dni-helper"> DNI </FormHelperText>
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={3}>
                         <FormControl style={{ marginTop: 20 }}>
                             <Input id="nombre" aria-describedby="nombre-helper" onChange={handleChangeNombre} />
-                            <FormHelperText id="nombre-helper"> Ingrese el nombre </FormHelperText>
+                            <FormHelperText id="nombre-helper"> Nombres </FormHelperText>
                         </FormControl>
                     </Grid>
                     <Grid item xs={9} style={{ marginTop: 20 }}>
                         <FormControl>
                             <Input id="apellido" aria-describedby="apellido-helper" onChange={handleChangeApellido} />
-                            <FormHelperText id="apellido-helper"> Ingrese el apellido </FormHelperText>
+                            <FormHelperText id="apellido-helper"> Apellidos </FormHelperText>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} style={{ marginTop: 20 }}>
-                        <FormControl>
-                            <Input id="correo" aria-describedby="correo-helper" onChange={handleChangeCorreo} />
-                            <FormHelperText id="correo-helper" > Ingrese el correo </FormHelperText>
-                        </FormControl>
-                    </Grid>
-
                     <Grid item xs={3} style={{ marginTop: 20 }}>
                         <FormControl>
-                            <Input id="celular" aria-describedby="celular-helper" onChange={handleChangeCelular} />
-                            <FormHelperText id="celular-helper"> Ingrese el celular </FormHelperText>
+                            <NativeSelect
+                                id="genero"
+                                aria-describedby="genero-helper"
+                                onChange={handleChangeGenero}
+                            >
+                                <option key="default" value="">Seleccione una opción</option>
+                                {
+                                    generos.map(genero => (
+                                        <option key={genero.id} value={genero.label}>{genero.label}</option>
+                                    ))
+                                }
+                            </NativeSelect>
+                            <FormHelperText id="municipio-label"> Genero </FormHelperText>
                         </FormControl>
                     </Grid>
                     <Grid item xs={9} style={{ marginTop: 20 }}>
                         <FormControl>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateField
+                                    label="Fecha de Nacimiento"
+                                    onChange={handleChangeFechaNacimiento}
+                                    format="DD/MM/YYYY"
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={4} style={{ marginTop: 20 }}>
+                        <FormControl sx={{width: '90%'}}>
+                            <Input id="correo" aria-describedby="correo-helper" onChange={handleChangeCorreo} />
+                            <FormHelperText id="correo-helper" > Correo </FormHelperText>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={4} style={{ marginTop: 20 }}>
+                        <FormControl>
+                            <Input id="celular" aria-describedby="celular-helper" onChange={handleChangeCelular} />
+                            <FormHelperText id="celular-helper"> Celular </FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={4} style={{ marginTop: 20 }}>
+                        <FormControl>
                             <Input id="telefono" aria-describedby="telefono-helper" onChange={handleChangeTelefono} />
-                            <FormHelperText id="telefono-helper"> Ingrese el telefono </FormHelperText>
+                            <FormHelperText id="telefono-helper"> Telefono </FormHelperText>
                         </FormControl>
                     </Grid>
 

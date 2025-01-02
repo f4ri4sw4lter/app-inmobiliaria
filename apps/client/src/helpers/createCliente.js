@@ -19,7 +19,9 @@ export const createCliente = async( data ) => {
             "municipio": data.municipio,
             "calle": data.calle,
             "altura": data.altura,
-        }
+        },
+        "genero": data.genero,
+        "fechaNacimiento": data.fechaNacimiento
     }
 
     const requestConfig = {

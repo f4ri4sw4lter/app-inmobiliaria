@@ -18,8 +18,8 @@ import ContratoTableHead from '../../contrato/contrato-table-head';
 import TableEmptyRows from '../../contrato/table-empty-rows';
 import { emptyRows, applyFilter, getComparator } from '../../contrato/utils';
 import ContratoTableRow from '../../contrato/contrato-table-row';
+import dayjs from "dayjs";
 
-// ----------------------------------------------------------------------
 
 export default function ClienteView() {
 
@@ -135,15 +135,24 @@ export default function ClienteView() {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant="h4" sx={{ color: 'primary.main' }}>Nombre completo </Typography>
-                            <Typography variant="h6" >{cliente.apellido} {cliente.nombre}</Typography>
-                        </Grid>
-                        <Grid item xs={12}>
                             <Typography variant="h4" sx={{ color: 'primary.main' }}>DNI </Typography>
                             <Typography variant="h6" >{cliente.dni}</Typography>
                         </Grid>
-
                         <Grid item xs={12}>
+                            <Typography variant="h4" sx={{ color: 'primary.main' }}>Nombre completo </Typography>
+                            <Typography variant="h6" >{cliente.apellido} {cliente.nombre}</Typography>
+                        </Grid>
+
+                        <Grid item xs={3}>
+                            <Typography variant="h4" sx={{ color: 'primary.main' }}>Genero </Typography>
+                            <Typography variant="h6" >{cliente.genero}</Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Typography variant="h4" sx={{ color: 'primary.main' }}>Fecha Nacimiento </Typography>
+                            <Typography variant="h6" >{dayjs(cliente.fechaNacimiento).format("DD/MM/YYYY")} ({dayjs().diff(dayjs(cliente.fechaNacimiento), "year")} Años)</Typography>
+                        </Grid>
+
+                        <Grid item xs={4}>
                             <Typography variant="h4" sx={{ color: 'primary.main' }}>Correo </Typography>
                             <Typography variant="h6" >{cliente.correo}</Typography>
                         </Grid>
@@ -152,11 +161,10 @@ export default function ClienteView() {
                             <Typography variant="h4" sx={{ color: 'primary.main' }}>Celular </Typography>
                             <Typography variant="h6" >{cliente.celular}</Typography>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={6}>
                             <Typography variant="h4" sx={{ color: 'primary.main' }}>Telefono </Typography>
                             <Typography variant="h6" >{cliente.telefono}</Typography>
                         </Grid>
-                        <Grid item xs={8}></Grid>
 
                         <Grid item xs={12}>
                             <Typography variant="h4" sx={{ color: 'primary.main' }}>Ubicacion</Typography>

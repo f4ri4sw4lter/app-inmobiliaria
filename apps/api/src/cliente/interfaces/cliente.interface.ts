@@ -18,5 +18,7 @@ export interface Cliente extends Document {
 	celular: string;
 	telefono: string;
 	ubicacion: ubicacion;
+	fechaNacimiento: Date;
+	genero: string;
     readonly createdAt?: Date;
 }

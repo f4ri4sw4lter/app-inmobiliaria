@@ -137,15 +137,10 @@ export default function LoginView({ setIsLogged }) {
         height: 1,
       }}
     >
-      <Logo
-        sx={{
-          position: 'fixed',
-          top: { xs: 16, md: 24 },
-          left: { xs: 16, md: 24 },
-        }}
-      />
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+        
+
         <Card
           sx={{
             p: 5,
@@ -153,7 +148,17 @@ export default function LoginView({ setIsLogged }) {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Iniciar sesion</Typography>
+          <img
+            src="../../assets/login-logo.png"
+            alt="Imagen de encabezado"
+            style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
+          />
+          <Typography variant="h4"
+            sx={{
+              textAlign: 'center',}}
+          >
+            Iniciar sesion
+          </Typography>
           <br />
           {isFailLogin &&
             <>

@@ -6,7 +6,7 @@ export const getUserById = async( id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.get(`http://localhost:3007/api/auth/userById/${id}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API}auth/userById/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

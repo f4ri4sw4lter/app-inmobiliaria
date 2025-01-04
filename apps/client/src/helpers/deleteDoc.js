@@ -6,7 +6,7 @@ export const deleteDocById = async( id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.delete(`http://localhost:3007/api/documento/${id}`, {
+        const response = await axios.delete(`${import.meta.env.VITE_API}documento/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

@@ -25,6 +25,10 @@ export interface CreatePropiedadDTO {
 	contrato?: any;
 	activo?: boolean;
 	destacado?: boolean;
+	mascotas: boolean;
+	cochera: boolean;
+	superficie: number;
+	infantes: boolean;
     readonly createdAt?: Date;
 }
 
@@ -45,4 +49,8 @@ export interface UpdatePropiedadDTO {
 	contrato?: any;
 	activo?: boolean;
 	destacado?: boolean;
+	mascotas?: boolean;
+	cochera?: boolean;
+	superficie?: number;
+	infantes?: boolean;
 }

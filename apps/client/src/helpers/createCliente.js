@@ -5,7 +5,7 @@ export const createCliente = async( data ) => {
 
     const User = getUser();
 
-    const apiUrl = 'http://localhost:3007/api/cliente/create';
+    const apiUrl = import.meta.env.VITE_API + 'cliente/create';
 
     const newCliente = {
         "dni": data.dni,

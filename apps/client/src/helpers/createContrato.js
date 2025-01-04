@@ -5,7 +5,7 @@ export const createContrato = async( data ) => {
 
     const User = getUser();
 
-    const apiUrl = 'http://localhost:3007/api/contrato';
+    const apiUrl = import.meta.env.VITE_API + 'contrato';
 
     const newInmueble = {
         "inmueble": data.inmueble,

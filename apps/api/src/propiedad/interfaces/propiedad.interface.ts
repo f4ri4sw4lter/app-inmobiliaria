@@ -35,5 +35,9 @@ export interface Propiedad extends Document {
 	contrato?: any;
 	activo?: boolean;
 	destacado?: boolean;
+	mascotas: boolean;
+	cochera: boolean;
+	superficie: number;
+	infantes: boolean;
     readonly createdAt?: Date;
 }

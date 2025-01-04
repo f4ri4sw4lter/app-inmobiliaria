@@ -6,7 +6,7 @@ export const deleteMensajeById = async( id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.delete(`http://localhost:3007/api/mensaje/${id}`, {
+        const response = await axios.delete(`${import.meta.env.VITE_API}mensaje/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

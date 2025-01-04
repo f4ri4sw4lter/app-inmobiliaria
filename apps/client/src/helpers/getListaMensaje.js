@@ -6,7 +6,7 @@ export const getListaMensajes = async ({noLeidos}) => {
     const User = getUser();
 
     try{
-        const response = await axios.get(`http://localhost:3007/api/mensaje/${noLeidos}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API}mensaje/${noLeidos}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

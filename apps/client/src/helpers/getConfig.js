@@ -6,7 +6,7 @@ export const getConfig = async (user) => {
     const User = getUser();
 
     try{
-        const response = await axios.get('http://localhost:3007/api/config/', {
+        const response = await axios.get(import.meta.env.VITE_API + 'config/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

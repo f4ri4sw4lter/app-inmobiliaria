@@ -6,7 +6,7 @@ export const deleteInmuebleById = async( id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.delete(`http://localhost:3007/api/propiedad/delete/${id}`, {
+        const response = await axios.delete(`${import.meta.env.VITE_API}propiedad/delete/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

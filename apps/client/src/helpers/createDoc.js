@@ -5,7 +5,7 @@ export const createDoc = async (reference, ownerId, name, data, setIsUpload) => 
 
     const User = getUser();
 
-    const urlApi =  `http://localhost:3007/api/documento`
+    const urlApi =  import.meta.env.VITE_API + 'documento';
 
     const form = new FormData();
     form.append("file", data);

@@ -5,7 +5,7 @@ export const recuperarPassword = async (data) => {
 
     const User = getUser();
 
-    const urlApi = 'http://localhost:3007/api/auth/initReset';
+    const urlApi = import.meta.env.VITE_API + 'auth/initReset';
 
     const options = {
         method: 'PATCH',

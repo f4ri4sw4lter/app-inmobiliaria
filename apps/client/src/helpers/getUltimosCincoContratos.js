@@ -6,7 +6,7 @@ export const getUltimosCincoContratos = async () => {
     const User = getUser();
 
     try{
-        const response = await axios.get('http://localhost:3007/api/contrato/ultimosCinco', {
+        const response = await axios.get(import.meta.env.VITE_API + 'contrato/ultimosCinco', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

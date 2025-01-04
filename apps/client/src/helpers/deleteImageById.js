@@ -6,7 +6,7 @@ export const deleteImageById = async( reference, id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.delete(`http://localhost:3007/api/images/${reference}/${id}`, {
+        const response = await axios.delete(`${import.meta.env.VITE_API}images/${reference}/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

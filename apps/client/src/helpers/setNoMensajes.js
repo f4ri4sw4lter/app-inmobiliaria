@@ -13,7 +13,7 @@ export const setNoMensajes = async () => {
         },
     };
 
-    fetch('http://localhost:3007/api/config/noMessage', requestConfig)
+    fetch(import.meta.env.VITE_API + 'config/noMessage', requestConfig)
     .then(response => {
         console.log('OK')
     })

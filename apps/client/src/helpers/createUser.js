@@ -5,7 +5,7 @@ export const createUser = async (data) => {
 
     const User = getUser();
 
-    const apiUrl = 'http://localhost:3007/api/auth/register';
+    const apiUrl = import.meta.env.VITE_API + 'auth/register';
 
     const newUser = {
         "name": data.name,

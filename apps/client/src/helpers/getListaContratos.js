@@ -5,7 +5,7 @@ export const getListaContratos = async ( id ) => {
 
     const User = getUser();
 
-    const path = 'http://localhost:3007/api/contrato/' + (id==undefined?'':id);
+    const path = import.meta.env.VITE_API + 'contrato/' + (id==undefined?'':id);
 
     try{
         const response = await axios.get(path, {

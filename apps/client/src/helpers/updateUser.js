@@ -12,7 +12,7 @@ export const updateUser = async (data) => {
 
     data._id = data.id;
 
-    const baseUrl = `http://localhost:3007/api/auth/update/${data.id}`;
+    const baseUrl = `${import.meta.env.VITE_API}auth/update/${data.id}`;
 
     const response = await axios.put(baseUrl, data, {
         headers: {

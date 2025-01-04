@@ -6,7 +6,7 @@ export const getContratoById = async( id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.get(`http://localhost:3007/api/contrato/${id}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API}contrato/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

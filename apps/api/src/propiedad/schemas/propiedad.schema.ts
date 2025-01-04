@@ -91,6 +91,22 @@ export const PropiedadSchema = new Schema({
 	destacado: {
         type:Boolean,
         default: false
+    },
+    mascotas: {
+        type:Boolean,
+        default: false
+    },
+    cochera: {
+        type:Boolean,
+        default: false
+    },
+    infantes: {
+        type:Boolean,
+        default: false
+    },
+    superficie: {
+        type:Number,
+        default: false
     }
 });
 

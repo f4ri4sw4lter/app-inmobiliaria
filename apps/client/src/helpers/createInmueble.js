@@ -7,7 +7,7 @@ export const createInmueble = async( data ) => {
 
     const User = getUser();
 
-    const apiUrl = 'http://localhost:3007/api/propiedad/create';
+    const apiUrl = import.meta.env.VITE_API + 'propiedad/create';
     const srcMapa = data.mapa.match(/src="([^"]+)"/);
     if(srcMapa){
         data.mapa = String(srcMapa[1]);

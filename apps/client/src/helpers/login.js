@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3007/api/auth/login'
+const baseUrl = 'http://' + import.meta.env.VITE_API + ':3007/api/auth/login'
 
 export const login = async credentials => {
 

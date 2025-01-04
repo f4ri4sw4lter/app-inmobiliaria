@@ -25,6 +25,8 @@ const seedClient = async () => {
                 calle: faker.location.streetAddress(),
                 altura: faker.number.int({ min: 1, max: 2000 }),
             },
+            genero: faker.helpers.arrayElement(['Masculino', 'Femenino', 'Otro']),
+            fechaNacimiento: faker.date.past(),
             createdAt: faker.date.past(),
         }));
 

@@ -6,7 +6,7 @@ export const getListaInmuebles = async () => {
     const User = getUser();
 
     try{
-        const response = await axios.get('http://localhost:3007/api/propiedad/', {
+        const response = await axios.get(import.meta.env.VITE_API + 'propiedad/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

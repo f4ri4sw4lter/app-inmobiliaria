@@ -5,7 +5,7 @@ export const updateMensaje = async (data) => {
 
     const User = getUser();
 
-    const baseUrl = `http://localhost:3007/api/mensaje/${data.id}`;
+    const baseUrl = `${import.meta.env.VITE_API}mensaje/${data.id}`;
 
     if(data.noLeido == 'true') {
         data.noLeido = false;

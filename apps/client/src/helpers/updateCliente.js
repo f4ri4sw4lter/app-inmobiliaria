@@ -12,7 +12,7 @@ export const updateCliente = async( data ) => {
         provincia: data.provincia,
     }
 
-    const baseUrl = `http://localhost:3007/api/cliente/update/${data.id}`;
+    const baseUrl = `${import.meta.env.VITE_API}cliente/update/${data.id}`;
     const response = await axios.put(baseUrl,data,{
         headers: {
             'Content-Type': 'application/json',

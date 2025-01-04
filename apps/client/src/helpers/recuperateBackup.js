@@ -5,7 +5,7 @@ export const recuperateBackup = async (setRecuperatingBackup, setBackupRecuperat
 
     const User = getUser();
 
-    const urlApi =  `http://localhost:3007/api/config/recuperateBackup`
+    const urlApi =  `${import.meta.env.VITE_API}config/recuperateBackup`
 
     const options = {
         method: 'POST',

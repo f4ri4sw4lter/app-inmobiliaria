@@ -13,7 +13,7 @@ export const setNewMensaje = async () => {
         },
     };
 
-    fetch('http://localhost:3007/api/config/newMessage', requestConfig)
+    fetch(import.meta.env.VITE_API + 'config/newMessage', requestConfig)
     .then(response => {
         console.log('OK')
     })

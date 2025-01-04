@@ -8,7 +8,7 @@ export const getMetrics = async (user) => {
     if(!user || user == undefined) {user = User};
 
     try{
-        const response = await axios.get('http://localhost:3007/api/metrics/', {
+        const response = await axios.get(import.meta.env.VITE_API + 'metrics/', {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + user.token

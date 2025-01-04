@@ -5,7 +5,7 @@ export const resetPassword = async (data) => {
 
     const User = getUser();
 
-    const urlApi = 'http://localhost:3007/api/auth/validateReset';
+    const urlApi = import.meta.env.VITE_API + 'auth/validateReset';
 
     const options = {
         method: 'PATCH',

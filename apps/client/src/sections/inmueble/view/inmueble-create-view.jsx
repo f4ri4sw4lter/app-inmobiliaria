@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, InputBase, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -299,25 +299,30 @@ export default function InmuebleCreateView() {
           </Grid>
 
           {/* Ambientes */}
-          <Grid item xs={2} style={{ marginTop: 30 }}>
+          <Grid item xs={3} style={{ marginTop: 30 }}>
             <FormControl sx={{ width: '60%' }}>
               <Input type="number" id="ambientes" aria-describedby="ambientes-helper" onChange={handleChangeAmbientes} />
               <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={2} style={{ marginTop: 30 }}>
+          <Grid item xs={3} style={{ marginTop: 30 }}>
             <FormControl sx={{ width: '60%' }}>
               <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" onChange={handleChangeHabitaciones} />
               <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={2} style={{ marginTop: 30 }}>
+          <Grid item xs={3} style={{ marginTop: 30 }}>
             <FormControl sx={{ width: '60%' }}>
               <Input type="number" id="banios" aria-describedby="banios-helper" onChange={handleChangeBanios} />
               <FormHelperText id="banios-helper"> Baños </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={6} style={{ marginTop: 30 }}></Grid>
+          <Grid item xs={3} style={{ marginTop: 30 }}>
+            <FormControl sx={{ width: '60%' }}>
+              <InputBase type="number" id="superficie" aria-describedby="superficie-helper"  />
+              <FormHelperText id="superficie-helper"> Superficie </FormHelperText>
+            </FormControl>
+          </Grid>
 
           {/* Ubicacion */}
           <Grid item xs={4} style={{ marginTop: 30 }}>

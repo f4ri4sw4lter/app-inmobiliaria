@@ -5,7 +5,7 @@ export const createImage = async (reference, data, id, setIsUpload) => {
 
     const User = getUser();
 
-    const urlApi =  `http://localhost:3007/api/images/upload/${reference}/${id}`
+    const urlApi =  import.meta.env.VITE_API + `images/upload/${reference}/${id}`
 
     const form = new FormData();
     form.append("file", data);

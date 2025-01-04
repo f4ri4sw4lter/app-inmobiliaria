@@ -21,7 +21,7 @@ export const updateInmueble = async( data ) => {
         }
     }
 
-    const baseUrl = `http://localhost:3007/api/propiedad/update/${data.id}`;
+    const baseUrl = `${import.meta.env.VITE_API}propiedad/update/${data.id}`;
     const response = await axios.put(baseUrl,data,{
         headers: {
             'Content-Type': 'application/json',

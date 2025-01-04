@@ -5,7 +5,7 @@ export const createBackup = async (setCreatingBackup, setBackupCreated) => {
 
     const User = getUser();
 
-    const urlApi =  `http://localhost:3007/api/config/createBackup`
+    const urlApi =  import.meta.env.VITE_API + 'config/createBackup';
 
     const options = {
         method: 'POST',

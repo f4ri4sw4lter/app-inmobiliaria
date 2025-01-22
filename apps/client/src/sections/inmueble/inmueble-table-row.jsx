@@ -26,11 +26,15 @@ export default function InmuebleTableRow({
   selected,
   id,
   titulo,
+  tipo,
   contrato,
   estado,
   ambientes,
   habitaciones,
   banios,
+  infantes,
+  mascotas,
+  cochera,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
@@ -76,6 +80,12 @@ export default function InmuebleTableRow({
           minWidth: '90px',
           textAlign: 'left',
           border: '1px solid #ccc'
+        }}>{tipo}</TableCell>
+
+        <TableCell sx={{
+          minWidth: '90px',
+          textAlign: 'left',
+          border: '1px solid #ccc'
         }}>{contrato}</TableCell>
 
         {estado == 'Alquilado' || estado == 'Vendido'
@@ -94,6 +104,24 @@ export default function InmuebleTableRow({
               border: '1px solid #ccc'
             }}>{estado}</TableCell>
           )}
+
+        <TableCell sx={{
+          minWidth: '100px',
+          textAlign: 'center',
+          border: '1px solid #ccc'
+        }}>{infantes ? "SI" : "NO"}</TableCell>
+
+        <TableCell sx={{
+          minWidth: '100px',
+          textAlign: 'center',
+          border: '1px solid #ccc'
+        }}>{mascotas ? "SI" : "NO"}</TableCell>
+
+        <TableCell sx={{
+          minWidth: '100px',
+          textAlign: 'center',
+          border: '1px solid #ccc'
+        }}>{cochera ? "SI" : "NO"}</TableCell>
 
         <TableCell sx={{
           minWidth: '100px',

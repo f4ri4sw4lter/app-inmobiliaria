@@ -69,6 +69,13 @@ export default function InmuebleEditView() {
 
   const [destacado, setDestacado] = useState();
 
+  const [superficie, setSuperficie] = useState(0);
+
+  const [infantes, setInfantes] = useState(false);
+
+  const [mascotas, setMascotas] = useState(false);
+
+  const [cochera, setCochera] = useState(false);
 
   const handleChangeCliente = (event) => {
     setCliente(event.target.value);
@@ -120,9 +127,20 @@ export default function InmuebleEditView() {
   const handleChangeActivo = () => {
     setActivo(!activo);
   };
-
   const handleChangeDestacado = () => {
     setDestacado(!destacado);
+  };
+  const handleChangeInfantes = () => {
+    setInfantes(!infantes);
+  };
+  const handleChangeMascotas = () => {
+    setMascotas(!mascotas);
+  };
+  const handleChangeCochera = () => {
+    setCochera(!cochera);
+  };
+  const handleChangeSuperficie = (event) => {
+    setSuperficie(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -146,7 +164,11 @@ export default function InmuebleEditView() {
       equipamiento: '',
       cliente: 0,
       activo: activo,
-      destacado: destacado
+      destacado: destacado,
+      infantes: infantes,
+      mascotas: mascotas,
+      cochera: cochera,
+      superficie: superficie
     });
     navigate(`/backoffice/inmuebles/ver/${id}`);
   }
@@ -171,18 +193,22 @@ export default function InmuebleEditView() {
       fetchMunicipios(inmueble.ubicacion['provincia']);
       setActivo(inmueble.activo);
       setDestacado(inmueble.destacado);
+      setInfantes(inmueble.infantes);
+      setMascotas(inmueble.mascotas);
+      setCochera(inmueble.cochera);
+      setSuperficie(inmueble.superficie);
     }
   }, [isLoading])
 
   useEffect(() => {
     if (contrato == 'Alquiler') {
       setEstados(<>
-        <option value={"En Alquiler"}>En Alquiler</option>
+        <option value={"Disponible"}>Disponible</option>
         <option value={"Alquilado"}>Alquilado</option>
       </>)
     } else {
       setEstados(<>
-        <option value={"En venta"}>En venta</option>
+        <option value={"Disponible"}>Disponible</option>
         <option value={"Vendido"}>Vendido</option>
       </>)
     }
@@ -214,37 +240,39 @@ export default function InmuebleEditView() {
 
             <Grid item xs={12} style={{ marginTop: 30 }}>
               {listaClientesIsLoading == false &&
-                <FormControl>
-                  <NativeSelect
-                    id="cliente"
-                    aria-describedby="cliente-helper"
-                    onChange={handleChangeCliente}
-                  >
-                    {
-                      cliente == null &&
-                      <option value="">Seleccione un propietario</option>
-                    }
-                    {
-                      listaClientes.map(cliente => (
-                        <option key={cliente._id} value={cliente._id}>{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
-                      ))
-                    }
-                  </NativeSelect>
+                <>
                   <FormHelperText id="cliente-label"> Propietario </FormHelperText>
-                </FormControl>
+                  <FormControl>
+                    <NativeSelect
+                      id="cliente"
+                      aria-describedby="cliente-helper"
+                      onChange={handleChangeCliente}
+                    >
+                      {
+                        cliente == null &&
+                        <option value="">Seleccione un propietario</option>
+                      }
+                      {
+                        listaClientes.map(cliente => (
+                          <option key={cliente._id} value={cliente._id}>{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
+                        ))
+                      }
+                    </NativeSelect>
+                  </FormControl>
+                </>
               }
             </Grid>
 
-            <Grid item xs={12}>
-              <br />
+            <Grid item xs={12} style={{ marginTop: 20 }}>
+              <FormHelperText id="titulo-helper"> Ingrese un titulo o nombre para la propiedad </FormHelperText>
               <FormControl sx={{ width: '50%' }}>
                 <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo} />
-                <FormHelperText id="titulo-helper"> Ingrese el titulo </FormHelperText>
               </FormControl>
             </Grid>
 
-            <Grid item xs={3} style={{ marginTop: 20 }}>
-              <FormControl>
+            <Grid item xs={2} style={{ marginTop: 20 }}>
+              <FormHelperText id="contrato-label">Tipo de contrato</FormHelperText>
+              <FormControl sx={{ width: '50%' }}>
                 <NativeSelect
                   id="contrato"
                   aria-describedby="titulo-helper"
@@ -254,11 +282,11 @@ export default function InmuebleEditView() {
                   <option value="Alquiler">Alquiler</option>
                   <option value="Venta">Venta</option>
                 </NativeSelect>
-                <FormHelperText id="contrato-label">Seleccione un tipo de contrato</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={9} style={{ marginTop: 20 }}>
-              <FormControl>
+            <Grid item xs={2} style={{ marginTop: 20 }}>
+              <FormHelperText id="estado-label">Estado del contrato</FormHelperText>
+              <FormControl sx={{ width: '50%' }}>
                 <NativeSelect
                   id="estado"
                   aria-describedby="titulo-helper"
@@ -266,110 +294,144 @@ export default function InmuebleEditView() {
                 >
                   {estados}
                 </NativeSelect>
-                <FormHelperText id="estado-label">Seleccione el estado del inmueble</FormHelperText>
               </FormControl>
             </Grid>
 
             {/* Precio */}
             <Grid item xs={3} style={{ marginTop: 20 }}>
-              $
+              <FormHelperText id="precio-helper"> Precio en ARS</FormHelperText>
               <FormControl>
                 <Input id="precio" aria-describedby="precio-helper" value={precio} onChange={handleChangePrecio} />
-                <FormHelperText id="precio-helper"> Ingrese el precio en ARS</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={9} style={{ marginTop: 20 }}>
-              $
+            <Grid item xs={5} style={{ marginTop: 20 }}>
+              <FormHelperText id="precioUSD-helper"> Precio en USD </FormHelperText>
               <FormControl>
                 <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" value={precioUSD} onChange={handleChangePrecioUSD} />
-                <FormHelperText id="precioUSD-helper"> Ingrese el precio en USD </FormHelperText>
               </FormControl>
+            </Grid>
+
+            <Grid item xs={2} style={{ marginTop: 20, width: '100%' }}>
+              <Typography> Infantes </Typography><br />
+              <FormControlLabel
+                control={
+                  <Switch checked={infantes} onChange={handleChangeInfantes} name="infantes" id="infantes" />
+                }
+                label={infantes ? 'Si' : 'No'}
+              />
+            </Grid>
+            <Grid item xs={2} style={{ marginTop: 20, width: '100%' }}>
+              <Typography> Mascotas </Typography><br />
+              <FormControlLabel
+                control={
+                  <Switch checked={mascotas} onChange={handleChangeMascotas} name="mascotas" id="mascotas" />
+                }
+                label={mascotas ? 'Si' : 'No'}
+              />
+            </Grid>
+            <Grid item xs={8} style={{ marginTop: 20, width: '100%' }}>
+              <Typography> Cochera </Typography><br />
+              <FormControlLabel
+                control={
+                  <Switch checked={cochera} onChange={handleChangeCochera} name="cochera" id="cochera" />
+                }
+                label={cochera ? 'Si' : 'No'}
+              />
             </Grid>
 
             {/* Ambientes */}
             <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
               <FormControl sx={{ width: '60%' }}>
                 <Input value={ambientes} type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes} />
-                <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
               <FormControl sx={{ width: '60%' }}>
                 <Input value={habitaciones} type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones} />
-                <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormHelperText id="banios-helper"> Baños </FormHelperText>
               <FormControl sx={{ width: '60%' }}>
                 <Input value={banios} type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios} />
-                <FormHelperText id="banios-helper"> Baños </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={6} style={{ marginTop: 30 }}></Grid>
+            <Grid item xs={6} style={{ marginTop: 30 }}>
+              <FormHelperText id="superficie-helper"> Superficie en m2</FormHelperText>
+              <FormControl sx={{ width: '60%' }}>
+                <Input type="text" id="superficie" aria-describedby="superficie-helper" onChange={handleChangeSuperficie} value={superficie} />
+              </FormControl>
+            </Grid>
 
             {/* Ubicacion */}
             <Grid item xs={4} style={{ marginTop: 30 }}>
+              <FormHelperText id="calle-helper"> Calle </FormHelperText>
               <FormControl sx={{ width: '90%' }}>
                 <Input id="calle" aria-describedby="calle-helper" multiline value={calle} onChange={handleChangeCalle} />
-                <FormHelperText id="calle-helper"> Calle </FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormHelperText id="altura-helper"> Altura </FormHelperText>
               <FormControl sx={{ width: '90%' }}>
                 <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura} />
-                <FormHelperText id="altura-helper"> Altura </FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ marginTop: 30 }}>
               {provinciasIsLoading == false &&
-                <FormControl sx={{ width: '90%' }}>
-                  <NativeSelect
-                    id="provincia"
-                    aria-describedby="provincia-helper"
-                    value={provincia}
-                    onChange={handleChangeProvincia}
-                  >
-                    {
-                      provincias.map(provincia => (
-                        <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
-                      ))
-                    }
-                  </NativeSelect>
+                <>
                   <FormHelperText id="provincia-label">Provincia</FormHelperText>
-                </FormControl>
+                  <FormControl sx={{ width: '90%' }}>
+                    <NativeSelect
+                      id="provincia"
+                      aria-describedby="provincia-helper"
+                      value={provincia}
+                      onChange={handleChangeProvincia}
+                    >
+                      {
+                        provincias.map(provincia => (
+                          <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
+                        ))
+                      }
+                    </NativeSelect>
+                  </FormControl>
+                </>
               }
             </Grid>
             <Grid item xs={3} style={{ marginTop: 30 }}>
               {municipiosIsLoading == false &&
-                <FormControl sx={{ width: '90%' }}>
-                  <NativeSelect
-                    id="municipio"
-                    aria-describedby="municipio-helper"
-                    onChange={handleChangeMunicipio}
-                    value={municipio}
-                  >
-                    {
-                      municipios.map(municipio => (
-                        <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
-                      ))
-                    }
-                  </NativeSelect>
+                <>
                   <FormHelperText id="municipio-label"> Localidad </FormHelperText>
-                </FormControl>
+                  <FormControl sx={{ width: '90%' }}>
+                    <NativeSelect
+                      id="municipio"
+                      aria-describedby="municipio-helper"
+                      onChange={handleChangeMunicipio}
+                      value={municipio}
+                    >
+                      {
+                        municipios.map(municipio => (
+                          <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
+                        ))
+                      }
+                    </NativeSelect>
+                  </FormControl>
+                </>
               }
             </Grid>
-            <Grid item xs={6} style={{ width: '100%' }}>
-              <FormControl style={{ marginTop: 30, width: '100%' }}>
+            <Grid item xs={6} style={{ width: '100%', marginTop: 30 }}>
+              <FormHelperText id="mapa-helper"> Mapa </FormHelperText>
+              <FormControl style={{ width: '100%' }}>
                 <Input type="text" id="mapa" aria-describedby="mapa-helper" value={mapa} onChange={handleChangeMapa} />
-                <FormHelperText id="mapa-helper"> Mapa </FormHelperText>
               </FormControl>
             </Grid>
 
             {/* Descripcion */}
             <Grid item style={{ marginTop: 20, width: '100%' }}>
+              <FormHelperText id="descripcion-helper" > Ingrese la descripcion </FormHelperText>
               <FormControl style={{ width: '100%' }}>
                 <Input type="number" id="descripcion" aria-describedby="descripcion-helper" multiline value={descripcion} fullWidth={true} onChange={handleChangeDescripcion} />
-                <FormHelperText id="descripcion-helper" > Ingrese la descripcion </FormHelperText>
               </FormControl>
             </Grid>
 

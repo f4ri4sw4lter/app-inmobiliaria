@@ -103,15 +103,30 @@ export default function InmuebleView() {
         </Grid>
 
         <Grid item xs={2}>
-          <Typography variant="h4" sx={{ color: 'primary.main' }}>Precio</Typography>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Precio ARS</Typography>
           <Typography variant="h6" >{inmueble.precio ? '$' + inmueble.precio + ' ARS' : 'No especificado'}
           </Typography>
         </Grid>
 
         <Grid item xs={10}>
-          <Typography variant="h4" sx={{ color: 'primary.main' }}>Precio en USD</Typography>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Precio USD</Typography>
           <Typography variant="h6" >{inmueble.precioUSD ? '$' + inmueble.precioUSD + ' USD' : 'No especificado'}
           </Typography>
+        </Grid>
+
+        <Grid item xs={2}>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Infantes</Typography>
+          <Typography variant="h6" >{inmueble.infantes ? 'SI' : 'NO'}</Typography>
+        </Grid>
+
+        <Grid item xs={2}>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Mascotas</Typography>
+          <Typography variant="h6" >{inmueble.mascotas ? 'SI' : 'NO'}</Typography>
+        </Grid>
+
+        <Grid item xs={8}>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Cochera</Typography>
+          <Typography variant="h6" >{inmueble.cochera ? 'SI' : 'NO'}</Typography>
         </Grid>
 
         <Grid item xs={2}>
@@ -127,6 +142,8 @@ export default function InmuebleView() {
           <Typography variant="h6" >{inmueble.cant_ba}</Typography>
         </Grid>
         <Grid item xs={6}>
+          <Typography variant="h5" sx={{ color: 'primary.main' }}>Superficie</Typography>
+          <Typography variant="h6" >{inmueble.superficie} m2</Typography>
         </Grid>
 
         <Divider orientation="horizontal" sx={{ backgroundColor: 'black', height: '3px', color: 'black' }} />

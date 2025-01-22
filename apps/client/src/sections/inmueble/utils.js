@@ -35,7 +35,7 @@ export function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export function applyFilter({ inputData, comparator, filterName }) {
+export function applyFilter({ inputData, comparator, filterTipo, filterName, filterContrato, filterEstado, filterInfantes, filterMascotas, filterCochera }) {
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -46,13 +46,49 @@ export function applyFilter({ inputData, comparator, filterName }) {
   });
 
   inputData = stabilizedThis.map((el) => el[0]);
-  
-  if (filterName) {
-    
+
+  if (filterTipo) {
     inputData = inputData.filter(
-      (inmueble) => inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || inmueble.contrato.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || inmueble.estado.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (inmueble) => inmueble.tipo.toLowerCase().indexOf(filterTipo.toLowerCase()) !== -1
     );
   }
+  
+  if (filterName) {
+    inputData = inputData.filter(
+      (inmueble) => inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterContrato) {
+    inputData = inputData.filter(
+      (inmueble) => inmueble.contrato.toLowerCase().indexOf(filterContrato.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterEstado) {
+    inputData = inputData.filter(
+      (inmueble) => inmueble.estado.toLowerCase().indexOf(filterEstado.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterInfantes) {
+    inputData = inputData.filter(
+      (inmueble) => inmueble.infantes == filterInfantes
+    );
+  }
+
+  if (filterMascotas) {
+    inputData = inputData.filter(
+      (inmueble) => inmueble.mascotas == filterMascotas
+    );
+  }
+
+  if (filterCochera) {
+    inputData = inputData.filter(
+      (inmueble) => inmueble.mascotas == filterCochera
+    );
+  }
+
 
   return inputData;
 }

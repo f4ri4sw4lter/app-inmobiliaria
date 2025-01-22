@@ -6,7 +6,7 @@ export const getListaImagesById = async ( reference, id ) => {
     const User = getUser();
 
     try{
-        const response = await axios.get(`${import.meta.env.VITE_API}/images/${reference}/${id}`, {
+        const response = await axios.get(`${import.meta.env.VITE_API}images/${reference}/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + User.token

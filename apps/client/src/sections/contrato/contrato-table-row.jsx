@@ -54,7 +54,7 @@ export default function ContratoTableRow({
 
   const handleConfirmDialog = async () => {
     const resp = deleteContratoById(id)
-    const nuevoEstado = (inmueble.estado == 'Vendido' ? 'En Venta' : 'En Alquiler');
+    const nuevoEstado = (inmueble.estado);
     if (resp){
       await updateInmueble({
         id: inmueble._id,

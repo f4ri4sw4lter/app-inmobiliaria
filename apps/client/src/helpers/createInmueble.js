@@ -3,8 +3,6 @@ import { getUser } from '../utils/user';
 
 export const createInmueble = async( data ) => {
 
-    console.log(data)
-
     const User = getUser();
 
     const apiUrl = import.meta.env.VITE_API + 'propiedad/create';
@@ -36,7 +34,11 @@ export const createInmueble = async( data ) => {
         "cliente": 0,
         "contrato": data.contrato,
         "activo": data.activo,
-        "destacado": data.destacado
+        "destacado": data.destacado,
+        "mascotas": data.mascotas,
+        "cochera": data.cochera,
+        "superficie": data.superficie,
+        "infantes": data.infantes
     }
 
     const requestConfig = {

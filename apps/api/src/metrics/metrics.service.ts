@@ -27,9 +27,15 @@ export class MetricsService {
         const alquileres = await this.contratoService.getAlquileres();
         const contratos_lastyear = await this.contratoService.getContratosLastYear();
 
+        const masculinos = clientes.filter((cliente) => (cliente.genero == 'Masculino'));
+        const femeninos = clientes.filter((cliente) => (cliente.genero == 'Femenino'));
+        const otro = clientes.filter((cliente) => (cliente.genero == 'Otro'));
+
+        console.log([masculinos, femeninos, otro])
+
         //webscrapping
-        const facebook = await this.getFacebookInfo();
-        const google = await this.getGoogleInfo();
+        //const facebook = await this.getFacebookInfo();
+        //const google = await this.getGoogleInfo();
 
         metrics = {
             "cant_clientes": clientes.length,
@@ -39,8 +45,11 @@ export class MetricsService {
             "cant_ventas": ventas.length,
             "cant_alquileres": alquileres.length,
             "contratos_lastyear": contratos_lastyear,
-            "facebook": facebook,
-            "google": google,
+            "cant_masculinos": masculinos.length,
+            "cant_femeninos": femeninos.length,
+            "cant_otro": otro.length,
+            //"facebook": facebook,
+            //"google": google,
         }
 
         return metrics;

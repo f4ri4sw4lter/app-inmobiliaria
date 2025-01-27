@@ -24,6 +24,9 @@ export default function ContratoView() {
         setDetalle(event.target.value);
     };
 
+    const fecha = new Date(contrato.fecha);
+    const fechaFormateada = `${fecha.getFullYear()}-${('0' + (fecha.getMonth() + 1)).slice(-2)}-${('0' + fecha.getDate()).slice(-2)}`;
+
     return (
         <>
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -57,7 +60,7 @@ export default function ContratoView() {
 
                     <Grid item xs={12}>
                         <Typography variant="h4" sx={{ color: 'primary.main', marginTop: 2 }}>Fecha </Typography>
-                        <Typography variant="h6" >{contrato.fecha}</Typography>
+                        <Typography variant="h6" >{fechaFormateada}</Typography>
                     </Grid>
                 </Grid>
             }

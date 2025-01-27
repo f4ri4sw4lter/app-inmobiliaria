@@ -46,12 +46,7 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
       sx={{
         height: 96,
         display: 'flex',
-        justifyContent: 'space-between',
-        p: (theme) => theme.spacing(0, 1, 0, 3),
-        ...(numSelected > 0 && {
-          color: 'primary.main',
-          bgcolor: 'primary.lighter',
-        }),
+        justifyContent: 'left',
       }}
     >
       {numSelected > 0 ? (
@@ -64,7 +59,7 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
           onChange={onFilterName}
           placeholder="Buscar cliente..."
           startAdornment={
-            <InputAdornment position="start">
+            <InputAdornment position="start" sx={{width: '100px'}}>
               <Iconify
                 icon="eva:search-fill"
                 sx={{ color: 'text.disabled', width: 20, height: 20 }}

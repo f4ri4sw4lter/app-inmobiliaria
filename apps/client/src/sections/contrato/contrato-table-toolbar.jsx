@@ -43,41 +43,11 @@ export default function ContratoTableToolbar({ numSelected, filterName, onFilter
   })
 
   return (
-    <Toolbar
-      sx={{
-        height: 96,
-        display: 'flex',
-        justifyContent: 'space-between',
-        p: (theme) => theme.spacing(0, 1, 0, 3),
-        ...(numSelected > 0 && {
-          color: 'primary.main',
-          bgcolor: 'primary.lighter',
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1">
-          {numSelected} seleccionado{numSelected > 1 && 's'}
-        </Typography>
-      ) : (
-        <OutlinedInput
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Buscar contrato..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify
-                icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          }
-        />
-      )}
+    <>
 
       <BotoneraExport filename={'lista_contratos'} dataCSV={data} dataPDF={dataPDF} fields={fields} columns={columns} />
 
-    </Toolbar>
+    </>
   );
 }
 

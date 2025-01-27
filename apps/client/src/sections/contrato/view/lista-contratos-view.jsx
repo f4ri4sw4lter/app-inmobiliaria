@@ -19,6 +19,7 @@ import TableEmptyRows from '../table-empty-rows';
 import ContratoTableToolbar from '../contrato-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchListaContratos } from '../../../hooks/useFetchListaContratos';
+import ContratoTableRowFilter from '../contrato-table-row-filter';
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +39,6 @@ export default function ListaContratosView() {
 
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    const [dataFiltered, setDataFiltered] = useState(listaContratos);
 
     const handleSort = (event, id) => {
         const isAsc = orderBy === id && order === 'asc';
@@ -89,7 +89,7 @@ export default function ListaContratosView() {
         setFilterName(event.target.value);
     };
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (!isLoading) {
             let aux = applyFilter({
                 inputData: listaContratos,
@@ -98,7 +98,13 @@ export default function ListaContratosView() {
             })
             setDataFiltered(aux)
         }
-    }, [listaContratos, isLoading, filterName, order, orderBy]);
+    }, [listaContratos, isLoading, filterName, order, orderBy]);*/
+
+    const dataFiltered = applyFilter({
+        inputData: listaContratos,
+        comparator: getComparator(order, orderBy),
+        filterName,
+      });
 
 
     const notFound = !dataFiltered.length && !!filterName;
@@ -151,6 +157,9 @@ export default function ListaContratosView() {
                                 ]}
                             />
                             <TableBody>
+                                <ContratoTableRowFilter
+                                onFilterName={handleFilterByName}
+                                />
                                 {dataFiltered &&
                                     dataFiltered
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

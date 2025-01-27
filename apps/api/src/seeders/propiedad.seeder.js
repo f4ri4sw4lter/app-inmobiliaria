@@ -18,7 +18,7 @@ const seedPropiedades = async () => {
             propietario: clientes[Math.floor(Math.random() * clientes.length)]._id,
             titulo: faker.lorem.sentence(),  // Título de la propiedad
             descripcion: faker.lorem.paragraph(),  // Descripción opcional
-            tipo: faker.helpers.arrayElement(['Alquiler', 'Venta']),  // Tipo de propiedad
+            tipo: faker.helpers.arrayElement(['Casa', 'Departamento', 'Cochera', 'Comerciales', 'Terreno o Lote', 'Campo']),  // Tipo de propiedad
             cant_amb: faker.number.int({ min: 1, max: 10 }),  // Cantidad de ambientes
             cant_ba: faker.number.int({ min: 1, max: 5 }),  // Cantidad de baños
             cant_hab: faker.number.int({ min: 1, max: 5 }),  // Cantidad de habitaciones
@@ -31,12 +31,16 @@ const seedPropiedades = async () => {
                 altura: faker.number.int({ min: 1, max: 2000 }),  // Altura
                 mapa: faker.internet.url(),  // URL del mapa (opcional)
             },
-            estado: faker.helpers.arrayElement(['Vendido', 'En Alquiler']),  // Estado de la propiedad
+            estado: faker.helpers.arrayElement(['Disponible', 'Vendido', 'Alquilado']),  // Estado de la propiedad
             cliente: faker.number.int({ min: 1, max: 50 }),  // Relacionado a un cliente (opcional)
             contrato: faker.helpers.arrayElement(['Alquiler', 'Venta']),  // Tipo de contrato
             createdAt: faker.date.past(),  // Fecha de creación
             activo: faker.datatype.boolean(),  // Activo o no
             destacado: faker.datatype.boolean(),  // Propiedad destacada o no
+            mascotas: faker.datatype.boolean(),  // Permite mascotas o no
+            cochera: faker.datatype.boolean(),  // Propiedad con cochera o no
+            infantes: faker.datatype.boolean(),  // Permite infantes o no
+            superficie: faker.number.int({ min: 10, max: 100 }),  // Superficie en metros cuadrados
         }));
         
 

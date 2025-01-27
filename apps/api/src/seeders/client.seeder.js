@@ -13,7 +13,7 @@ const seedClient = async () => {
 
         // Genera 50 usuarios falsos
         const clients = Array.from({ length: 50 }).map(() => ({
-            dni: faker.number.int({ min: 10000000, max: 99999999 }),
+            dni: faker.number.int({ min: 11111111, max: 99999999 }),
             nombre: faker.person.firstName(),
             apellido: faker.person.lastName(),
             correo: faker.internet.email(),

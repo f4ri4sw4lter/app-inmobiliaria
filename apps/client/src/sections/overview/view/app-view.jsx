@@ -27,6 +27,8 @@ export default function AppView() {
   const { ultimosCinco, setUltimosCinco } = useFetchUltimosCincoContratos();
   const { metrics, metricsIsLoading } = useFetchMetrics();
 
+  console.log(metrics);
+
   return (
 
     <Container maxWidth="xl">
@@ -134,31 +136,16 @@ export default function AppView() {
             />
           </Grid>
 
-          <Grid xs={12} md={12} lg={12}>
-            <AppTrafficBySite
-              title="Tus Redes"
-              list={[
-                {
-                  name: 'Seguidores',
-                  value: metrics.facebook.followers + 'k',
-                  icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
-                },
-                {
-                  name: '',
-                  value: metrics.facebook.review,
-                  icon: '',
-                },
-                {
-                  name: 'Puntuacion',
-                  value: metrics.google.review,
-                  icon: <Iconify icon="eva:google-fill" color="#006097" width={32} />,
-                },
-                {
-                  name: '',
-                  value: metrics.google.cant_review,
-                  icon: '',
-                },
-              ]}
+          <Grid xs={12} md={6} lg={4}>
+            <AppCurrentVisits
+              title="Generos"
+              chart={{
+                series: [
+                  { label: 'Otro', value: metrics.cant_otro },
+                  { label: 'Masculino', value: metrics.cant_masculinos },
+                  { label: 'Femenino', value: metrics.cant_femeninos },
+                ],
+              }}
             />
           </Grid>
         </Grid>

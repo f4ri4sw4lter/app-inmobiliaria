@@ -105,13 +105,14 @@ export default function ContratoCreateView() {
                     <Grid item xs={12} style={{ marginTop: 20 }}>
                         {!isLoading &&
                             <FormControl style={{ width: '100%' }}>
-                                <FormHelperText id="inmueble-label">Inmueble</FormHelperText>
+                                <FormHelperText id="inmueble-label">Inmueble*</FormHelperText>
                                 <NativeSelect
                                     id="inmueble"
                                     aria-describedby="inmueble-helper"
                                     onChange={handleChangeInmueble}
                                     sx={{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2, width: '100%' }}
                                     disableUnderline={true}
+                                    required
                                 >
                                     <option key='' value='' >Seleccione un inmueble</option>
                                     {
@@ -141,13 +142,14 @@ export default function ContratoCreateView() {
 
                         {!listaClientesIsLoading &&
                             <FormControl style={{ width: '100%', marginTop: 10 }}>
-                                <FormHelperText id="cliente-label">cliente</FormHelperText>
+                                <FormHelperText id="cliente-label">cliente*</FormHelperText>
                                 <NativeSelect
                                     id="cliente"
                                     aria-describedby="cliente-helper"
                                     onChange={handleChangeCliente}
                                     sx={{ border: '1px solid #ccc', borderRadius: 1, marginLeft: 2 }}
                                     disableUnderline={true}
+                                    required
                                 >
                                     <option key='' value='' >Seleccione un cliente</option>
                                     {

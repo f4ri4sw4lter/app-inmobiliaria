@@ -27,8 +27,6 @@ export default function AppView() {
   const { ultimosCinco, setUltimosCinco } = useFetchUltimosCincoContratos();
   const { metrics, metricsIsLoading } = useFetchMetrics();
 
-  console.log(metrics);
-
   return (
 
     <Container maxWidth="xl">
@@ -88,12 +86,12 @@ export default function AppView() {
             />
           </Grid>
 
-          <Grid xs={12} md={12} lg={12}>
+          <Grid xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Transacciones del año"
               subheader="ventas/alquileres"
               chart={{
-                labels: ['01/01/24', '02/01/24', '03/01/24', '04/01/24', '05/01/24', '06/01/24', '07/01/24', '08/01/24', '09/01/24', '10/01/24'],
+                labels: ['04/01/24', '05/01/24', '06/01/24', '07/01/24', '08/01/24', '09/01/24', '10/01/24', '11/01/24', '12/01/24', '01/01/25'],
                 series: [
                   {
                     name: 'Ventas',

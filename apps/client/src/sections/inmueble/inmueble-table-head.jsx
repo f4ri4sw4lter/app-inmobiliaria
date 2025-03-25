@@ -8,6 +8,7 @@ import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
 
 import { visuallyHidden } from './utils';
+import ThemeProvider from '../../theme';
 
 // ----------------------------------------------------------------------
 
@@ -26,14 +27,18 @@ export default function InmuebleTableHead({
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow
+        sx={{
+          backgroundColor: (theme) => theme.palette.primary.main,
+        }}
+      >
 
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth, border: '1px solid #ccc' }}
+            sx={{ width: headCell.width, minWidth: headCell.minWidth, border: '1px solid #ccc', color: 'white', textAlign: 'center', fontSize: '18px' }}
           >
             <TableSortLabel
               hideSortIcon

@@ -26,14 +26,18 @@ export default function DocumentosTableHead({
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow
+        sx={{
+          backgroundColor: (theme) => theme.palette.primary.main,
+        }}
+      >
 
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth}}
+            sx={{ width: headCell.width, minWidth: headCell.minWidth, color: 'white', textAlign: 'center', fontSize: '18px', border: '1px solid #ccc'}}
           >
             <TableSortLabel
               hideSortIcon

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModalUploadImg } from '../modal-upload-img';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch, InputAdornment } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -241,12 +241,13 @@ export default function InmuebleEditView() {
             <Grid item xs={12} style={{ marginTop: 30 }}>
               {listaClientesIsLoading == false &&
                 <>
-                  <FormHelperText id="cliente-label"> Propietario </FormHelperText>
+                  <FormHelperText id="cliente-label"> Propietario* </FormHelperText>
                   <FormControl>
                     <NativeSelect
                       id="cliente"
                       aria-describedby="cliente-helper"
                       onChange={handleChangeCliente}
+                      required
                     >
                       {
                         cliente == null &&
@@ -264,20 +265,21 @@ export default function InmuebleEditView() {
             </Grid>
 
             <Grid item xs={12} style={{ marginTop: 20 }}>
-              <FormHelperText id="titulo-helper"> Ingrese un titulo o nombre para la propiedad </FormHelperText>
+              <FormHelperText id="titulo-helper"> Titulo o nombre para la propiedad* </FormHelperText>
               <FormControl sx={{ width: '50%' }}>
-                <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo} />
+                <Input id="titulo" aria-describedby="titulo-helper" value={titulo} onChange={handleChangeTitulo} required/>
               </FormControl>
             </Grid>
 
             <Grid item xs={2} style={{ marginTop: 20 }}>
-              <FormHelperText id="contrato-label">Tipo de contrato</FormHelperText>
+              <FormHelperText id="contrato-label">Tipo de contrato*</FormHelperText>
               <FormControl sx={{ width: '50%' }}>
                 <NativeSelect
                   id="contrato"
                   aria-describedby="titulo-helper"
                   defaultValue={contrato}
                   onChange={handleChangeSelect}
+                  required
                 >
                   <option value="Alquiler">Alquiler</option>
                   <option value="Venta">Venta</option>
@@ -285,7 +287,7 @@ export default function InmuebleEditView() {
               </FormControl>
             </Grid>
             <Grid item xs={2} style={{ marginTop: 20 }}>
-              <FormHelperText id="estado-label">Estado del contrato</FormHelperText>
+              <FormHelperText id="estado-label">Estado del contrato*</FormHelperText>
               <FormControl sx={{ width: '50%' }}>
                 <NativeSelect
                   id="estado"
@@ -299,20 +301,36 @@ export default function InmuebleEditView() {
 
             {/* Precio */}
             <Grid item xs={3} style={{ marginTop: 20 }}>
-              <FormHelperText id="precio-helper"> Precio en ARS</FormHelperText>
+              <FormHelperText id="precio-helper"> Precio en ARS* </FormHelperText>
               <FormControl>
-                <Input id="precio" aria-describedby="precio-helper" value={precio} onChange={handleChangePrecio} />
+                <Input 
+                  type="number" 
+                  id="precio" 
+                  aria-describedby="precio-helper" 
+                  value={precio} 
+                  onChange={handleChangePrecio} 
+                  startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                  required
+                />
               </FormControl>
             </Grid>
             <Grid item xs={5} style={{ marginTop: 20 }}>
-              <FormHelperText id="precioUSD-helper"> Precio en USD </FormHelperText>
+              <FormHelperText id="precioUSD-helper"> Precio en USD* </FormHelperText>
               <FormControl>
-                <Input type="number" id="precioUSD" aria-describedby="precioUSD-helper" value={precioUSD} onChange={handleChangePrecioUSD} />
+                <Input 
+                  type="number" 
+                  id="precioUSD" 
+                  aria-describedby="precioUSD-helper" 
+                  value={precioUSD} 
+                  onChange={handleChangePrecioUSD}
+                  required
+                  startAdornment={<InputAdornment position="start">U$S</InputAdornment>}
+                />
               </FormControl>
             </Grid>
 
             <Grid item xs={2} style={{ marginTop: 20, width: '100%' }}>
-              <Typography> Infantes </Typography><br />
+              <Typography> Infantes* </Typography><br />
               <FormControlLabel
                 control={
                   <Switch checked={infantes} onChange={handleChangeInfantes} name="infantes" id="infantes" />
@@ -321,7 +339,7 @@ export default function InmuebleEditView() {
               />
             </Grid>
             <Grid item xs={2} style={{ marginTop: 20, width: '100%' }}>
-              <Typography> Mascotas </Typography><br />
+              <Typography> Mascotas* </Typography><br />
               <FormControlLabel
                 control={
                   <Switch checked={mascotas} onChange={handleChangeMascotas} name="mascotas" id="mascotas" />
@@ -330,7 +348,7 @@ export default function InmuebleEditView() {
               />
             </Grid>
             <Grid item xs={8} style={{ marginTop: 20, width: '100%' }}>
-              <Typography> Cochera </Typography><br />
+              <Typography> Cochera* </Typography><br />
               <FormControlLabel
                 control={
                   <Switch checked={cochera} onChange={handleChangeCochera} name="cochera" id="cochera" />
@@ -341,41 +359,42 @@ export default function InmuebleEditView() {
 
             {/* Ambientes */}
             <Grid item xs={2} style={{ marginTop: 30 }}>
-              <FormHelperText id="ambientes-helper"> Ambientes </FormHelperText>
+              <FormHelperText id="ambientes-helper"> Ambientes* </FormHelperText>
               <FormControl sx={{ width: '60%' }}>
-                <Input value={ambientes} type="number" id="ambientes" aria-describedby="ambientes-helper" multiline onChange={handleChangeAmbientes} />
+                <Input type="number" value={ambientes} id="ambientes" aria-describedby="ambientes-helper" onChange={handleChangeAmbientes} required/>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={2} style={{ marginTop: 30 }}>
+              <FormHelperText id="habitaciones-helper"> Habitaciones* </FormHelperText>
+              <FormControl sx={{ width: '60%' }}>
+                <Input value={habitaciones} type="number" id="habitaciones" aria-describedby="habitaciones-helper" onChange={handleChangeHabitaciones} required/>
               </FormControl>
             </Grid>
             <Grid item xs={2} style={{ marginTop: 30 }}>
-              <FormHelperText id="habitaciones-helper"> Habitaciones </FormHelperText>
+              <FormHelperText id="banios-helper"> Baños* </FormHelperText>
               <FormControl sx={{ width: '60%' }}>
-                <Input value={habitaciones} type="number" id="habitaciones" aria-describedby="habitaciones-helper" multiline onChange={handleChangeHabitaciones} />
-              </FormControl>
-            </Grid>
-            <Grid item xs={2} style={{ marginTop: 30 }}>
-              <FormHelperText id="banios-helper"> Baños </FormHelperText>
-              <FormControl sx={{ width: '60%' }}>
-                <Input value={banios} type="number" id="banios" aria-describedby="banios-helper" multiline onChange={handleChangeBanios} />
+                <Input value={banios} type="number" id="banios" aria-describedby="banios-helper" onChange={handleChangeBanios} required/>
               </FormControl>
             </Grid>
             <Grid item xs={6} style={{ marginTop: 30 }}>
-              <FormHelperText id="superficie-helper"> Superficie en m2</FormHelperText>
+              <FormHelperText id="superficie-helper"> Superficie en m2* </FormHelperText>
               <FormControl sx={{ width: '60%' }}>
-                <Input type="text" id="superficie" aria-describedby="superficie-helper" onChange={handleChangeSuperficie} value={superficie} />
+                <Input type="number" id="superficie" aria-describedby="superficie-helper" onChange={handleChangeSuperficie} value={superficie} required/>
               </FormControl>
             </Grid>
 
             {/* Ubicacion */}
             <Grid item xs={4} style={{ marginTop: 30 }}>
-              <FormHelperText id="calle-helper"> Calle </FormHelperText>
+              <FormHelperText id="calle-helper"> Calle* </FormHelperText>
               <FormControl sx={{ width: '90%' }}>
-                <Input id="calle" aria-describedby="calle-helper" multiline value={calle} onChange={handleChangeCalle} />
+                <Input id="calle" aria-describedby="calle-helper" multiline value={calle} onChange={handleChangeCalle} required/>
               </FormControl>
             </Grid>
             <Grid item xs={2} style={{ marginTop: 30 }}>
-              <FormHelperText id="altura-helper"> Altura </FormHelperText>
+              <FormHelperText id="altura-helper"> Altura* </FormHelperText>
               <FormControl sx={{ width: '90%' }}>
-                <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura} />
+                <Input type="number" id="altura" aria-describedby="altura-helper" value={altura} onChange={handleChangeAltura} required/>
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ marginTop: 30 }}>

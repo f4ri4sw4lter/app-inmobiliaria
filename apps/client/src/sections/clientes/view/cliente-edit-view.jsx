@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, FormHelperText, Input, NativeSelect } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, FormControl, FormHelperText, Input, NativeSelect, FormLabel } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 
@@ -36,6 +36,8 @@ export default function ClienteEditView() {
     const [apellido, setApellido] = useState('');
 
     const [correo, setCorreo] = useState('');
+
+    const [errorCorreo, setErrorCorreo] = useState(false);
 
     const [celular, setCelular] = useState('');
 
@@ -137,11 +139,16 @@ export default function ClienteEditView() {
         }
     }, [clienteIsLoading])
 
+    const validarCorreo = () => {
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        setErrorCorreo(!regex.test(correo)); // Establece error si el correo es inválido
+    };
+
     return (
         <Container>
             <form onSubmit={handleSubmit}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography variant="h4">Agregar cliente</Typography>
+                    <Typography variant="h4">Editar cliente</Typography>
 
                     <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                         <Button type="submit" variant="contained" color="inherit" startIcon={<Iconify icon="eva:save-fill" />}>
@@ -158,26 +165,27 @@ export default function ClienteEditView() {
                     <Grid container>
                         <Grid item xs={12}>
                             <FormControl>
-                                <Input id="dni" value={dni} aria-describedby="dni-helper" onChange={handleChangeDni} />
-                                <FormHelperText id="dni-helper"> DNI </FormHelperText>
+                                <FormLabel id="dni-label">DNI*</FormLabel>
+                                <Input type="number" id="dni" value={dni} aria-describedby="dni-helper" onChange={handleChangeDni} required/>
                             </FormControl>
                         </Grid>
 
                         <Grid item xs={3}>
                             <FormControl style={{ marginTop: 20 }}>
-                                <Input id="nombre" value={nombre} aria-describedby="nombre-helper" onChange={handleChangeNombre} />
-                                <FormHelperText id="nombre-helper"> Nombres </FormHelperText>
+                                <FormLabel id="nombre-label">Nombres*</FormLabel>
+                                <Input id="nombre" value={nombre} aria-describedby="nombre-helper" onChange={handleChangeNombre} required/>
                             </FormControl>
                         </Grid>
                         <Grid item xs={9} style={{ marginTop: 20 }}>
                             <FormControl>
+                                <FormLabel id="apllido-label">Apellido*</FormLabel>
                                 <Input id="apellido" value={apellido} aria-describedby="apellido-helper" onChange={handleChangeApellido} />
-                                <FormHelperText id="apellido-helper"> Apellidos </FormHelperText>
                             </FormControl>
                         </Grid>
 
                         <Grid item xs={3} style={{ marginTop: 20 }}>
                             <FormControl>
+                                <FormLabel id="genero-label">Genero*</FormLabel>
                                 <NativeSelect
                                     id="genero"
                                     aria-describedby="genero-helper"
@@ -190,14 +198,15 @@ export default function ClienteEditView() {
                                         ))
                                     }
                                 </NativeSelect>
-                                <FormHelperText id="municipio-label"> Genero </FormHelperText>
                             </FormControl>
                         </Grid>
+
                         <Grid item xs={9} style={{ marginTop: 20 }}>
                             <FormControl>
+                                <FormLabel id="fecha-label">Fecha de nacimiento*</FormLabel>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DateField
-                                        label="Fecha de Nacimiento"
+                                        label=""
                                         onChange={handleChangeFechaNacimiento}
                                         format="DD/MM/YYYY"
                                         value={dayjs(fechaNacimiento)}
@@ -208,39 +217,54 @@ export default function ClienteEditView() {
 
                         <Grid item xs={4} style={{ marginTop: 20 }}>
                             <FormControl sx={{ width: '90%' }}>
-                                <Input id="correo" value={correo} aria-describedby="correo-helper" onChange={handleChangeCorreo} />
-                                <FormHelperText id="correo-helper" > Correo </FormHelperText>
+                                <FormLabel id="correo-label">Correo*</FormLabel>
+                                <Input 
+                                    type="email" 
+                                    id="correo" 
+                                    value={correo} 
+                                    aria-describedby="correo-helper" 
+                                    onChange={handleChangeCorreo} 
+                                    required
+                                    inputProps={{
+                                        pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$',
+                                        title: 'Ingrese un correo válido'
+                                    }}
+                                    onBlur={validarCorreo}
+                                    sx={{ border: errorCorreo ? '1px solid red' : 'none' }} 
+                                />
+                                {errorCorreo && <FormHelperText sx={{ color: 'red' }}>Ingrese un correo válido</FormHelperText>}
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={4} style={{ marginTop: 20 }}>
+                            <FormControl sx={{ width: '90%' }}>
+                                <FormLabel id="celular-label">Celular*</FormLabel>
+                                <Input type="number" id="celular" value={celular} aria-describedby="celular-helper" onChange={handleChangeCelular} required/>
                             </FormControl>
                         </Grid>
                         <Grid item xs={4} style={{ marginTop: 20 }}>
                             <FormControl>
-                                <Input id="celular" value={celular} aria-describedby="celular-helper" onChange={handleChangeCelular} />
-                                <FormHelperText id="celular-helper"> Celular </FormHelperText>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={4} style={{ marginTop: 20 }}>
-                            <FormControl>
-                                <Input id="telefono" value={telefono} aria-describedby="telefono-helper" onChange={handleChangeTelefono} />
-                                <FormHelperText id="telefono-helper"> Telefono </FormHelperText>
+                                <FormLabel id="telefono-label">Telefono*</FormLabel>
+                                <Input type="number" id="telefono" value={telefono} aria-describedby="telefono-helper" onChange={handleChangeTelefono} />
                             </FormControl>
                         </Grid>
 
                         {/* Ubicacion */}
                         <Grid item xs={4} style={{ marginTop: 20, width: '100%' }}>
                             <FormControl style={{ width: '90%' }}>
-                                <Input id="calle" value={calle} aria-describedby="calle-helper" multiline onChange={handleChangeCalle} />
-                                <FormHelperText id="calle-helper"> Calle </FormHelperText>
+                                <FormLabel id="calle-label">Calle*</FormLabel>
+                                <Input id="calle" value={calle} aria-describedby="calle-helper" multiline onChange={handleChangeCalle} required/>
                             </FormControl>
                         </Grid>
                         <Grid item xs={2} style={{ marginTop: 20 }}>
                             <FormControl style={{ width: '90%' }}>
+                                <FormLabel id="altura-label">Altura*</FormLabel>
                                 <Input type="number" value={altura} id="altura" aria-describedby="altura-helper" onChange={handleChangeAltura} />
-                                <FormHelperText id="altura-helper"> Altura </FormHelperText>
                             </FormControl>
                         </Grid>
                         <Grid item xs={3} style={{ marginTop: 20 }}>
                             {provinciasIsLoading == false &&
                                 <FormControl style={{ width: '90%' }}>
+                                    <FormLabel id="provincia-label">Provincia*</FormLabel>
                                     <NativeSelect
                                         id="provincia"
                                         aria-describedby="provincia-helper"
@@ -253,13 +277,13 @@ export default function ClienteEditView() {
                                             ))
                                         }
                                     </NativeSelect>
-                                    <FormHelperText id="provincia-label">Provincia</FormHelperText>
                                 </FormControl>
                             }
                         </Grid>
                         <Grid item xs={3} style={{ marginTop: 20 }}>
                             {municipiosIsLoading == false &&
                                 <FormControl>
+                                    <FormLabel id="localidad-label">Localidad*</FormLabel>
                                     <NativeSelect
                                         id="municipio"
                                         aria-describedby="municipio-helper"
@@ -272,7 +296,6 @@ export default function ClienteEditView() {
                                             ))
                                         }
                                     </NativeSelect>
-                                    <FormHelperText id="municipio-label"> Localidad </FormHelperText>
                                 </FormControl>
                             }
                         </Grid>

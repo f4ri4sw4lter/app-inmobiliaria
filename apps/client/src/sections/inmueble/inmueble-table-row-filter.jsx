@@ -15,7 +15,8 @@ export default function InmuebleTableRowFilter({ numSelected, filterName, onFilt
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={numSelected} >
+      <TableRow hover tabIndex={-1} role="checkbox" selected={numSelected}
+      >
 
         <TableCell component="th" sx={{ border: '1px solid #ccc' }}>
           <OutlinedInput

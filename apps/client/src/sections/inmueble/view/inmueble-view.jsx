@@ -54,7 +54,6 @@ export default function InmuebleView() {
 
   useEffect(() => {
     if (!isLoading) {
-      console.log(inmueble)
       getProvinciaById(inmueble.ubicacion.provincia)
         .then(({ provincias }) => setProvincia(provincias[0].nombre))
 

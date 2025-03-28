@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, InputBase, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch, InputAdornment } from '@mui/material'
+import { Modal, Stack, Button, Container, Typography, Grid, FormControl, InputLabel, InputBase, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch, InputAdornment, IconButton, Tooltip } from '@mui/material'
 
+
+import CloseIcon from '@mui/icons-material/Close';
 import Iconify from '../../../components/iconify';
-import Scrollbar from '../../../components/scrollbar';
-import { HorizontalImageList } from '../img-lista';
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { createInmueble } from '../../../helpers/createInmueble';
@@ -72,6 +72,8 @@ export default function InmuebleCreateView() {
   const [mascotas, setMascotas] = useState(false);
 
   const [cochera, setCochera] = useState(false);
+
+  const [open, setOpen] = useState(false);
 
   const handleChangeTitulo = (event) => {
     setTitulo(event.target.value);
@@ -157,6 +159,11 @@ export default function InmuebleCreateView() {
     setSuperficie(event.target.value);
   };
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   const handleSubmit = (event) => {
     createInmueble({
       propietario: cliente,
@@ -184,6 +191,10 @@ export default function InmuebleCreateView() {
       destacado: destacado
     });
     navigate('/backoffice/inmuebles');
+  }
+
+  const handleClickMapa = () => {
+    window.open('https://www.google.com.ar/maps?hl=es', '_blank');
   }
 
   useEffect(() => {
@@ -267,24 +278,24 @@ export default function InmuebleCreateView() {
           <Grid item xs={12} style={{ marginTop: 0 }}>
             {listaClientesIsLoading == false &&
               <>
-              <FormHelperText id="cliente-label"> Propietario* </FormHelperText>
-              <FormControl>
-                <NativeSelect
-                  id="cliente"
-                  aria-describedby="cliente-helper"
-                  onChange={handleChangeCliente}
-                  defaultValue={''}
-                  key="native-select-1"
-                  required
-                >
-                  <option value="" key="0"> Seleccione un propietario </option>
-                  {
-                    listaClientes.map(cliente => (
-                      <option key={cliente._id} value={cliente._id} >{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
-                    ))
-                  }
-                </NativeSelect>
-              </FormControl>
+                <FormHelperText id="cliente-label"> Propietario* </FormHelperText>
+                <FormControl>
+                  <NativeSelect
+                    id="cliente"
+                    aria-describedby="cliente-helper"
+                    onChange={handleChangeCliente}
+                    defaultValue={''}
+                    key="native-select-1"
+                    required
+                  >
+                    <option value="" key="0"> Seleccione un propietario </option>
+                    {
+                      listaClientes.map(cliente => (
+                        <option key={cliente._id} value={cliente._id} >{cliente.apellido + ' ' + cliente.nombre} ({cliente.dni})</option>
+                      ))
+                    }
+                  </NativeSelect>
+                </FormControl>
               </>
             }
           </Grid>
@@ -292,7 +303,7 @@ export default function InmuebleCreateView() {
           <Grid item xs={12} style={{ marginTop: 20 }}>
             <FormHelperText id="titulo-helper"> Ingrese un titulo o nombre para la propiedad* </FormHelperText>
             <FormControl sx={{ width: '50%' }}>
-              <Input id="titulo" aria-describedby="titulo-helper" onChange={handleChangeTitulo} required/>
+              <Input id="titulo" aria-describedby="titulo-helper" onChange={handleChangeTitulo} required />
             </FormControl>
           </Grid>
 
@@ -322,7 +333,7 @@ export default function InmuebleCreateView() {
                 onChange={handleChangeTipo}
                 required
                 value={tipo}
-                
+
               >
                 <option key="" value="" disabled> Seleccione un tipo </option>
                 {
@@ -338,10 +349,10 @@ export default function InmuebleCreateView() {
           <Grid item xs={3} style={{ marginTop: 20 }}>
             <FormHelperText id="precio-helper"> Ingrese el precio en ARS*</FormHelperText>
             <FormControl>
-              <Input 
-                type="number" 
-                id="precio" 
-                aria-describedby="precio-helper" 
+              <Input
+                type="number"
+                id="precio"
+                aria-describedby="precio-helper"
                 onChange={handleChangePrecio}
                 required
                 startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -351,10 +362,10 @@ export default function InmuebleCreateView() {
           <Grid item xs={5} style={{ marginTop: 20 }}>
             <FormHelperText id="precioUSD-helper"> Ingrese el precio en USD* </FormHelperText>
             <FormControl>
-              <Input 
-                type="number" 
-                id="precioUSD" 
-                aria-describedby="precioUSD-helper" 
+              <Input
+                type="number"
+                id="precioUSD"
+                aria-describedby="precioUSD-helper"
                 onChange={handleChangePrecioUSD}
                 required
                 startAdornment={<InputAdornment position="start">U$S</InputAdornment>}
@@ -394,25 +405,25 @@ export default function InmuebleCreateView() {
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormHelperText id="ambientes-helper"> Ambientes* </FormHelperText>
             <FormControl sx={{ width: '20%' }}>
-              <Input type="number" id="ambientes" aria-describedby="ambientes-helper" onChange={handleChangeAmbientes} value={ambientes} required/>
+              <Input type="number" id="ambientes" aria-describedby="ambientes-helper" onChange={handleChangeAmbientes} value={ambientes} required />
             </FormControl>
           </Grid>
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormHelperText id="habitaciones-helper"> Habitaciones* </FormHelperText>
             <FormControl sx={{ width: '20%' }}>
-              <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" onChange={handleChangeHabitaciones} value={habitaciones} required/>
+              <Input type="number" id="habitaciones" aria-describedby="habitaciones-helper" onChange={handleChangeHabitaciones} value={habitaciones} required />
             </FormControl>
           </Grid>
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormHelperText id="banios-helper"> Baños* </FormHelperText>
             <FormControl sx={{ width: '20%' }}>
-              <Input type="number" id="banios" aria-describedby="banios-helper" onChange={handleChangeBanios} value={banios} required/>
+              <Input type="number" id="banios" aria-describedby="banios-helper" onChange={handleChangeBanios} value={banios} required />
             </FormControl>
           </Grid>
           <Grid item xs={6} style={{ marginTop: 30 }}>
             <FormHelperText id="superficie-helper"> Superficie en m2*</FormHelperText>
             <FormControl sx={{ width: '60%' }}>
-              <Input type="number" id="superficie" aria-describedby="superficie-helper" onChange={handleChangeSuperficie} value={superficie} required/>
+              <Input type="number" id="superficie" aria-describedby="superficie-helper" onChange={handleChangeSuperficie} value={superficie} required />
             </FormControl>
           </Grid>
 
@@ -420,69 +431,98 @@ export default function InmuebleCreateView() {
           <Grid item xs={4} style={{ marginTop: 30 }}>
             <FormHelperText id="calle-helper"> Calle* </FormHelperText>
             <FormControl sx={{ width: '90%' }}>
-              <Input id="calle" aria-describedby="calle-helper" multiline onChange={handleChangeCalle} required/>
+              <Input id="calle" aria-describedby="calle-helper" multiline onChange={handleChangeCalle} required />
             </FormControl>
           </Grid>
           <Grid item xs={2} style={{ marginTop: 30 }}>
             <FormHelperText id="altura-helper"> Altura* </FormHelperText>
             <FormControl sx={{ width: '90%' }}>
-              <Input type="number" id="altura" aria-describedby="altura-helper" onChange={handleChangeAltura} required/>
+              <Input type="number" id="altura" aria-describedby="altura-helper" onChange={handleChangeAltura} required />
             </FormControl>
           </Grid>
           <Grid item xs={3} style={{ marginTop: 30 }}>
             {provinciasIsLoading == false &&
               <>
-              <FormHelperText id="provincia-label">Provincia*</FormHelperText>
-              <FormControl sx={{ width: '90%' }}>
-                <NativeSelect
-                  id="provincia"
-                  aria-describedby="provincia-helper"
-                  value={provincia}
-                  onChange={handleChangeProvincia}
-                  default = ""
-                  required
-                >
-                  <option key="" value="" disabled> Seleccione una provincia </option>
-                  {
-                    provincias.map(provincia => (
-                      <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
-                    ))
-                  }
-                </NativeSelect>
-              </FormControl>
+                <FormHelperText id="provincia-label">Provincia*</FormHelperText>
+                <FormControl sx={{ width: '90%' }}>
+                  <NativeSelect
+                    id="provincia"
+                    aria-describedby="provincia-helper"
+                    value={provincia}
+                    onChange={handleChangeProvincia}
+                    default=""
+                    required
+                  >
+                    <option key="" value="" disabled> Seleccione una provincia </option>
+                    {
+                      provincias.map(provincia => (
+                        <option key={provincia.id} value={provincia.id}>{provincia.nombre}</option>
+                      ))
+                    }
+                  </NativeSelect>
+                </FormControl>
               </>
             }
           </Grid>
           <Grid item xs={3} style={{ marginTop: 30 }}>
             {municipiosIsLoading == false &&
               <>
-              <FormHelperText id="municipio-label"> Localidad* </FormHelperText>
-              <FormControl sx={{ width: '90%' }}>
-                <NativeSelect
-                  id="municipio"
-                  aria-describedby="municipio-helper"
-                  onChange={handleChangeMunicipio}
-                  default=""
-                  required
-                  value={municipio}
-                >
-                  <option key="" value="" disabled> Seleccione una localidad </option>
-                  {
-                    municipios.map(municipio => (
-                      <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
-                    ))
-                  }
-                </NativeSelect>
-              </FormControl>
+                <FormHelperText id="municipio-label"> Localidad* </FormHelperText>
+                <FormControl sx={{ width: '90%' }}>
+                  <NativeSelect
+                    id="municipio"
+                    aria-describedby="municipio-helper"
+                    onChange={handleChangeMunicipio}
+                    default=""
+                    required
+                    value={municipio}
+                  >
+                    <option key="" value="" disabled> Seleccione una localidad </option>
+                    {
+                      municipios.map(municipio => (
+                        <option key={municipio.id} value={municipio.id}>{municipio.nombre}</option>
+                      ))
+                    }
+                  </NativeSelect>
+                </FormControl>
               </>
             }
           </Grid>
 
           <Grid item xs={6} style={{ width: '100%', marginTop: 30 }}>
             <FormHelperText id="mapa-helper"> Mapa </FormHelperText>
-            <FormControl style={{ width: '100%' }}>
+            <FormControl style={{ width: '100%', display: 'flex' }}>
               <Input type="text" id="mapa" aria-describedby="mapa-helper" value={mapa} onChange={handleChangeMapa} />
             </FormControl>
+          </Grid>
+          <Grid item
+            xs={6}
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              paddingLeft: 2,
+              paddingBottom: 0
+            }}>
+
+            <Tooltip title="Ayuda" arrow>
+              <span>
+                <Iconify
+                  icon="eva:info-fill"
+                  onClick={handleOpen}
+                  width={30}
+                  height={30}
+                  sx={{
+                    '&:hover': {
+                      cursor: 'pointer',
+                      color: 'blue',
+                      transition: 'color 0.3s, background-color 0.3s',
+                      borderColor: "blue",
+                      transform: 'scale(1.1)'
+                    }
+                  }}
+                />
+              </span>
+            </Tooltip>
           </Grid>
 
           <Grid item xs={12} style={{ marginTop: 20, width: '100%' }}>
@@ -514,6 +554,45 @@ export default function InmuebleCreateView() {
 
         </Grid>
       </form>
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '70%',
+            bgcolor: 'background.paper',
+            border: '1px solid black',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+
+          }}
+        >
+          <div style={{ position: 'relative' }}>
+            <IconButton
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+
+            <img
+              src="../../../../public/assets/images/guia_insertar_mapa.png"
+              alt="guia_insertar_mapa"
+              style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+            />
+
+            <Box sx={{ display: 'block', width: '30%', position: 'absolute', height: '45%', top: 0, cursor: 'pointer' }} onClick={handleClickMapa}></Box>
+
+          </div>
+        </Box>
+      </Modal>
     </Container>
   );
 }

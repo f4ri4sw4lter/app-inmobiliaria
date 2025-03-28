@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { ModalUploadImg } from '../modal-upload-img';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch, InputAdornment } from '@mui/material'
+import { Tooltip, IconButton, Modal, Stack, Button, Container, Typography, Grid, FormControl, InputLabel, Box, FormHelperText, Input, NativeSelect, MenuItem, Switch, InputAdornment } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
-import Scrollbar from '../../../components/scrollbar';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useFetchInmuebleById } from '../../../hooks/useFetchInmueblesById';
 import { updateInmueble } from '../../../helpers/updateInmueble';
@@ -76,6 +76,13 @@ export default function InmuebleEditView() {
   const [mascotas, setMascotas] = useState(false);
 
   const [cochera, setCochera] = useState(false);
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   const handleChangeCliente = (event) => {
     setCliente(event.target.value);
@@ -199,6 +206,10 @@ export default function InmuebleEditView() {
       setSuperficie(inmueble.superficie);
     }
   }, [isLoading])
+
+  const handleClickMapa = () => {
+    window.open('https://www.google.com.ar/maps?hl=es', '_blank');
+  }
 
   useEffect(() => {
     if (contrato == 'Alquiler') {
@@ -440,11 +451,40 @@ export default function InmuebleEditView() {
               }
             </Grid>
             <Grid item xs={6} style={{ width: '100%', marginTop: 30 }}>
-              <FormHelperText id="mapa-helper"> Mapa </FormHelperText>
-              <FormControl style={{ width: '100%' }}>
-                <Input type="text" id="mapa" aria-describedby="mapa-helper" value={mapa} onChange={handleChangeMapa} />
-              </FormControl>
-            </Grid>
+            <FormHelperText id="mapa-helper"> Mapa </FormHelperText>
+            <FormControl style={{ width: '100%', display: 'flex' }}>
+              <Input type="text" id="mapa" aria-describedby="mapa-helper" value={mapa} onChange={handleChangeMapa} />
+            </FormControl>
+          </Grid>
+          <Grid item
+            xs={6}
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              paddingLeft: 2,
+              paddingBottom: 0
+            }}>
+
+            <Tooltip title="Ayuda" arrow>
+              <span>
+                <Iconify
+                  icon="eva:info-fill"
+                  onClick={handleOpen}
+                  width={30}
+                  height={30}
+                  sx={{
+                    '&:hover': {
+                      cursor: 'pointer',
+                      color: 'blue',
+                      transition: 'color 0.3s, background-color 0.3s',
+                      borderColor: "blue",
+                      transform: 'scale(1.1)'
+                    }
+                  }}
+                />
+              </span>
+            </Tooltip>
+          </Grid>
 
             {/* Descripcion */}
             <Grid item style={{ marginTop: 20, width: '100%' }}>
@@ -477,6 +517,45 @@ export default function InmuebleEditView() {
           </Grid>
         }
       </form>
+      <Modal open={open} onClose={handleClose}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '70%',
+            bgcolor: 'background.paper',
+            border: '1px solid black',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+
+          }}
+        >
+          <div style={{ position: 'relative' }}>
+            <IconButton
+              onClick={handleClose}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+
+            <img
+              src="../../../../public/assets/images/guia_insertar_mapa.png"
+              alt="guia_insertar_mapa"
+              style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+            />
+
+            <Box sx={{ display: 'block', width: '30%', position: 'absolute', height: '45%', top: 0, cursor: 'pointer' }} onClick={handleClickMapa}></Box>
+
+          </div>
+        </Box>
+      </Modal>
     </Container>
   );
 }

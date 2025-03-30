@@ -14,6 +14,8 @@ import BotoneraExport from '../../components/botonera-export/botonera-export';
 
 export default function ClienteTableToolbar({ numSelected, filterName, onFilterName, data }) {
 
+
+
   const fields = [
     { label: 'DNI', value: 'dni' },
     { label: 'Apellido', value: 'apellido' },
@@ -21,8 +23,7 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
     { label: 'correo', value: 'correo' },
     { label: 'Celular', value: 'celular' },
     { label: 'Telefono', value: 'telefono' },
-    { label: 'Calle', value: 'ubicacion.calle' },
-    { label: 'Altura', value: 'ubicacion.altura' },
+    { label: 'Direccion', value: 'ubicacion_cliente' },
   ];
 
   const columns = [
@@ -34,12 +35,20 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
     { label: 'Ubicacion', value: 'ubicacion_cliente' },
   ];
 
-  let dataPDF = data
+  let dataPDF = data;
 
   dataPDF.map(item => {
     item.nombre_completo = item.apellido + ' ' + item.nombre;
     item.ubicacion_cliente = item.ubicacion.calle + ' ' + item.ubicacion.altura;
   })
+
+  let dataExcel = data;
+
+  dataExcel.map(item => {
+    item.ubicacion_cliente = item.ubicacion.calle + ' ' + item.ubicacion.altura;
+  })
+
+  console.log(dataExcel)
 
   return (
     <Toolbar
@@ -69,7 +78,7 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
         />
       )}
 
-      <BotoneraExport filename={'lista_clientes'} dataCSV={data} dataPDF={dataPDF} fields={fields} columns={columns} />
+      <BotoneraExport filename={'lista_clientes'} dataExcel={dataExcel} dataPDF={dataPDF} fields={fields} columns={columns} />
 
     </Toolbar>
   );

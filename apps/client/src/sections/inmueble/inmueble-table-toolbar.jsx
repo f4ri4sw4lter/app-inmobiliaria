@@ -9,10 +9,7 @@ export default function InmuebleTableToolbar({ data }) {
 
   const fields = [
     { label: 'Título', value: 'titulo' },
-    { label: 'Calle', value: 'ubicacion.calle' },
-    { label: 'Altura', value: 'ubicacion.altura' },
-    { label: 'Municipio', value: 'ubicacion.municipio' },
-    { label: 'Provincia', value: 'ubicacion.provincia' },
+    { label: 'Calle', value: 'ubicacion_inmueble' },
     { label: 'Cant. Ambientes', value: 'cant_amb' },
     { label: 'Cant. Baños', value: 'cant_ba' },
     { label: 'Cant. Habitaciones', value: 'cant_hab' },
@@ -40,9 +37,15 @@ export default function InmuebleTableToolbar({ data }) {
     item.ubicacion_inmueble = item.ubicacion.calle + ' ' + item.ubicacion.altura
   })
 
+  let dataExcel = data
+
+  dataExcel.map(item => {
+    item.ubicacion_inmueble = item.ubicacion.calle + ' ' + item.ubicacion.altura
+  })
+
   return (
     <>
-      <BotoneraExport filename={'lista_inmuebles'} dataCSV={data} dataPDF={dataPDF} fields={fields} columns={columns} />
+      <BotoneraExport filename={'lista_inmuebles'} dataExcel={dataExcel} dataPDF={dataPDF} fields={fields} columns={columns} />
     </>
   );
 }

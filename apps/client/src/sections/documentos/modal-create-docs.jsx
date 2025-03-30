@@ -16,6 +16,8 @@ export const ModalCreateDocs = ({ fetchDocs, reference, ownerId }) => {
     const [isUpload, setIsUpload] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [name, setName] = useState('');
+    const [filePreview, setFilePreview] = useState(null);
+    const [fileExtension, setFileExtension] = useState('');
 
     useEffect(() => {
         if (isUpload) {
@@ -36,6 +38,18 @@ export const ModalCreateDocs = ({ fetchDocs, reference, ownerId }) => {
         setSelectedFile(event.target.files[0]);
         setName(event.target.files[0].name)
         setDisabled(false);
+        const file = event.target.files[0];
+        setSelectedFile(file);
+
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+        setFileExtension(["jpg", "jpeg", "png", "gif"].includes(fileExtension) ? 'img' : 'doc');
+
+        // Generate a preview of the selected file (assuming it's an image)
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setFilePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
     };
 
     const handleButtonClick = () => {
@@ -124,6 +138,19 @@ export const ModalCreateDocs = ({ fetchDocs, reference, ownerId }) => {
                         <Button variant="contained" onClick={handleButtonClick}>
                             Seleccionar Documento
                         </Button>
+
+                        {filePreview &&
+                            <div style={{ marginTop: 10 }}>
+                                {fileExtension == 'img' 
+                                    ? <img src={filePreview} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />
+                                    : <Typography variant="h8" style={{ color: 'red', textAlign: 'left' }}>
+                                        No se pudo previsualizar el archivo. 😞
+                                    </Typography>
+                                }
+                            </div>
+                        }
+
+
                         <FormControl sx={{ width: '50%', marginTop: 5 }}>
                             <Input id="name" aria-describedby="name-helper" disabled={disabled} onChange={handleChangeName} value={name} />
                             <FormHelperText id="name-helper"> Ingrese el codigo del archivo </FormHelperText>

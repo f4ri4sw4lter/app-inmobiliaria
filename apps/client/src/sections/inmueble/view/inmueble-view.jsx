@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, NavLink } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import { Stack, Button, Container, Typography, Grid, Box, Paper, Divider, Link } from '@mui/material'
+import { Stack, Button, Container, Typography, Grid, Box, Paper, Divider, Link, Icon } from '@mui/material'
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -16,6 +16,7 @@ import { getProvinciaById } from '../../../helpers/getProvinciaById';
 import { getMunicipioById } from '../../../helpers/getMunicipioById';
 import { useFetchClienteById } from '../../../hooks/useFetchClienteById';
 import ListaDocs from '../../documentos/lista-docs';
+import AdsClickIcon from '@mui/icons-material/AdsClick';
 
 // ----------------------------------------------------------------------
 
@@ -85,11 +86,20 @@ export default function InmuebleView() {
 
         <Grid item xs={12}>
           <Typography variant="h5" sx={{ color: 'primary.main' }}>Propietario</Typography>
-          <Typography variant="h6" >
-            <Link href={`/backoffice/clientes/ver/${cliente._id}`} sx={{ color: 'black' }}>
-              {cliente.apellido} {cliente.nombre} ({cliente.dni})
+          <Button variant="contained">
+            <Link 
+              href={`/backoffice/clientes/ver/${cliente._id}`} 
+              sx={{ 
+                color: 'black', 
+                textDecoration: 'none',
+                '&:hover': {
+                  color: 'white',
+                }
+              }}
+            >
+              {cliente.apellido} {cliente.nombre} [{cliente.dni}] <AdsClickIcon sx={{ verticalAlign: 'middle' }}/>
             </Link>
-          </Typography>
+          </Button>
         </Grid>
 
         <Grid item xs={2}>
@@ -192,7 +202,8 @@ export default function InmuebleView() {
       {(!contratoIsLoading && contrato) &&
         <StyledNavLink to={`/backoffice/contratos/ver/${contrato._id}`}
           sx={{
-            color: 'primary.main',
+            color: 'white',
+            backgroundColor: 'primary.main',
             borderRadius: '10px',
             padding: '10px',
             alignItems: 'center',
@@ -200,6 +211,12 @@ export default function InmuebleView() {
             display: 'flex',
             justifyContent: 'center',
             border: '1px solid grey',
+            '&:hover': {
+              backgroundColor: 'white',
+              color: 'primary.main',
+              border: '1px solid primary.main',
+              boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+            }
           }}>
           Ver Contrato
         </StyledNavLink>

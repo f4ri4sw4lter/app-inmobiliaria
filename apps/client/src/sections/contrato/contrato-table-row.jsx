@@ -80,11 +80,11 @@ export default function ContratoTableRow({
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/inmuebles/ver/${inmueble._id}`}>{inmueble.titulo}</NavLink></TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{inmueble.titulo}</TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${propietario._id}`}>{propietario.apellido} {propietario.nombre}</NavLink></TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{propietario.apellido} {propietario.nombre}</TableCell>
 
-        <TableCell sx={{ border: '1px solid #ccc' }}><NavLink to={`/backoffice/clientes/ver/${cliente._id}`}>{cliente.apellido} {cliente.nombre}</NavLink></TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>{cliente.apellido} {cliente.nombre}</TableCell>
 
         <TableCell sx={{ border: '1px solid #ccc' }}>{empleado}</TableCell>
 

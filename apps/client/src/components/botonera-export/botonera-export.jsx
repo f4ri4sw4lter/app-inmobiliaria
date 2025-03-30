@@ -1,12 +1,11 @@
 import Button from '@mui/material/Button';
-import exportToCSV from '../../utils/export2CSV';
+import exportToExcel from '../../utils/export2Excel';
 import exportToPDF from '../../utils/export2PDF';
 
-const BotoneraExport = ({filename, dataCSV, dataPDF, fields, columns}) => {
+const BotoneraExport = ({filename, dataExcel, dataPDF, fields, columns}) => {
 
-
-    const handleExportCSV = () => {
-        exportToCSV(filename, dataCSV, fields)
+    const handleExportExcel = () => {
+        exportToExcel(filename, dataExcel, fields)
     }
 
     const handleExportPDF = () => {
@@ -16,7 +15,7 @@ const BotoneraExport = ({filename, dataCSV, dataPDF, fields, columns}) => {
     return (
         <>
             <Button 
-                onClick={handleExportCSV}
+                onClick={handleExportExcel}
                 sx={{
                     border: '1px solid #ccc',
                     borderRadius: 3,
@@ -31,7 +30,7 @@ const BotoneraExport = ({filename, dataCSV, dataPDF, fields, columns}) => {
                     alt="icon" 
                     style={{ width: 44, height: 44}} />
                 }>
-                    Descargar CSV
+                    Descargar xlsx
             </Button>
 
             <Button 

@@ -15,13 +15,10 @@ import BotoneraExport from '../../components/botonera-export/botonera-export';
 export default function ContratoTableToolbar({ numSelected, filterName, onFilterName, data }) {
 
   const fields = [
-    { label: 'Inmueble', value: 'inmueble.titulo' },
-    { label: 'Propietario', value: 'propietario.apellido' },
-    { label: ' ', value: 'propietario.nombre' },
-    { label: 'Cliente', value: 'cliente.apellido' },
-    { label: ' ', value: 'cliente.nombre' },
+    { label: 'Inmueble', value: 'titulo_inmueble' },
+    { label: 'Propietario', value: 'nombre_propietario' },
+    { label: 'Cliente', value: 'nombre_cliente' },
     { label: 'Empleado', value: 'empleado' },
-    { label: 'Detalle', value: 'detalle' },
     { label: 'Fecha', value: 'fecha' },
   ];
 
@@ -30,7 +27,6 @@ export default function ContratoTableToolbar({ numSelected, filterName, onFilter
     { label: 'Propietario', value: 'nombre_propietario' },
     { label: 'Cliente', value: 'nombre_cliente' },
     { label: 'Empleado', value: 'empleado' },
-    { label: 'Detalle', value: 'detalle' },
     { label: 'Fecha', value: 'fecha' },
   ];
 
@@ -42,10 +38,18 @@ export default function ContratoTableToolbar({ numSelected, filterName, onFilter
     item.nombre_cliente = item.cliente.apellido + ' ' + item.cliente.nombre;
   })
 
+  let dataExcel = data
+
+  dataExcel.map(item => {
+    item.titulo_inmueble = item.inmueble.titulo
+    item.nombre_propietario = item.propietario.apellido + ' ' + item.propietario.nombre;
+    item.nombre_cliente = item.cliente.apellido + ' ' + item.cliente.nombre;
+  })
+
   return (
     <>
 
-      <BotoneraExport filename={'lista_contratos'} dataCSV={data} dataPDF={dataPDF} fields={fields} columns={columns} />
+      <BotoneraExport filename={'lista_contratos'} dataExcel={dataExcel} dataPDF={dataPDF} fields={fields} columns={columns} />
 
     </>
   );

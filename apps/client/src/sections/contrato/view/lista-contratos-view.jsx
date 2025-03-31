@@ -8,6 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import { Box } from '@mui/material';
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -20,12 +21,13 @@ import ContratoTableToolbar from '../contrato-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchListaContratos } from '../../../hooks/useFetchListaContratos';
 import ContratoTableRowFilter from '../contrato-table-row-filter';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // ----------------------------------------------------------------------
 
 export default function ListaContratosView() {
 
-    const { listaContratos, isLoading, fetchContratos } = useFetchListaContratos();
+    const { listaContratos, isLoadingContratos, fetchContratos } = useFetchListaContratos();
 
     const [page, setPage] = useState(0);
 
@@ -36,6 +38,10 @@ export default function ListaContratosView() {
     const [orderBy, setOrderBy] = useState('fecha');
 
     const [filterName, setFilterName] = useState('');
+
+    const [filterPropietario, setFilterPropietario] = useState('');
+
+    const [filterCliente, setFilterCliente] = useState('');
 
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -89,6 +95,16 @@ export default function ListaContratosView() {
         setFilterName(event.target.value);
     };
 
+    const handleFilterByPropietario = (event) => {
+        setPage(0);
+        setFilterPropietario(event.target.value);
+    };
+
+    const handleFilterByCliente = (event) => {
+        setPage(0);
+        setFilterCliente(event.target.value);
+    };
+
     /*useEffect(() => {
         if (!isLoading) {
             let aux = applyFilter({
@@ -104,10 +120,12 @@ export default function ListaContratosView() {
         inputData: listaContratos,
         comparator: getComparator(order, orderBy),
         filterName,
-      });
+        filterPropietario,
+        filterCliente
+    });
 
 
-    const notFound = !dataFiltered.length && !!filterName;
+    const notFound = !dataFiltered.length && !!filterName && !!filterPropietario && !!filterCliente;
 
     return (
         <>
@@ -125,6 +143,8 @@ export default function ListaContratosView() {
                     filterName={filterName}
                     onFilterName={handleFilterByName}
                     data={dataFiltered}
+                    filterPropietario={filterPropietario}
+                    onFilterPropietario={handleFilterByPropietario}
                 />
 
                 <TablePagination
@@ -158,8 +178,20 @@ export default function ListaContratosView() {
                             />
                             <TableBody>
                                 <ContratoTableRowFilter
-                                onFilterName={handleFilterByName}
+                                    filterName={filterName}
+                                    onFilterName={handleFilterByName}
+                                    filterPropietario={filterPropietario}
+                                    onFilterPropietario={handleFilterByPropietario}
+                                    filterCliente={filterCliente}
+                                    onFilterCliente={handleFilterByCliente}
                                 />
+                                {isLoadingContratos && (
+                                    <>
+                                        <Box sx={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <CircularProgress disableShrink />CARGANDO...
+                                        </Box>
+                                    </>
+                                )}
                                 {dataFiltered &&
                                     dataFiltered
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

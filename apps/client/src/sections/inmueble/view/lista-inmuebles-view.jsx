@@ -9,6 +9,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import { Box } from '@mui/material';
 
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -21,6 +22,7 @@ import TableEmptyRows from '../table-empty-rows';
 import InmuebleTableToolbar from '../inmueble-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchListaInmuebles } from "../../../hooks/useFetchListaInmuebles";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import SvgColor from '../../../components/svg-color';
 
@@ -165,6 +167,7 @@ export default function ListaInmuebleView() {
                 ]}
               />
               <TableBody>
+                
                 <InmuebleTableRowFilter
                   onFilterName={handleFilterByName}
                   filterTipo={filterTipo}
@@ -180,7 +183,13 @@ export default function ListaInmuebleView() {
                   setFilterMascotas={setFilterMascotas}
                   setFilterCochera={setFilterCochera}
                 />
-
+                {isLoading && (
+                  <>
+                    <Box sx={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <CircularProgress disableShrink />CARGANDO...
+                    </Box>
+                  </>
+                )}
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (

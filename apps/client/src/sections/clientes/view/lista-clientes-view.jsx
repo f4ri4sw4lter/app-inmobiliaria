@@ -10,6 +10,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import { Box } from '@mui/material';
 
 import { users } from '../../../_mock/user';
 
@@ -23,19 +24,23 @@ import TableEmptyRows from '../table-empty-rows';
 import ClienteTableToolbar from '../cliente-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 import { useFetchListaClientes } from "../../../hooks/useFetchListaClientes";
+import CircularProgress from '@mui/material/CircularProgress';
+import ClienteTableRowFilter from '../cliente-table-row-filter';
 
 // ----------------------------------------------------------------------
 
 export default function ListaClientesView() {
-  const { listaClientes, isLoading } = useFetchListaClientes();
+  const { listaClientes, listaClientesIsLoading } = useFetchListaClientes();
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('nombre');
   const [filterName, setFilterName] = useState('');
+  const [filterDni, setFilterDni] = useState('');
+  const [filterLastName, setFilterLastName] = useState('');
+  const [filterMail, setFilterMail] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [dataFiltered, setDataFiltered] = useState(listaClientes);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -84,6 +89,21 @@ export default function ListaClientesView() {
     setFilterName(event.target.value);
   };
 
+  const handleFilterByLastName = (event) => {
+    setPage(0);
+    setFilterLastName(event.target.value);
+  };
+
+  const handleFilterByDni = (event) => {
+    setPage(0);
+    setFilterDni(event.target.value);
+  };
+
+  const handleFilterByMail = (event) => {
+    setPage(0);
+    setFilterMail(event.target.value);
+  };
+
   const goToPreviousPage = () => {
     if (page > 0) setPage(page - 1);
   };
@@ -92,8 +112,8 @@ export default function ListaClientesView() {
     if ((page + 1) * rowsPerPage < dataFiltered.length) setPage(page + 1);
   };
 
-  useEffect(() => {
-    if (!isLoading) {
+  /*useEffect(() => {
+    if (!listaClientesIsLoading) {
       const aux = applyFilter({
         inputData: listaClientes,
         comparator: getComparator(order, orderBy),
@@ -101,7 +121,16 @@ export default function ListaClientesView() {
       });
       setDataFiltered(aux);
     }
-  }, [listaClientes, isLoading, filterName, order, orderBy]);
+  }, [listaClientes, listaClientesIsLoading, filterName, order, orderBy]);*/
+
+  const dataFiltered = applyFilter({
+    inputData: listaClientes,
+    comparator: getComparator(order, orderBy),
+    filterName,
+    filterDni,
+    filterLastName,
+    filterMail
+  });
 
   const notFound = !dataFiltered.length && !!filterName;
 
@@ -160,6 +189,23 @@ export default function ListaClientesView() {
               />
 
               <TableBody>
+                <ClienteTableRowFilter
+                  filterName={filterName}
+                  onFilterName={handleFilterByName}
+                  filterDni={filterDni}
+                  onFilterDni={handleFilterByDni}
+                  filterLastName={filterLastName}
+                  onFilterLastName={handleFilterByLastName}
+                  filterMail={filterMail}
+                  onFilterMail={handleFilterByMail}
+                />
+                {listaClientesIsLoading && (
+                  <>
+                    <Box sx={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <CircularProgress disableShrink />CARGANDO...
+                    </Box>
+                  </>
+                )}
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (

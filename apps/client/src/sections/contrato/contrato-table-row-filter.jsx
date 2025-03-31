@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 
 // ----------------------------------------------------------------------
 
-export default function ContratoTableRowFilter({ numSelected, filterName, onFilterName }) {
+export default function ContratoTableRowFilter({ numSelected, filterName, onFilterName, filterPropietario, onFilterPropietario, filterCliente, onFilterCliente }) {
 
   return (
     <>
@@ -30,11 +30,25 @@ export default function ContratoTableRowFilter({ numSelected, filterName, onFilt
                 />
               </InputAdornment>
             }
+            sx={{ width: '100%' }}
           />
         </TableCell>
 
-        <TableCell>
-          
+        <TableCell sx={{ border: '1px solid #ccc' }}>
+          <OutlinedInput
+            value={filterPropietario}
+            onChange={onFilterPropietario}
+            placeholder="Buscar propietario..."
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                />
+              </InputAdornment>
+            }
+            sx={{ width: '100%' }}
+          />
         </TableCell>
 
         <TableCell sx={{
@@ -42,7 +56,20 @@ export default function ContratoTableRowFilter({ numSelected, filterName, onFilt
           textAlign: 'left',
           border: '1px solid #ccc'
         }}>
-        
+          <OutlinedInput
+            value={filterCliente}
+            onChange={onFilterCliente}
+            placeholder="Buscar cliente..."
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify
+                  icon="eva:search-fill"
+                  sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                />
+              </InputAdornment>
+            }
+            sx={{ width: '100%' }}
+          />
 
         </TableCell>
 
@@ -52,7 +79,7 @@ export default function ContratoTableRowFilter({ numSelected, filterName, onFilt
           textAlign: 'center',
           border: '1px solid #ccc'
         }}>
-          
+
         </TableCell>
 
         <TableCell sx={{
@@ -60,7 +87,7 @@ export default function ContratoTableRowFilter({ numSelected, filterName, onFilt
           textAlign: 'center',
           border: '1px solid #ccc'
         }}>
-          
+
         </TableCell>
 
       </TableRow>

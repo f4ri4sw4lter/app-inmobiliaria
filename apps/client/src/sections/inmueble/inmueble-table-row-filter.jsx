@@ -35,7 +35,7 @@ export default function InmuebleTableRowFilter({ numSelected, filterName, onFilt
           />
         </TableCell>
 
-        <TableCell>
+        <TableCell sx={{ border: '1px solid #ccc' }}>
           <Select
             value={filterTipo}
             onChange={(e) => setFilterTipo(e.target.value)}

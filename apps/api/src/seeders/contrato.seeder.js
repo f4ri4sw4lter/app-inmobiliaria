@@ -7,7 +7,7 @@ const Usuario = require("./schemas/usuario.schema");
 require('dotenv').config();
 
 mongoose
-  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect('mongodb://localhost:27017/?retryWrites=true&loadBalanced=false&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000000', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Conectado a MongoDB"))
   .catch((err) => console.error("Error al conectar a MongoDB:", err));
 
@@ -18,7 +18,7 @@ const seedContrato = async () => {
         const inmuebles = await Propiedad.find();
         const empleados = await Usuario.find({"role.level": 3});
 
-        const contratos = Array.from({ length: 50 }).map(() => ({
+        const contratos = Array.from({ length: 15000 }).map(() => ({
             inmueble: inmuebles[Math.floor(Math.random() * inmuebles.length)],
             propietario: clientes[Math.floor(Math.random() * clientes.length)],
             cliente: clientes[Math.floor(Math.random() * clientes.length)],

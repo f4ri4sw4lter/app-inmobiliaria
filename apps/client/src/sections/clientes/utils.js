@@ -35,7 +35,7 @@ export function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export function applyFilter({ inputData, comparator, filterName }) {
+export function applyFilter({ inputData, comparator, filterName, filterDni, filterLastName, filterMail }) {
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -49,7 +49,25 @@ export function applyFilter({ inputData, comparator, filterName }) {
 
   if (filterName) {
     inputData = inputData.filter(
-      (cliente) => cliente.nombre.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || cliente.apellido.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || cliente.correo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1 || cliente.dni.toString().indexOf(filterName.toString().toLowerCase()) !== -1
+      (cliente) => cliente.nombre.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterDni) {
+    inputData = inputData.filter(
+      (cliente) => cliente.dni.toString().toLowerCase().indexOf(filterDni.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterLastName) {
+    inputData = inputData.filter(
+      (cliente) => cliente.apellido.toLowerCase().indexOf(filterLastName.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterMail) {
+    inputData = inputData.filter(
+      (cliente) => cliente.correo.toLowerCase().indexOf(filterMail.toLowerCase()) !== -1
     );
   }
 

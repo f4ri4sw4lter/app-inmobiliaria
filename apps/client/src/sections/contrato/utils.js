@@ -35,7 +35,7 @@ export function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export function applyFilter({ inputData, comparator, filterName }) {
+export function applyFilter({ inputData, comparator, filterName, filterPropietario, filterCliente }) {
 
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
@@ -50,6 +50,18 @@ export function applyFilter({ inputData, comparator, filterName }) {
   if (filterName) {
     inputData = inputData.filter(
       (contrato) => contrato.inmueble.titulo.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterPropietario) {
+    inputData = inputData.filter(
+      (contrato) => contrato.propietario.nombre.toLowerCase().indexOf(filterPropietario.toLowerCase()) !== -1
+    );
+  }
+
+  if (filterCliente) {
+    inputData = inputData.filter(
+      (contrato) => contrato.cliente.nombre.toLowerCase().indexOf(filterCliente.toLowerCase()) !== -1
     );
   }
 

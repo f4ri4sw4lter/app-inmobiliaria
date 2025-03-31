@@ -5,7 +5,7 @@ const Propiedad = require("./schemas/propiedad.schema");
 require('dotenv').config();
 
 mongoose
-  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect('mongodb://localhost:27017/?retryWrites=true&loadBalanced=false&serverSelectionTimeoutMS=5000&connectTimeoutMS=10000000', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Conectado a MongoDB"))
   .catch((err) => console.error("Error al conectar a MongoDB:", err));
 
@@ -14,7 +14,7 @@ const seedPropiedades = async () => {
         const clientes = await Client.find();  // Devuelve todos los clientes
 
         // Genera 100 usuarios falsos
-        const propiedades = Array.from({ length: 50 }).map(() => ({
+        const propiedades = Array.from({ length: 20000 }).map(() => ({
             propietario: clientes[Math.floor(Math.random() * clientes.length)]._id,
             titulo: faker.lorem.sentence(),  // Título de la propiedad
             descripcion: faker.lorem.paragraph(),  // Descripción opcional

@@ -51,36 +51,9 @@ export default function ClienteTableToolbar({ numSelected, filterName, onFilterN
   console.log(dataExcel)
 
   return (
-    <Toolbar
-      sx={{
-        height: 96,
-        display: 'flex',
-        justifyContent: 'left',
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1">
-          {numSelected} seleccionado{numSelected > 1 && 's'}
-        </Typography>
-      ) : (
-        <OutlinedInput
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Buscar cliente..."
-          startAdornment={
-            <InputAdornment position="start" sx={{width: '100px'}}>
-              <Iconify
-                icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          }
-        />
-      )}
 
       <BotoneraExport filename={'lista_clientes'} dataExcel={dataExcel} dataPDF={dataPDF} fields={fields} columns={columns} />
 
-    </Toolbar>
   );
 }
 
